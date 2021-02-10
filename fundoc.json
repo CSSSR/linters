@@ -1,0 +1,14 @@
+{
+  "docs_folder": "./docs",
+  "project_path": "./eslintrc",
+  "files_patterns": [
+    "**/*.js"
+  ],
+  "repository_host": "https://github.com/CSSSR/csssr-base-lint/blob/master/",
+  "comment_start_string": null,
+  "comment_prefix": null,
+  "comment_end_string": null,
+  "mdbook": false,
+  "book_name": null,
+  "book_build_dir": null
+}
