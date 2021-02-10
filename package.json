@@ -1,0 +1,22 @@
+{
+  "name": "csssr-base-lint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "eslintrc/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSSSR/csssr-base-lint.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSSSR/csssr-base-lint/issues"
+  },
+  "homepage": "https://github.com/CSSSR/csssr-base-lint#readme",
+  "dependencies": {
+    "webpack-merge": "5.7.3"
+  }
+}
