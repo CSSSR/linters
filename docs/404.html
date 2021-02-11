@@ -3,8 +3,10 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Base modern JS - CSSSR Linting</title>
+        <title></title>
         
+        
+        <base href="/">
         
 
 
@@ -95,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="base_modern_js.html" class="active"><strong aria-hidden="true">1.</strong> Base modern JS</a></li><li class="chapter-item expanded "><a href="node_js.html"><strong aria-hidden="true">2.</strong> Node JS</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="node_js.html"><strong aria-hidden="true">1.</strong> Node JS</a></li><li class="chapter-item expanded "><a href="base_modern_js.html"><strong aria-hidden="true">2.</strong> Base modern JS</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,26 +165,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#base-modern-js" id="base-modern-js">Base modern JS</a></h1>
-<h2><a class="header" href="#syntactic-rules" id="syntactic-rules">Syntactic rules</a></h2>
-<h3><a class="header" href="#principles" id="principles">Principles</a></h3>
-<ol>
-<li>Using <code>prettier</code> for better formating. <code>eslint-plugin-prettier</code> is used for intergration <code>prettier</code> and <code>eslint</code>. <code>eslint-config-prettier</code> turns off all rules that are unnecessary or might conflict with. Related rules: <code>prettier/prettier</code></li>
-<li>Syntactic homogeneity. Semantically identical construction must be implemented by syntactic identical construction, except in cases of using shorthand techniques which help to avoid extra syntactic noise. We fix spacings, paddings, quotes and shorthand techniques. Related rules: <code>curly</code>, <code>dot-notation</code>, <code>operator-assignment</code>, <code>padding-line-between-statements</code>, <code>prefer-const</code>, <code>object-shorthand</code>, <code>throw-new-error</code>, <code>import-index</code>, <code>no-useless-undefined</code>, <code>no-undef-init</code></li>
-<li>Minimization of git diffs, when code is being changed or refactored. Code changing or extending must change minimal count of symbols which aren't connected with change of logic. Related rules: <code>padding-line-between-statements</code>, <code>prettier/prettier</code>(<code>semi</code>, <code>trailingComma</code>, <code>quoteProps</code> etc.)</li>
-<li>Minimization of disabling eslint rules. Rules shouldn't interfere with writing code. Rules should never be permanently switched off. Disabling rules is possible only as an exception and a temporary measure. Because of this, we don't use next rules: <code>no-mixed-operator</code>, <code>prefer-arrow/*</code>, <code>prefer-arrow-callback</code>, <code>no-useless-return</code> etc.</li>
-<li>All kinds of undesirable constructions must be fixed. Because of it, we can't use warnings. Warnings may not be corrected very long time. It adds noise to the result of building project. Warnings can be allowed only in situation of long refactoring as a temporary measure.
-<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslintrc/index.js#L4-L11">[~]</a></li>
-</ol>
-<h2><a class="header" href="#semantic-rules" id="semantic-rules">Semantic rules</a></h2>
-<h3><a class="header" href="#principles-1" id="principles-1">Principles</a></h3>
-<ol>
-<li>Explicit is better than implicit. JS has many implicit defaults. We strictly prefer using explicit semantic construction and prefer not using ambiguous construction. Also, when it can make our code longer. Related rules: <code>radix</code>, <code>no-bitwise</code>, <code>no-case-declarations</code>, <code>no-implicit-coercion</code>, <code>promise/always-return</code>, <code>no-promise-executor-return</code>, <code>promise/no-return-wrap</code>, <code>promise/no-new-statics</code>, <code>no-new-wrappers</code>, <code>import/no-default-export</code>, <code>no-useless-escape</code></li>
-<li>Minimization of possibility of errors. <code>Javascript</code> is an interpreted language. Because of it, many incorrect or meaningless constructions can be detected only during execution. We try to minimize the amount of constructions that can lead to runtime errors or can be inpredictable in run-time. Related rules: <code>constructor-super</code>, <code>guard-for-in</code>, <code>eqeqeq</code>, <code>import/no-cycle</code>, <code>import/self-import</code>, <code>getter-return</code>, <code>no-caller</code>, <code>no-cond-assign</code>, <code>no-constructor-return</code>, <code>no-dupe-args</code>, <code>no-dupe-keys</code>, <code>no-dupe-else-if</code>, <code>no-invalid-regexp</code>, <code>no-throw-literal</code>, <code>no-unsafe-finally</code>,  <code>no-useless-catch</code>, <code>no-unsafe-negation</code>, <code>no-var</code>, <code>promise/catch-or-return</code>, <code>use-isnan</code>, <code>no-underscore-dangle</code>, <code>valid-typeof</code></li>
-<li>Reasonable limitation of the programmer at work. We don't want to restrict the programmer's ability to describe programm logic. We try to restrict semantic constructions which made it extremely difficult to analyze code. We don't use next rules: <code>complexity</code>, <code>max-nested-callbacks</code>, <code>max-lines</code>, <code>no-loss-of-precision</code>, <code>id-length</code>, <code>max-depth</code>, <code>max-statements</code>, <code>no-lonely-if</code>, <code>no-negated-condition</code>, <code>no-continue</code>, <code>unicorn/consistent-destructuring</code>, <code>unicorn/consistent-function-scoping</code>, <code>no-unsafe-optional-chaining</code> etc. But we use: <code>max-params</code>, <code>max-classes-per-file</code>, <code>no-nested-ternary</code>, <code>no-inner-declarations</code>, <code>no-unsafe-finally</code>,  <code>no-useless-catch</code> and so on.</li>
-<li>If code is checked by linter, code will be ready to deployment on production enviroment. Code can't contain temporary or debug construction. Related rules: <code>no-empty</code>, <code>no-eval</code>, <code>no-console</code>, <code>no-debugger</code>, <code>no-unreachable</code>, <code>no-unused-expressions</code>, <code>no-unused-labels</code>, <code>no-unused-var</code>, <code>unicorn/no-abusive-eslint-disable</code>
-<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslintrc/index.js#L50-L56">[~]</a></li>
-</ol>
+                        <h1><a class="header" href="#document-not-found-404" id="document-not-found-404">Document not found (404)</a></h1>
+<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
 
                     </main>
 
@@ -190,10 +174,6 @@
                         <!-- Mobile navigation buttons -->
                         
 
-                        
-                            <a rel="next" href="node_js.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -204,10 +184,6 @@
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
 
-                
-                    <a rel="next" href="node_js.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 

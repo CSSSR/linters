@@ -2,10 +2,10 @@
 authors = []
 language = "en"
 multilingual = false
-src = "./docs"
+src = "./docs_src"
 title = "CSSSR Linting"
 
 [build]
-build-dir = "./docs_src"
+build-dir = "./docs"
 create-missing = true
 use-default-preprocessors = true

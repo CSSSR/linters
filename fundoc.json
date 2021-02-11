@@ -1,5 +1,5 @@
 {
-  "docs_folder": "./docs",
+  "docs_folder": "./docs_src",
   "project_path": "./eslintrc",
   "files_patterns": [
     "**/*.js"
@@ -10,5 +10,5 @@
   "comment_end_string": "*/",
   "mdbook": true,
   "book_name": "CSSSR Linting",
-  "book_build_dir": "./docs_src"
+  "book_build_dir": "./docs"
 }
