@@ -1,7 +1,7 @@
 const { makeEslintrcConfig } = require('../utils')
 
 /**
- * @ Base modern JS
+ * @Article Base modern JS
  * ## Syntactic rules
  * ### Principles
  * 1. Using `prettier` for better formating. `eslint-plugin-prettier` is used for intergration `prettier` and `eslint`. `eslint-config-prettier` turns off all rules that are unnecessary or might conflict with. Related rules: `prettier/prettier`
@@ -47,7 +47,7 @@ const syntacticConfig = {
 }
 
 /**
- * @ Base modern JS
+ * @Article Base modern JS
  * ## Semantic rules
  * ### Principles
  * 1. Explicit is better than implicit. JS has many implicit defaults. We strictly prefer using explicit semantic construction and prefer not using ambiguous construction. Also, when it can make our code longer. Related rules: `radix`, `no-bitwise`, `no-case-declarations`, `no-implicit-coercion`, `promise/always-return`, `no-promise-executor-return`, `promise/no-return-wrap`, `promise/no-new-statics`, `no-new-wrappers`, `import/no-default-export`, `no-useless-escape`

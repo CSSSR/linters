@@ -1,7 +1,7 @@
 const { makeEslintrcConfig } = require('../utils')
 
 /**
- * @ Node JS
+ * @Article Node JS
  * 
  * > NOTE: We don't use special syntactic limitations for Node enviroment, because we prefer to use same syntax for all enviroments.
  * ## Semantic rules
