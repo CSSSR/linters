@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Base modern JS - CSSSR Linting</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="base_modern_js.html" class="active"><strong aria-hidden="true">1.</strong> Base modern JS</a></li><li class="chapter-item expanded "><a href="node_js.html"><strong aria-hidden="true">2.</strong> Node JS</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">CSSSR Linting</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#base-modern-js" id="base-modern-js">Base modern JS</a></h1>
+<h2><a class="header" href="#syntactic-rules" id="syntactic-rules">Syntactic rules</a></h2>
+<h3><a class="header" href="#principles" id="principles">Principles</a></h3>
+<ol>
+<li>Using <code>prettier</code> for better formating. <code>eslint-plugin-prettier</code> is used for intergration <code>prettier</code> and <code>eslint</code>. <code>eslint-config-prettier</code> turns off all rules that are unnecessary or might conflict with. Related rules: <code>prettier/prettier</code></li>
+<li>Syntactic homogeneity. Semantically identical construction must be implemented by syntactic identical construction, except in cases of using shorthand techniques which help to avoid extra syntactic noise. We fix spacings, paddings, quotes and shorthand techniques. Related rules: <code>curly</code>, <code>dot-notation</code>, <code>operator-assignment</code>, <code>padding-line-between-statements</code>, <code>prefer-const</code>, <code>object-shorthand</code>, <code>throw-new-error</code>, <code>import-index</code>, <code>no-useless-undefined</code>, <code>no-undef-init</code></li>
+<li>Minimization of git diffs, when code is being changed or refactored. Code changing or extending must change minimal count of symbols which aren't connected with change of logic. Related rules: <code>padding-line-between-statements</code>, <code>prettier/prettier</code>(<code>semi</code>, <code>trailingComma</code>, <code>quoteProps</code> etc.)</li>
+<li>Minimization of disabling eslint rules. Rules shouldn't interfere with writing code. Rules should never be permanently switched off. Disabling rules is possible only as an exception and a temporary measure. Because of this, we don't use next rules: <code>no-mixed-operator</code>, <code>prefer-arrow/*</code>, <code>prefer-arrow-callback</code>, <code>no-useless-return</code> etc.</li>
+<li>All kinds of undesirable constructions must be fixed. Because of it, we can't use warnings. Warnings may not be corrected very long time. It adds noise to the result of building project. Warnings can be allowed only in situation of long refactoring as a temporary measure.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslintrc/index.js#L4-L11">[~]</a></li>
+</ol>
+<h2><a class="header" href="#semantic-rules" id="semantic-rules">Semantic rules</a></h2>
+<h3><a class="header" href="#principles-1" id="principles-1">Principles</a></h3>
+<ol>
+<li>Explicit is better than implicit. JS has many implicit defaults. We strictly prefer using explicit semantic construction and prefer not using ambiguous construction. Also, when it can make our code longer. Related rules: <code>radix</code>, <code>no-bitwise</code>, <code>no-case-declarations</code>, <code>no-implicit-coercion</code>, <code>promise/always-return</code>, <code>no-promise-executor-return</code>, <code>promise/no-return-wrap</code>, <code>promise/no-new-statics</code>, <code>no-new-wrappers</code>, <code>import/no-default-export</code>, <code>no-useless-escape</code></li>
+<li>Minimization of possibility of errors. <code>Javascript</code> is an interpreted language. Because of it, many incorrect or meaningless constructions can be detected only during execution. We try to minimize the amount of constructions that can lead to runtime errors or can be inpredictable in run-time. Related rules: <code>constructor-super</code>, <code>guard-for-in</code>, <code>eqeqeq</code>, <code>import/no-cycle</code>, <code>import/self-import</code>, <code>getter-return</code>, <code>no-caller</code>, <code>no-cond-assign</code>, <code>no-constructor-return</code>, <code>no-dupe-args</code>, <code>no-dupe-keys</code>, <code>no-dupe-else-if</code>, <code>no-invalid-regexp</code>, <code>no-throw-literal</code>, <code>no-unsafe-finally</code>,  <code>no-useless-catch</code>, <code>no-unsafe-negation</code>, <code>no-var</code>, <code>promise/catch-or-return</code>, <code>use-isnan</code>, <code>no-underscore-dangle</code>, <code>valid-typeof</code></li>
+<li>Reasonable limitation of the programmer at work. We don't want to restrict the programmer's ability to describe programm logic. We try to restrict semantic constructions which made it extremely difficult to analyze code. We don't use next rules: <code>complexity</code>, <code>max-nested-callbacks</code>, <code>max-lines</code>, <code>no-loss-of-precision</code>, <code>id-length</code>, <code>max-depth</code>, <code>max-statements</code>, <code>no-lonely-if</code>, <code>no-negated-condition</code>, <code>no-continue</code>, <code>unicorn/consistent-destructuring</code>, <code>unicorn/consistent-function-scoping</code>, <code>no-unsafe-optional-chaining</code> etc. But we use: <code>max-params</code>, <code>max-classes-per-file</code>, <code>no-nested-ternary</code>, <code>no-inner-declarations</code>, <code>no-unsafe-finally</code>,  <code>no-useless-catch</code> and so on.</li>
+<li>If code is checked by linter, code will be ready to deployment on production enviroment. Code can't contain temporary or debug construction. Related rules: <code>no-empty</code>, <code>no-eval</code>, <code>no-console</code>, <code>no-debugger</code>, <code>no-unreachable</code>, <code>no-unused-expressions</code>, <code>no-unused-labels</code>, <code>no-unused-var</code>, <code>unicorn/no-abusive-eslint-disable</code>
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslintrc/index.js#L50-L56">[~]</a></li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+                            <a rel="next" href="node_js.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+                    <a rel="next" href="node_js.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

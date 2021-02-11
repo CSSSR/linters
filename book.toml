@@ -1,0 +1,11 @@
+[book]
+authors = []
+language = "en"
+multilingual = false
+src = "./docs"
+title = "CSSSR Linting"
+
+[build]
+build-dir = "./docs_src"
+create-missing = true
+use-default-preprocessors = true

@@ -8,7 +8,7 @@
   "comment_start_string": "/**",
   "comment_prefix": "*",
   "comment_end_string": "*/",
-  "mdbook": false,
-  "book_name": null,
-  "book_build_dir": null
+  "mdbook": true,
+  "book_name": "CSSSR Linting",
+  "book_build_dir": "./docs_src"
 }
