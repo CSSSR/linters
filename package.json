@@ -1,8 +1,7 @@
 {
   "name": "csssr-base-lint",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "eslintrc/index.js",
   "scripts": {
     "build": "fundoc"
   },
@@ -17,6 +16,18 @@
   },
   "homepage": "https://github.com/CSSSR/csssr-base-lint#readme",
   "dependencies": {
-    "webpack-merge": "5.7.3"
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-unicorn": "^28.0.2",
+    "prettier": "^2.2.1",
+    "webpack-merge": "^5.7.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.3"
   }
 }
