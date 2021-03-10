@@ -26,6 +26,7 @@
  1. CSS-in-JS
  1. GraphQL
  1. Ramda/Lodash
+ 1. Functional/pure/immutable checks
 
 Пока договорились что делаем для первой версии **только 4 - Base modern JS, Node, React, Typescript**, 
 
@@ -40,3 +41,8 @@
 Проект собирается при помощи [fundoc](https://github.com/daynin/fundoc).
 Либо вручную через команду `fundoc`, либо просто при пуше в `master` через GH Actions
 
+Проблемы со сборкой:
+* Пришлось ставить eslint в SWAN (возможно юзалась старая версия)
+* Как быть в cra-проектах, где cra за собой тянет eslint? Нужно писать resolutions или всё ок будет само работать?
+* Пришлось добавить typescript в зависимости (возможно из-за того, что пока линкую пакет к другим репам)
+* Добавить npmignore

@@ -157,7 +157,7 @@ This code defines React component. But in terms of Javascript semantics we can't
 Other example:
 
 ```js
-const x = gql`fragment FilmFragment on Film { title } { allFilms { films { ...FilmFragment } } }
+const x = gql`fragment FilmFragment on Film { title } { allFilms { films { ...FilmFragment } } }`
 ```
 
 This code defines GraphQL query. But for Javascript semantics it is just regular template tags.
