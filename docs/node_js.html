@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="node_js.html" class="active"><strong aria-hidden="true">1.</strong> Node JS</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li><li class="chapter-item expanded "><a href="base_modern_js.html"><strong aria-hidden="true">3.</strong> Base modern JS</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">1.</strong> React</a></li><li class="chapter-item expanded "><a href="base_modern_js.html"><strong aria-hidden="true">2.</strong> Base modern JS</a></li><li class="chapter-item expanded "><a href="node_js.html" class="active"><strong aria-hidden="true">3.</strong> Node JS</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,19 +163,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#node-js" id="node-js">Node JS</a></h1>
+                        <h1 id="node-js"><a class="header" href="#node-js">Node JS</a></h1>
 <blockquote>
 <p>NOTE: We don't use special syntactic limitations for Node enviroment, because we prefer to use same syntax for all enviroments.</p>
 </blockquote>
-<h2><a class="header" href="#semantic-rules" id="semantic-rules">Semantic rules</a></h2>
-<h3><a class="header" href="#principles" id="principles">Principles</a></h3>
+<h2 id="semantic-rules"><a class="header" href="#semantic-rules">Semantic rules</a></h2>
+<h3 id="principles"><a class="header" href="#principles">Principles</a></h3>
 <ol>
 <li>Maintaining correspondence between engine version and codebase. NodeJS's projects require less using transpilers. Because of it we can check correspondence between engine version and features used. Related rules: <code>node/no-unsupported-features/es-syntax</code>, <code>node/no-unsupported-features/es-builtins</code>, <code>node/no-unsupported-features/node-builtins</code>, <code>node/no-deprecated-api</code></li>
 <li>Maintaining correspondence between dependencies in package.json and codebase. We check correct usage dependencies for publising our project as npm package. We restrict to use unexist files or undefined at package.json modules. Related rules: <code>node/no-unpublished-require</code>, <code>node/no-unpublished-import</code>, <code>node/no-unpublished-bin</code>, <code>node/no-extraneous-import</code>, <code>node/no-extraneous-require</code>, <code>node/no-missing-import</code>, <code>node/no-missing-require</code></li>
 <li>Restricting usage rules which are assumed naming conventions. Fixing some naming conventions on linter level may create &quot;magic&quot; names which can complicate analyzing of code. If you want to use namming convention, you can use this rules on your project level. We don't use next rules: <code>node/callback-return</code>, <code>node/handle-callback-err</code>, <code>node/no-callback-literal</code></li>
 <li>Minimization amount of ways to use of Node.js API. Node.js has big methods of API, and often this methods have many ways of using. It can lead to errors or can complicate to analyze of code. We limit amount of ways to use API node.js. Also we restrict API which may be dangerous for longliving server application. Related rules: <code>exports-style</code>, <code>node/file-extension-in-import</code>, <code>node/global-require</code>, <code>node/no-exports-assign</code>, <code>node/no-mixed-requires</code>, <code>node/no-new-require</code>, <code>node/no-path-concat</code>, <code>node/no-process-env</code>, <code>node/no-process-exit</code>, <code>node/no-sync</code></li>
 <li>Resticting unsafe API and unsafe ways to use them. Server enviroment are highly vulnerable to many wasys to attack. We can't guarantee absent vulnerabilities, but we try to block base ways of attack. We use <code>eslint-plugin-security-node</code> rules: <code>detect-buffer-unsafe-allocation</code>, <code>detect-child-process</code>, <code>detect-insecure-randomness</code>, <code>detect-non-literal-require-calls</code>, <code>detect-dangerous-redirects</code>, <code>detect-option-rejectunauthorized-in-nodejs-httpsrequest</code>, <code>detect-runinthiscontext-method-in-nodes-vm</code>, <code>disable-ssl-across-node-server</code>, <code>non-literal-reg-expr</code>
-<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslintrc/node.js#L4-L14">[~]</a></li>
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslintrc/node.js#L2-L12">[~]</a></li>
 </ol>
 
                     </main>
@@ -183,11 +183,11 @@
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-
-                        
-                            <a rel="next" href="react.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                            <a rel="prev" href="base_modern_js.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
                             </a>
+                        
+
                         
 
                         <div style="clear: both"></div>
@@ -197,11 +197,11 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-
-                
-                    <a rel="next" href="react.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                    <a rel="prev" href="base_modern_js.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
                     </a>
+                
+
                 
             </nav>
 
