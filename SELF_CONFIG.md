@@ -7,6 +7,8 @@
 * padding-line-between-statements — кажется каждой команде лучше самим выбирать
 * import/dynamic-import-chunkname — если используете webpack
 * import/no-extraneous-dependencies — если в проекте часто возникает ситуация, что используются зависимости, не указанные явно в package.json. В сочетании с TS может давать больше ложных срабатываний из-за импортов из именованных глобальных модулей.
+* @typescript-eslint/no-unnecessary-condition — требует TS 4.1 с включённым флагом noUncheckedIndexedAccess. Эта комбинация ужесточает проверки получения элементов из массива по индексу и из объекта по ключу, что приводит к большей type safety, но придётся сильнее тайпгардить.
+* @typescript-eslint/switch-exhaustiveness-check - если в проекте много switch-проверок, которые требуют обхода всех вариантов, советую включить это правило, а для default использовать [UnreachableCaseError из ts-essentials](https://github.com/krzkaczor/ts-essentials#exhaustive-switch-cases)
 
 Если линтинг занимает слишком много времени:
 * TIMING=1

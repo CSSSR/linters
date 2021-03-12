@@ -21,14 +21,11 @@ const { merge } = require('webpack-merge')
  */
 
 const prettierConfig = {
-  extends: ['prettier', 'plugin:prettier/recommended'],
-  plugins: ['prettier'],
-  rules: {
-    'prettier/prettier': 'error',
-  },
+  extends: ['plugin:prettier/recommended'],
 }
 
 const baseConfig = {
+  // todo parser: @babel/eslint-parser ?
   extends: ['eslint:recommended'],
   rules: {
     /*
