@@ -21,10 +21,126 @@
  * 7. Not fixing convention about structure of components and project. All this conventions must be project-specific and define by programmers from concrete project. We don't use next rules: `react/state-in-constructor`, `react/static-property-placement`, `react/no-multi-comp`, `react-redux/prefer-separate-component-file`, `react/sort-comp`, `react/sort-prop-types`, `react/jsx-sort-default-props`, `react/jsx-filename-extension`, `react/jsx-props-no-spreading`, `react/jsx-max-depth`, `react/no-set-state`
  */
 
-// TODO сделать конфиг для eslint
+// todo add eslint-plugin-jsx-a11y (отдельно, если слишком много ошибок)
 
-// todo см. https://github.com/facebook/create-react-app/tree/master/packages/eslint-config-react-app
+module.exports = {
+  extends: [
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    // Чтобы перебить правила react/*
+    'plugin:prettier/recommended',
+  ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+  rules: {
+    // Disabling recommended rules
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md
+     * Disabled this rule as it is common to have React as a global variable (e.g. out-of-the-box Next.js or via webpack's ProvidePlugin).
+     * */
+    'react/react-in-jsx-scope': 'off',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md
+     * Disabled this rule as it gives false positives for render props.
+     * We prefer named exports which guarantees that exported component functions have proper names.
+     * */
+    'react/display-name': 'off',
+    /*
+     * This rule may trigger a lot of unwanted errors when useEffect is used as watcher.
+     * It is recommended to manually enable this rule inside files which rely on memoization.
+     * See SELF_CONFIG.md
+     * */
+    'react-hooks/exhaustive-deps': 'off',
 
-// todo react-hooks plugin
+    // Enabling rules
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/button-has-type.md
+     * */
+    'react/button-has-type': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/default-props-match-prop-types.md
+     * */
+    'react/default-props-match-prop-types': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md
+     * */
+    'react/forbid-prop-types': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/function-component-definition.md
+     * */
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md
+     * todo обсудить: иногда кроме индекса нечего положить в key, но кажется это не так часто
+     *  Можно либо писать игнор, либо делать key={String(index)}
+     *  В лебедях нашлось 2 подозрительных места, где потенциально могли быть проблемы из-за ключа-индекса
+     * */
+    'react/no-array-index-key': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-prop-types.md
+     * */
+    'react/no-unused-prop-types': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md
+     * */
+    'react/prefer-stateless-function': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md
+     * */
+    'react/self-closing-comp': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
+     * */
+    'react/jsx-boolean-value': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-fragments.md
+     * */
+    'react/jsx-fragments': 'error',
+    /*
+     * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md
+     * todo обсудить: Нашло несколько потенциальных проблем производительности в лебедях
+     * */
+    'react/jsx-no-constructed-context-values': 'error',
+    /*
+     * todo обсудить: Андрей предлагал не ставить это правило
+     * */
+    'react/jsx-pascal-case': 'error',
 
-// todo add eslint-plugin-jsx-a11y (with React?)
+    // todo обсудить: не стал добавлять много правил, которые заточена на компоненты-классы и propTypes — можно будет их потом доработать на основе проекта, где они используются
+    /*
+      todo обсудить:
+       не нашёл лёгкого способа форсировать использование FC + хуков вместо компонентов-классов.
+       Но можно вручную запретить импорт Component из Реакта и использования React.Component.
+       Стоит ли форсировать такое правило?
+       Бывают места, где компоненты-классы действительно нужны, но их крайне мало.
+       Обсуждение: https://github.com/yannickcr/eslint-plugin-react/issues/2860
+     */
+  },
+  overrides: [
+    {
+      files: ['*.js', '*.jsx'],
+      rules: {
+        /*
+         * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-typos.md
+         * No need in TS as it will be type checked.
+         * */
+        'react/no-typos': 'error',
+      },
+    },
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'react/prop-types': 'off',
+      },
+    },
+  ],
+}
