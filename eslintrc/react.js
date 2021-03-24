@@ -1,3 +1,5 @@
+const { merge } = require('webpack-merge')
+
 /**
  * @Article React
  * ## Syntactic rules
@@ -21,13 +23,11 @@
  * 7. Not fixing convention about structure of components and project. All this conventions must be project-specific and define by programmers from concrete project. We don't use next rules: `react/state-in-constructor`, `react/static-property-placement`, `react/no-multi-comp`, `react-redux/prefer-separate-component-file`, `react/sort-comp`, `react/sort-prop-types`, `react/jsx-sort-default-props`, `react/jsx-filename-extension`, `react/jsx-props-no-spreading`, `react/jsx-max-depth`, `react/no-set-state`
  */
 
-// todo add eslint-plugin-jsx-a11y (отдельно, если слишком много ошибок)
-
-module.exports = {
+const reactconfig = {
   extends: [
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    // Чтобы перебить правила react/*
+    // Чтобы перебить правила react
     'plugin:prettier/recommended',
   ],
   settings: {
@@ -80,9 +80,7 @@ module.exports = {
     ],
     /*
      * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md
-     * todo обсудить: иногда кроме индекса нечего положить в key, но кажется это не так часто
-     *  Можно либо писать игнор, либо делать key={String(index)}
-     *  В лебедях нашлось 2 подозрительных места, где потенциально могли быть проблемы из-за ключа-индекса
+     * In few cases when index key is really needed, rule can be disabled for lines
      * */
     'react/no-array-index-key': 'error',
     /*
@@ -107,23 +105,11 @@ module.exports = {
     'react/jsx-fragments': 'error',
     /*
      * https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md
-     * todo обсудить: Нашло несколько потенциальных проблем производительности в лебедях
      * */
     'react/jsx-no-constructed-context-values': 'error',
-    /*
-     * todo обсудить: Андрей предлагал не ставить это правило
-     * */
     'react/jsx-pascal-case': 'error',
 
-    // todo обсудить: не стал добавлять много правил, которые заточена на компоненты-классы и propTypes — можно будет их потом доработать на основе проекта, где они используются
-    /*
-      todo обсудить:
-       не нашёл лёгкого способа форсировать использование FC + хуков вместо компонентов-классов.
-       Но можно вручную запретить импорт Component из Реакта и использования React.Component.
-       Стоит ли форсировать такое правило?
-       Бывают места, где компоненты-классы действительно нужны, но их крайне мало.
-       Обсуждение: https://github.com/yannickcr/eslint-plugin-react/issues/2860
-     */
+    // Though we prefer to use functional components with hooks over class components, we don't enforce it.
   },
   overrides: [
     {
@@ -144,3 +130,41 @@ module.exports = {
     },
   ],
 }
+
+const a11yConfig = {
+  extends: ['plugin:jsx-a11y/recommended'],
+  rules: {
+    // Disabling recommended rules
+    /* Deprecated */
+    'jsx-a11y/accessible-emoji': 'off',
+    /*
+     * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md
+     * It is considered OK to use autofocus on pages which consist only of form (e.g. login page)
+     * @see https://www.brucelawson.co.uk/2009/the-accessibility-of-html-5-autofocus/
+     * */
+    'jsx-a11y/no-autofocus': 'off',
+    /* Deprecated */
+    'jsx-a11y/no-onchange': 'off',
+
+    // Clarifying recommended rules
+    /*
+     * If you are using Next consider turning it off or following these recommendations:
+     * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-use-nextjs-and-im-getting-this-error-inside-of-links
+     * todo обсудить
+     * */
+    'jsx-a11y/anchor-is-valid': 'error',
+    /*
+     * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md
+     * */
+    'jsx-a11y/anchor-has-content': [
+      'error',
+      {
+        // Если вы используете кастомные компоненты для ссылок и хотите линтить их доступность, добавьте их названия в components
+        // todo обсудить: стоит ли включать Link по умолчанию?
+        components: ['Link'],
+      },
+    ],
+  },
+}
+
+module.exports = merge(reactconfig, a11yConfig)
