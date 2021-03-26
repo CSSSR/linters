@@ -1,6 +1,6 @@
 {
   "docs_folder": "./docs_src",
-  "project_path": "./eslintrc",
+  "project_path": "./eslint",
   "files_patterns": [
     "**/*.js"
   ],

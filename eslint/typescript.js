@@ -144,7 +144,7 @@ module.exports = {
       },
     ],
 
-    // TS-альтернативы eslint-правилам
+    // TS-альтернативы es-правилам
 
     /*
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/default-param-last.md
@@ -195,6 +195,16 @@ module.exports = {
      * */
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        vars: 'all',
+        // в функции указывать ровно столько параметров, сколько нужно
+        args: 'after-used',
+        // чтобы можно было делать omit через спред `const { omitted, ...rest } = props`
+        ignoreRestSiblings: true,
+      },
+    ],
   },
   overrides: [
     {

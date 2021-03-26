@@ -64,6 +64,10 @@ const baseConfig = {
      * */
     'prefer-const': 'error',
     /*
+     * https://eslint.org/docs/rules/one-var
+     * */
+    'one-var': ['error', 'never'],
+    /*
      * https://eslint.org/docs/rules/object-shorthand
      * error: const a = { x : x }
      * prefer: const a = { x }

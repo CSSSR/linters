@@ -1,11 +1,18 @@
+## Installation
+
+Install `csssr-base-lint` and its' peer dependencies:
+```
+todo
+```
+
 ## ESLint configuration
 
 ```js
 // File: .eslintrc.js
 module.exports = {
   extends: [
-    require.resolve('csssr-base-lint/eslintrc/base'),
-    require.resolve('csssr-base-lint/eslintrc/typescript'),
+    require.resolve('csssr-base-lint/eslint/base'),
+    require.resolve('csssr-base-lint/eslint/typescript'),
   ],
 }
 ```

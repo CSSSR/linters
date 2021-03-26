@@ -34,6 +34,14 @@ const reactconfig = {
     react: {
       version: 'detect',
     },
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx'],
+      },
+    },
+  },
+  parserOptions: {
+    ecmaFeatures: { jsx: true },
   },
   rules: {
     // Disabling recommended rules
@@ -137,20 +145,26 @@ const a11yConfig = {
     // Disabling recommended rules
     /* Deprecated */
     'jsx-a11y/accessible-emoji': 'off',
+    /* Deprecated */
+    'jsx-a11y/no-onchange': 'off',
+    /*
+     * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md
+     * Disabled until this issue is fixed:
+     * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/511#issuecomment-447249346
+     * */
+    'jsx-a11y/label-has-associated-control': 'off',
     /*
      * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md
      * It is considered OK to use autofocus on pages which consist only of form (e.g. login page)
+     * todo дописать, на что обращать внимание: screenreader, навигация с клавиатуры
      * @see https://www.brucelawson.co.uk/2009/the-accessibility-of-html-5-autofocus/
      * */
     'jsx-a11y/no-autofocus': 'off',
-    /* Deprecated */
-    'jsx-a11y/no-onchange': 'off',
 
     // Clarifying recommended rules
     /*
      * If you are using Next consider turning it off or following these recommendations:
      * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-use-nextjs-and-im-getting-this-error-inside-of-links
-     * todo обсудить
      * */
     'jsx-a11y/anchor-is-valid': 'error',
     /*
@@ -160,7 +174,6 @@ const a11yConfig = {
       'error',
       {
         // Если вы используете кастомные компоненты для ссылок и хотите линтить их доступность, добавьте их названия в components
-        // todo обсудить: стоит ли включать Link по умолчанию?
         components: ['Link'],
       },
     ],
