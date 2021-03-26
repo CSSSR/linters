@@ -25,7 +25,6 @@ const prettierConfig = {
 }
 
 const baseConfig = {
-  // todo parser: @babel/eslint-parser ?
   extends: ['eslint:recommended'],
   rules: {
     /*

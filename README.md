@@ -1,23 +1,17 @@
 ## Installation
 
 Install `csssr-base-lint` and its' peer dependencies:
-```
-todo
+```bash
+npm i CSSSR/csssr-base-lint eslint prettier
+
+yarn add CSSSR/csssr-base-lint eslint prettier
 ```
 
-## ESLint configuration
-
-```js
-// File: .eslintrc.js
-module.exports = {
-  extends: [
-    require.resolve('csssr-base-lint/eslint/base'),
-    require.resolve('csssr-base-lint/eslint/typescript'),
-  ],
-}
-```
+You may encounter some issues with ESLint plugins if some of your dependencies include their outdated versions. In that case try installing proper versions of these plugins directly in your project.
 
 ## Prettier configuration
+
+You may use your own Prettier config or use predefined one:
 
 ```js
 // File: .prettierrc.js
@@ -26,8 +20,81 @@ module.exports = {
 }
 ```
 
+## ESLint configuration
+
+There are several predefined configurations, which you may include in your project based on your project needs:
+* `eslint/base` - basic JavaScript rules including Prettier rule
+* `exlint/react` - React and JSX rules
+* `eslint/typescript` - TS-specific rules
+* `eslint/node` - Node.js-specific rules
+
+## Linting Babel project
+
+Install [`@babel/eslint-parser`](https://github.com/babel/babel/tree/main/eslint/babel-eslint-parser#installation) and add it as a parser to ESLint config:
+```js
+// File: .eslintrc.js
+module.exports = {
+  parser: "@babel/eslint-parser",
+  extends: [
+    require.resolve('csssr-base-lint/eslint/base'),
+    require.resolve('csssr-base-lint/eslint/react'),
+  ],
+}
+```
+
 ## Linting TypeScript project
+
+```js
+// File: .eslintrc.js
+module.exports = {
+  extends: [
+    require.resolve('csssr-base-lint/eslint/base'),
+    require.resolve('csssr-base-lint/eslint/react'),
+    require.resolve('csssr-base-lint/eslint/typescript'),
+  ],
+}
+```
 
 `tsconfig.json` from root of the project will be used for gathering type info for some rules. If your TS config is located elsewhere, configure its path in [`parserOptions.project`](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser#parseroptionsproject) field of ESLint config.
 
 Only files specified in `include` section of `tsconfig.json` will be linted. Because of that configs located in the root folder (`.eslintrc.js`, `.prettierrc.js`, etc.) will not be linted but can still be formatted with Prettier.
+
+## Customization
+
+Feel free to add new plugins and rules and disable existing rules which are not suitable for your project's needs:
+
+```js
+// File: .eslintrc.js
+module.exports = {
+  extends: [
+    require.resolve('csssr-base-lint/eslint/base'),
+    require.resolve('csssr-base-lint/eslint/react'),
+    require.resolve('csssr-base-lint/eslint/typescript'),
+  ],
+  plugins: ['todo-plz'],
+  rules: {
+    // Disabling for Next project
+    'jsx-a11y/anchor-is-valid': 'off',
+    
+    // New rule for linting todos
+    'todo-plz/ticket-ref': [
+      'error',
+      {
+        pattern: 'PROJ-[0-9]+',
+        terms: ['TODO', 'todo'],
+      },
+    ],
+  },
+  overrides: [
+    {
+      // Storybook's CSF requires usage of default exports
+      files: ['./src/**/index.stories.tsx'],
+      rules: {
+        'import/no-default-export': ['off'],
+      },
+    },
+  ],
+}
+```
+
+You can find more recommendations for manual configuration [here](./SELF_CONFIG.md)
