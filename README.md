@@ -2,9 +2,9 @@
 
 Install `csssr-base-lint` and its' peer dependencies:
 ```bash
-npm i CSSSR/csssr-base-lint eslint prettier
+npm i CSSSR/csssr-base-lint eslint prettier -D
 
-yarn add CSSSR/csssr-base-lint eslint prettier
+yarn add CSSSR/csssr-base-lint eslint prettier -D
 ```
 
 You may encounter some issues with ESLint plugins if some of your dependencies include their outdated versions. In that case try installing proper versions of these plugins directly in your project.
