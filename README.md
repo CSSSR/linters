@@ -1,13 +1,16 @@
 ## Installation
 
-Install `csssr-base-lint` and its' peer dependencies:
+First install `csssr-base-lint` itself:
 ```bash
-npm i CSSSR/csssr-base-lint eslint prettier -D
+npm i -D CSSSR/csssr-base-lint
 
-yarn add CSSSR/csssr-base-lint eslint prettier -D
+yarn add -D CSSSR/csssr-base-lint
 ```
 
-You may encounter some issues with ESLint plugins if some of your dependencies include their outdated versions. In that case try installing proper versions of these plugins directly in your project.
+Then install peer dependencies (Prettier, ESLint and its plugins):
+```bash
+npx install-peerdeps -D CSSSR/csssr-base-lint
+```
 
 ## Prettier configuration
 
