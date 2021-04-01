@@ -26,7 +26,6 @@ There are several predefined configurations, which you may include in your proje
 * `eslint/base` - basic JavaScript rules including Prettier rule
 * `exlint/react` - React and JSX rules
 * `eslint/typescript` - TS-specific rules
-* `eslint/node` - Node.js-specific rules
 
 ## Linting Babel project
 

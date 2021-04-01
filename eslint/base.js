@@ -73,11 +73,9 @@ const baseConfig = {
      * */
     'object-shorthand': 'error',
     /*
-     * https://eslint.org/docs/rules/init-declarations
-     * заменил no-undef-init на init-declarations, чтобы наоборот всегда указывали начальное состояние
-     * это позволило найти потенциальную ошибку в коде, где было: `let str: string` (TS думал что там string, хотя по факту лежал undefined)
-     * */
-    'init-declarations': 'error',
+    * https://eslint.org/docs/rules/no-undef-init
+    * */
+    'no-undef-init': 'error',
     /*
      * https://eslint.org/docs/rules/eqeqeq
      * в том числе запрещаем `x == null`, т.к. это implicit проверка
@@ -175,6 +173,7 @@ const baseConfig = {
      * Начиная с 4 - делайте объект
      * аналог: именованные параметры
      * показать пример, объяснить проблему порядка, обязательности, boolean-флаги `fn(true, true, false)`
+     * если ругается на createSelector, замените на createStructuredSelector
      * */
     'max-params': ['error', 3],
     /*
@@ -236,6 +235,10 @@ const unicornConfig = {
           kebabCase: true,
           pascalCase: true,
         },
+        ignore: [
+          // en-US и другие возможные названия файлов локализации
+          /^[a-z]{2}-[A-Z]{2}\./
+        ]
       },
     ],
     /*
@@ -272,10 +275,12 @@ const unicornConfig = {
 const promiseConfig = {
   plugins: ['promise'],
   rules: {
-    /*
-     * https://eslint.org/docs/rules/no-promise-executor-return
-     * */
-    'no-promise-executor-return': 'error',
+    /* не используем no-promise-executor-return, т.к. вынуждает раздувать однострочные конструкции
+     * кажется, сама ошибка не настолько частая, чтобы её линтить
+     * ```
+     * new Promise((resolve) => setTimeout(resolve, 1000))
+     * ```
+     */
     /*
      * https://eslint.org/docs/rules/prefer-promise-reject-errors
      * */

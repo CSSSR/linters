@@ -168,6 +168,12 @@ const a11yConfig = {
      * */
     'jsx-a11y/anchor-is-valid': 'error',
     /*
+     * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md
+     * Правило имеет смысл в случаях, когда по наведению мышки появляется дополнительные элемент. Например, тултип по ховеру.
+     * Если изменения чисто визуальные, то тоже стоит их продублировать по фокусу клавиатуры. Например, фокус на строке таблицы.
+     * */
+    'jsx-a11y/mouse-events-have-key-events': 'error',
+    /*
      * https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md
      * */
     'jsx-a11y/anchor-has-content': [

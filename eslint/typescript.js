@@ -158,7 +158,10 @@ module.exports = {
     '@typescript-eslint/dot-notation': 'error',
     /*
      * https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/init-declarations.md
+     * заменил no-undef-init на init-declarations, чтобы наоборот всегда указывали начальное состояние
+     * это позволило найти потенциальную ошибку в коде, где было: `let str: string` (TS думал что там string, хотя по факту лежал undefined)
      * */
+    'no-undef-init': 'off',
     'init-declarations': 'off',
     '@typescript-eslint/init-declarations': 'error',
     /*
