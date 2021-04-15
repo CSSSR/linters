@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Node JS - CSSSR Linting</title>
+        <title>Base - CSSSR Linting</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="node_js.html"><strong aria-hidden="true">1.</strong> Node JS</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">1.</strong> Base</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,20 +163,604 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="node-js"><a class="header" href="#node-js">Node JS</a></h1>
-<blockquote>
-<p>NOTE: We don't use special syntactic limitations for Node enviroment, because we prefer to use same syntax for all enviroments.</p>
-</blockquote>
-<h2 id="semantic-rules"><a class="header" href="#semantic-rules">Semantic rules</a></h2>
-<h3 id="principles"><a class="header" href="#principles">Principles</a></h3>
+                        <h1 id="base"><a class="header" href="#base">Base</a></h1>
+<h2 id="principles"><a class="header" href="#principles">Principles</a></h2>
+<h3 id="syntax"><a class="header" href="#syntax">Syntax</a></h3>
 <ol>
-<li>Maintaining correspondence between engine version and codebase. NodeJS's projects require less using transpilers. Because of it we can check correspondence between engine version and features used. Related rules: <code>node/no-unsupported-features/es-syntax</code>, <code>node/no-unsupported-features/es-builtins</code>, <code>node/no-unsupported-features/node-builtins</code>, <code>node/no-deprecated-api</code></li>
-<li>Maintaining correspondence between dependencies in package.json and codebase. We check correct usage dependencies for publising our project as npm package. We restrict to use unexist files or undefined at package.json modules. Related rules: <code>node/no-unpublished-require</code>, <code>node/no-unpublished-import</code>, <code>node/no-unpublished-bin</code>, <code>node/no-extraneous-import</code>, <code>node/no-extraneous-require</code>, <code>node/no-missing-import</code>, <code>node/no-missing-require</code></li>
-<li>Restricting usage rules which are assumed naming conventions. Fixing some naming conventions on linter level may create &quot;magic&quot; names which can complicate analyzing of code. If you want to use namming convention, you can use this rules on your project level. We don't use next rules: <code>node/callback-return</code>, <code>node/handle-callback-err</code>, <code>node/no-callback-literal</code></li>
-<li>Minimization amount of ways to use of Node.js API. Node.js has big methods of API, and often this methods have many ways of using. It can lead to errors or can complicate to analyze of code. We limit amount of ways to use API node.js. Also we restrict API which may be dangerous for longliving server application. Related rules: <code>exports-style</code>, <code>node/file-extension-in-import</code>, <code>node/global-require</code>, <code>node/no-exports-assign</code>, <code>node/no-mixed-requires</code>, <code>node/no-new-require</code>, <code>node/no-path-concat</code>, <code>node/no-process-env</code>, <code>node/no-process-exit</code>, <code>node/no-sync</code></li>
-<li>Resticting unsafe API and unsafe ways to use them. Server enviroment are highly vulnerable to many wasys to attack. We can't guarantee absent vulnerabilities, but we try to block base ways of attack. We use <code>eslint-plugin-security-node</code> rules: <code>detect-buffer-unsafe-allocation</code>, <code>detect-child-process</code>, <code>detect-insecure-randomness</code>, <code>detect-non-literal-require-calls</code>, <code>detect-dangerous-redirects</code>, <code>detect-option-rejectunauthorized-in-nodejs-httpsrequest</code>, <code>detect-runinthiscontext-method-in-nodes-vm</code>, <code>disable-ssl-across-node-server</code>, <code>non-literal-reg-expr</code>
-<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/node.js#L2-L12">[~]</a></li>
+<li>Using Prettier for better formatting.</li>
+<li>Syntactic homogeneity. Semantically identical constructions must use the same syntax. To achieve that we fix spacings, paddings, quotes, shorthand techniques, etc. E.g., <code>curly</code> and <code>dot-notation</code>.</li>
+<li>Minimization of git diffs when code is being changed or refactored. Changing or extending code must change minimal count of symbols which aren't connected with the change in logic. By the most part this is achieved by using Prettier.</li>
+<li>Avoid disabling linting rules. We believe that linting rules shouldn't interfere with writing code. Disabling rules is allowed as an exception and a temporary measure. Because of this, we don't use frequently disabled rules like <code>no-mixed-operators</code>, <code>prefer-arrow-callback</code>, <code>no-useless-return</code>, etc.</li>
+<li>No warnings. All kinds of undesirable constructions must be fixed. Warning add noise to the result of project building and quickly become being ignored. As an exception warnings are allowed in a situation of a long refactoring but only as a temporary measure.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L4-L11">[~]</a></li>
 </ol>
+<h3 id="semantics"><a class="header" href="#semantics">Semantics</a></h3>
+<ol>
+<li>Explicit is better than implicit. JS has many implicit defaults so to avoid confusion we prefer being explicit and not using ambiguous constructions. E.g., <code>no-implicit-coercion</code>.</li>
+<li>Minimization of errors. JavaScript is an interpreted language so all the incorrect or meaningless constructions can be detected only during execution. We try to minimize the amount of constructions that can lead to runtime errors. E.g., <code>guard-for-in</code> and <code>eqeqeq</code>.</li>
+<li>Make code readable without limiting developers too much. We don't want for linting to be in the way of writing logic so we don't use rules like <code>complexity</code> or <code>max-depth</code>. But we still try to restrict semantic constructions which make reading code difficult and use rules like <code>max-params</code> or <code>no-nested-ternary</code>.</li>
+<li>Make sure code is ready for production environment. Code shouldn't contain temporary or debug construction. E.g., <code>no-eval</code>, <code>no-console</code>, <code>no-debugger</code>, etc.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L15-L20">[~]</a></li>
+</ol>
+<h2 id="rules-overview"><a class="header" href="#rules-overview">Rules overview</a></h2>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L24-L25">[~]</a></p>
+<h3 id="prettier"><a class="header" href="#prettier">Prettier</a></h3>
+<p><a href="https://github.com/prettier/eslint-plugin-prettier"><code>eslint-plugin-prettier</code></a> is used for integration of Prettier and ESLint.</p>
+<p><a href="https://github.com/prettier/eslint-config-prettier"><code>eslint-config-prettier</code></a> turns off all the rules from ESLint and its plugins that might conflict with Prettier.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L29-L33">[~]</a></p>
+<h3 id="eslint-rules"><a class="header" href="#eslint-rules">ESLint rules</a></h3>
+<p>We are using <code>eslint:recommended</code> as starting point. You can see list of included rules <a href="https://eslint.org/docs/rules/">here</a> marked with a check mark.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L40-L42">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulescamelcasecamelcasea"><a class="header" href="#a-hrefhttpseslintorgdocsrulescamelcasecamelcasea"><a href="https://eslint.org/docs/rules/camelcase">camelcase</a></a></h4>
+<pre><code class="language-js">// Fail
+const my_var = { prop_name: 1 }
+
+// Pass
+const myVar = { propName: 1 }
+</code></pre>
+<p>Names starting with <code>UNSAFE_</code> are allowed to support React's legacy lifecycle methods:</p>
+<pre><code class="language-js">class MyComponent extends React.Component {
+UNSAFE_componentWillUpdate() {}
+}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L48-L62">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulescurlycurlya"><a class="header" href="#a-hrefhttpseslintorgdocsrulescurlycurlya"><a href="https://eslint.org/docs/rules/curly">curly</a></a></h4>
+<pre><code class="language-js">// Fail
+if (true) return null
+
+// Pass
+if (true) { return null }
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L71-L79">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesdefault-param-lastdefault-param-lasta"><a class="header" href="#a-hrefhttpseslintorgdocsrulesdefault-param-lastdefault-param-lasta"><a href="https://eslint.org/docs/rules/default-param-last">default-param-last</a></a></h4>
+<pre><code class="language-js">// Fail
+function f(foo = 0, bar) {}
+
+// Pass
+function f(bar, foo = 0) {}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L83-L91">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesdot-notationdot-notationa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesdot-notationdot-notationa"><a href="https://eslint.org/docs/rules/dot-notation">dot-notation</a></a></h4>
+<pre><code class="language-js">// Fail
+obj['param']
+
+// Pass
+obj.param
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L95-L103">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsruleseqeqeqeqeqeqa"><a class="header" href="#a-hrefhttpseslintorgdocsruleseqeqeqeqeqeqa"><a href="https://eslint.org/docs/rules/eqeqeq">eqeqeq</a></a></h4>
+<p>Prefer strict equals to avoid implicit checks.</p>
+<pre><code class="language-js">// Fail
+if (x == null) {}
+
+// Pass
+const isNil = (v) =&gt; v === null || v === undefined
+
+if (isNil(x)) {}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L107-L118">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesguard-for-inguard-for-ina"><a class="header" href="#a-hrefhttpseslintorgdocsrulesguard-for-inguard-for-ina"><a href="https://eslint.org/docs/rules/guard-for-in">guard-for-in</a></a></h4>
+<p>For iterating over object keys use <code>Object.keys</code> instead of <code>for ... in</code> as it returns object's <strong>own</strong> property names and ignores inherited ones.</p>
+<pre><code class="language-js">// Fail
+for (key in obj) { }
+
+// Pass
+Object.keys(obj).forEach((key) =&gt; {})
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L122-L131">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesmax-paramsmax-paramsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesmax-paramsmax-paramsa"><a href="https://eslint.org/docs/rules/max-params">max-params</a></a></h4>
+<p>Functions may have maximum 3 parameters:</p>
+<pre><code class="language-js">// Fail
+const myFn = (a, b, c, d) =&gt; {}
+
+// Pass
+const myFn = ({ a, b, c, d }) =&gt; {}
+</code></pre>
+<p>If you're using <a href="https://github.com/reduxjs/reselect"><code>reselect</code></a> and errors are reported for <code>createSelector</code> with too many params, switch to <code>createStructuredSelector</code>.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L135-L145">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-bitwiseno-bitwisea"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-bitwiseno-bitwisea"><a href="https://eslint.org/docs/rules/no-bitwise">no-bitwise</a></a></h4>
+<p>Quite often bitwise operator is just a typo in logical operator:</p>
+<pre><code class="language-js">// Fail
+const x = y | z
+
+// Pass
+const x = y || z
+</code></pre>
+<p>If you need to use bitwise operators, disable this rule for the lines containing them.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L149-L159">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-consoleno-consolea"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-consoleno-consolea"><a href="https://eslint.org/docs/rules/no-console">no-console</a></a></h4>
+<p>Remove <code>console.log</code> from production code:</p>
+<pre><code class="language-js">// Fail
+console.log('Debug info')
+
+// Pass
+console.info('Info')
+console.warn('Warning')
+console.error('Error')
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L163-L174">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-evalno-evala"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-evalno-evala"><a href="https://eslint.org/docs/rules/no-eval">no-eval</a></a></h4>
+<p>Forbid usages of <code>eval</code> as potentially dangerous:</p>
+<pre><code class="language-js">// Fail
+eval(&quot;var a = 0&quot;)
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L183-L189">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-implicit-coercionno-implicit-coerciona"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-implicit-coercionno-implicit-coerciona"><a href="https://eslint.org/docs/rules/no-implicit-coercion">no-implicit-coercion</a></a></h4>
+<p>All implicit coercions except <code>!!</code> are disallowed:</p>
+<pre><code class="language-js">// Fail
++foo
+1 * foo
+'' + foo
+`${foo}`
+~foo.indexOf(bar)
+
+// Pass
+!!foo
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L193-L206">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-nested-ternaryno-nested-ternarya"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-nested-ternaryno-nested-ternarya"><a href="https://eslint.org/docs/rules/no-nested-ternary">no-nested-ternary</a></a></h4>
+<pre><code class="language-js">// Fail
+return a ? b ? c : d : e
+
+// Pass
+if (a) {
+return b ? c : d
+} else {
+return e
+}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L216-L228">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-new-wrappersno-new-wrappersa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-new-wrappersno-new-wrappersa"><a href="https://eslint.org/docs/rules/no-new-wrappers">no-new-wrappers</a></a></h4>
+<pre><code class="language-js">// Fail
+const n = new Number(1)
+
+// Pass
+const n = 1
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L232-L240">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-param-reassignno-param-reassigna"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-param-reassignno-param-reassigna"><a href="https://eslint.org/docs/rules/no-param-reassign">no-param-reassign</a></a></h4>
+<pre><code class="language-js">// Fail
+function f(foo) {
+foo++
+}
+
+// Pass
+function f(foo) {
+const bar = foo + 1
+}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L244-L256">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-shadowno-shadowa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-shadowno-shadowa"><a href="https://eslint.org/docs/rules/no-shadow">no-shadow</a></a></h4>
+<pre><code class="language-js">// Fail
+rows.forEach((item) =&gt; {
+item.columns.forEach((item) =&gt; {
+// `item` is shadowed
+})
+})
+
+// Pass
+rows.forEach((row) =&gt; {
+item.columns.forEach((column) =&gt; {
+})
+})
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L260-L275">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-template-curly-in-stringno-template-curly-in-stringa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-template-curly-in-stringno-template-curly-in-stringa"><a href="https://eslint.org/docs/rules/no-template-curly-in-string">no-template-curly-in-string</a></a></h4>
+<pre><code class="language-js">// Fail
+&quot;Hello, ${name}&quot;
+
+// Pass
+`Hello, ${name}`
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L279-L287">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-throw-literalno-throw-literala"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-throw-literalno-throw-literala"><a href="https://eslint.org/docs/rules/no-throw-literal">no-throw-literal</a></a></h4>
+<pre><code class="language-js">// Fail
+throw 'Error'
+
+// Pass
+throw new Error('Error')
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L291-L299">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-undef-initno-undef-inita"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-undef-initno-undef-inita"><a href="https://eslint.org/docs/rules/no-undef-init">no-undef-init</a></a></h4>
+<pre><code class="language-js">// Fail
+let foo = undefined
+
+// Pass
+let foo
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L303-L311">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-underscore-dangleno-underscore-danglea"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-underscore-dangleno-underscore-danglea"><a href="https://eslint.org/docs/rules/no-underscore-dangle">no-underscore-dangle</a></a></h4>
+<pre><code class="language-js">// Fail
+const _private = 1
+
+// Pass
+items.map((_item, idx) =&gt; idx)
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L315-L323">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-unneeded-ternaryno-unneeded-ternarya"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-unneeded-ternaryno-unneeded-ternarya"><a href="https://eslint.org/docs/rules/no-unneeded-ternary">no-unneeded-ternary</a></a></h4>
+<pre><code class="language-js">// Fail
+const isYes = answer === 1 ? true : false
+
+// Pass
+const isYes = answer === 1
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L332-L340">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-unused-expressionsno-unused-expressionsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-unused-expressionsno-unused-expressionsa"><a href="https://eslint.org/docs/rules/no-unused-expressions">no-unused-expressions</a></a></h4>
+<pre><code class="language-js">// Fail
+a || b
+(function f() {})
+
+// Pass
+a &amp;&amp; b()
+a ? b() : c()
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L344-L354">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-unused-varsno-unused-varsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-unused-varsno-unused-varsa"><a href="https://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></a></h4>
+<pre><code class="language-js">// Fail
+const { foo, bar } = props
+console.log(foo)
+
+// Pass
+const { foo } = props
+console.log(foo)
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L366-L376">[~]</a></p>
+<p>Hanging unused parameters in functions are not allowed:</p>
+<pre><code class="language-js">// Fail
+function f(a, b, c, d) {
+console.log(b)
+}
+
+// Pass
+function f(a, b) {
+console.log(b)
+}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L383-L395">[~]</a></p>
+<p>Omitted params in object destructuring can be left unused:</p>
+<pre><code class="language-js">// Pass
+const { foo, ...rest } = props
+console.log(rest)
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L399-L405">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-varno-vara"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-varno-vara"><a href="https://eslint.org/docs/rules/no-var">no-var</a></a></h4>
+<pre><code class="language-js">// Fail
+var foo
+
+// Pass
+let foo
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L411-L419">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesobject-shorthandobject-shorthanda"><a class="header" href="#a-hrefhttpseslintorgdocsrulesobject-shorthandobject-shorthanda"><a href="https://eslint.org/docs/rules/object-shorthand">object-shorthand</a></a></h4>
+<pre><code class="language-js">// Fail
+const a = { x : x }
+
+// Pass
+const a = { x }
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L423-L431">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesone-varone-vara"><a class="header" href="#a-hrefhttpseslintorgdocsrulesone-varone-vara"><a href="https://eslint.org/docs/rules/one-var">one-var</a></a></h4>
+<pre><code class="language-js">// Fail
+let foo, bar
+
+// Pass
+let foo
+let bar
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L435-L444">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesoperator-assignmentoperator-assignmenta"><a class="header" href="#a-hrefhttpseslintorgdocsrulesoperator-assignmentoperator-assignmenta"><a href="https://eslint.org/docs/rules/operator-assignment">operator-assignment</a></a></h4>
+<pre><code class="language-js">// Fail
+x = x + y
+
+// Pass
+x += y
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L448-L456">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulespadding-line-between-statementspadding-line-between-statementsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulespadding-line-between-statementspadding-line-between-statementsa"><a href="https://eslint.org/docs/rules/padding-line-between-statements">padding-line-between-statements</a></a></h4>
+<p>We only configure paddings between exports and other statements to emphasize exported values. You may customize this rule in your project depending on your needs.</p>
+<pre><code class="language-js">// Fail
+const a = 1
+export const b = 2
+
+// Pass
+const a = 1
+
+export const b =2
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L460-L472">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesprefer-constprefer-consta"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-constprefer-consta"><a href="https://eslint.org/docs/rules/prefer-const">prefer-const</a></a></h4>
+<pre><code class="language-js">// Fail
+let a = 3
+
+// Pass
+const a = 3
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L481-L489">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesradixradixa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesradixradixa"><a href="https://eslint.org/docs/rules/radix">radix</a></a></h4>
+<p>ES5 no longer treats strings with leading 0 as octal literal, so there's no need to pass the radix 10:</p>
+<pre><code class="language-js">// Fail
+const n = parseInt('071', 10)
+
+// Pass
+const n = parseInt('071')
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L493-L502">[~]</a></p>
+<h3 id="disabled-rules"><a class="header" href="#disabled-rules">Disabled rules</a></h3>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L507-L508">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-irregular-whitespacedelno-irregular-whitespacedela"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-irregular-whitespacedelno-irregular-whitespacedela"><a href="https://eslint.org/docs/rules/no-irregular-whitespace"><del>no-irregular-whitespace</del></a></a></h4>
+<p>We disable this rule as it can't properly allow using non-breaking whitespaces inside JSX tags.
+It forces to use <code>&amp;nbsp;</code> instead:</p>
+<pre><code class="language-jsx">&lt;&gt;Push the&amp;nbsp;button&lt;/&gt;
+</code></pre>
+<p>Which leads to a problem when converting JSX text node to a string:</p>
+<pre><code class="language-jsx">&lt;&gt;{'Push the&amp;nbsp;button'}&lt;/&gt;
+</code></pre>
+<p>If developer don't pay attention or text is too big to look through it properly, <code>&amp;nbsp;</code> moves into string without any warning and shows up in UI as a group of symbols, not a whitespace.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L511-L522">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesno-use-before-definedelno-use-before-definedela"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-use-before-definedelno-use-before-definedela"><a href="https://eslint.org/docs/rules/no-use-before-define"><del>no-use-before-define</del></a></a></h4>
+<p>We don't enable this rule as it is often more practical to place usages before definitions. E.g., in React component it is better to place component code first and helper functions below. That way the most important thing in the file comes first.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L526-L528">[~]</a></p>
+<h3 id="unicorn"><a class="header" href="#unicorn">Unicorn</a></h3>
+<p>Additional rules from <a href="https://github.com/sindresorhus/eslint-plugin-unicorn"><code>eslint-config-unicorn</code></a>.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L535-L537">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesexplicit-length-checkmdunicornexplicit-length-checka"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesexplicit-length-checkmdunicornexplicit-length-checka"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md">unicorn/explicit-length-check</a></a></h4>
+<p>Checking for <code>.length</code> of an empty array can lead to rendering <code>0</code> instead of not rendering anything. This rule forces to always explicitly check for array length by comparing it:</p>
+<pre><code class="language-jsx">// Fail
+return items.length &amp;&amp; &lt;Items /&gt;
+
+// Pass
+return items.length &gt; 0 &amp;&amp; &lt;Items /&gt;
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L543-L552">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesfilename-casemdunicornfilename-casea"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesfilename-casemdunicornfilename-casea"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/filename-case.md">unicorn/filename-case</a></a></h4>
+<pre><code>// Fail
+my-component.js
+my_component.js
+
+// Pass
+myComponent.js
+MyComponent.js
+en-US.js
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L556-L567">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesno-abusive-eslint-disablemdunicornno-abusive-eslint-disablea"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesno-abusive-eslint-disablemdunicornno-abusive-eslint-disablea"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-abusive-eslint-disable.md">unicorn/no-abusive-eslint-disable</a></a></h4>
+<pre><code class="language-js">// Fail
+// eslint-disable-next-line
+console.log(message);
+
+// Pass
+// eslint-disable-next-line no-console
+console.log(message);
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L583-L593">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesthrow-new-errormdunicornthrow-new-errora"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesthrow-new-errormdunicornthrow-new-errora"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/throw-new-error.md">unicorn/throw-new-error</a></a></h4>
+<p>By design <code>Error(msg)</code> and <code>new Error(msg)</code> can be used interchangeably but for the sake of homogeneity it is better to always use only one form.</p>
+<pre><code class="language-js">// Fail
+throw Error()
+
+// Pass
+throw new Error()
+</code></pre>
+<p>We prefer <code>new Error</code> for consistency with custom subclassed errors which cannot be created without <code>new</code>:</p>
+<pre><code class="language-js">class MyError extends Error {}
+throw MyError() // Uncaught TypeError
+throw new MyError() // OK
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L597-L612">[~]</a></p>
+<h3 id="rules-for-asynchronous-code"><a class="header" href="#rules-for-asynchronous-code">Rules for asynchronous code</a></h3>
+<p>Using <a href="https://github.com/xjamundx/eslint-plugin-promise"><code>eslint-config-promise</code></a>.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L619-L621">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesprefer-promise-reject-errorsprefer-promise-reject-errorsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-promise-reject-errorsprefer-promise-reject-errorsa"><a href="https://eslint.org/docs/rules/prefer-promise-reject-errors">prefer-promise-reject-errors</a></a></h4>
+<pre><code class="language-js">// Fail
+Promise.reject('Error')
+
+// Pass
+Promise.reject(new Error('Error'))
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L627-L635">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesrequire-awaitrequire-awaita"><a class="header" href="#a-hrefhttpseslintorgdocsrulesrequire-awaitrequire-awaita"><a href="https://eslint.org/docs/rules/require-await">require-await</a></a></h4>
+<pre><code class="language-js">// Fail
+async function f() {
+doSomethingSynchronously()
+}
+
+// Pass
+async function f() {
+await doSomethingAsynchronously()
+}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L639-L651">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulescatch-or-returnmdpromisecatch-or-returna"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulescatch-or-returnmdpromisecatch-or-returna"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/catch-or-return.md">promise/catch-or-return</a></a></h4>
+<pre><code class="language-js">// Fail
+myPromise.then(doSomething)
+
+// Pass
+myPromise.then(doSomething).catch(handleError)
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L655-L663">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-in-finallymdpromiseno-return-in-finallya"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-in-finallymdpromiseno-return-in-finallya"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/no-return-in-finally.md">promise/no-return-in-finally</a></a></h4>
+<pre><code class="language-js">// Fail
+myPromise.finally(() =&gt; {
+return 'done'
+})
+
+// Pass
+myPromise.finally(() =&gt; {
+alert('done')
+})
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L673-L685">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-wrapmdpromiseno-return-wrapa"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-wrapmdpromiseno-return-wrapa"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/no-return-wrap.md">promise/no-return-wrap</a></a></h4>
+<pre><code class="language-js">// Fail
+myPromise.then((val) =&gt; Promise.resolve(val * 2))
+myPromise.then(() =&gt; Promise.reject(new Error()))
+
+// Pass
+myPromise.then((val) =&gt; val * 2)
+myPromise.then(() =&gt; {
+throw new Error()
+})
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L689-L701">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesparam-namesmdpromiseparam-namesa"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesparam-namesmdpromiseparam-namesa"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/param-names.md">promise/param-names</a></a></h4>
+<pre><code class="language-js">// Fail
+new Promise((reject, resolve) =&gt; {})
+
+// Pass
+new Promise((resolve, reject) =&gt; {})
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L705-L713">[~]</a></p>
+<h3 id="import-rules"><a class="header" href="#import-rules">Import rules</a></h3>
+<p>Using <a href="https://github.com/benmosher/eslint-plugin-import"><code>eslint-config-import</code></a> and <a href="https://github.com/sindresorhus/eslint-plugin-unicorn"><code>eslint-config-unicorn</code></a>.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L721-L723">[~]</a></p>
+<p>Extending <a href="https://github.com/benmosher/eslint-plugin-import/blob/master/config/errors.js"><code>plugin:import/errors</code></a>.
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L727-L728">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-duplicatesmdimportno-duplicatesa"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-duplicatesmdimportno-duplicatesa"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-duplicates.md">import/no-duplicates</a></a></h4>
+<pre><code class="language-js">// Fail
+import { App } from './App'
+import { SOME_CONST } from './App'
+
+// Pass
+import { App, SOME_CONST } from './App'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L733-L742">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesfirstmdimportfirsta"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesfirstmdimportfirsta"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md">import/first</a></a></h4>
+<pre><code class="language-js">// Fail
+init()
+import { App } from './App'
+
+// Pass
+import { App } from './App'
+init()
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L746-L756">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesnewline-after-importmdimportnewline-after-importa"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesnewline-after-importmdimportnewline-after-importa"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/newline-after-import.md">import/newline-after-import</a></a></h4>
+<pre><code class="language-js">// Fail
+import { App } from './App'
+render(App)
+
+// Pass
+import { App } from './App'
+
+render(App)
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L760-L771">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-cyclemdimportno-cyclea"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-cyclemdimportno-cyclea"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-cycle.md">import/no-cycle</a></a></h4>
+<pre><code class="language-js">// Fail
+
+// a.js
+import { b } from './b'
+export const a = 1
+
+// b.js
+import { a } from './a'
+export const b = 2
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L775-L787">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-default-exportmdimportno-default-exporta"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-default-exportmdimportno-default-exporta"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md">import/no-default-export</a></a></h4>
+<pre><code class="language-js">// Fail
+export default function foo() {}
+
+// Pass
+export function foo() {}
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L791-L799">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesordermdimportordera"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesordermdimportordera"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/order.md">import/order</a></a></h4>
+<p>Group imports by module type and sort them alphabetically inside a group.</p>
+<p>Order of import groups:
+<a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L803-L807">[~]</a></p>
+<ol>
+<li><code>builtin</code></li>
+</ol>
+<pre><code class="language-js">import * from 'path'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L819-L823">[~]</a></p>
+<ol start="2">
+<li><code>external</code></li>
+</ol>
+<pre><code class="language-js">import * from 'lodash'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L827-L831">[~]</a></p>
+<ol start="3">
+<li><code>internal</code></li>
+</ol>
+<pre><code class="language-js">import * from 'src/utils'
+import * from '@/utils'
+import * from '~/utils'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L835-L841">[~]</a></p>
+<ol start="4">
+<li><code>parent</code></li>
+</ol>
+<pre><code class="language-js">import * from '../'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L845-L849">[~]</a></p>
+<ol start="5">
+<li><code>sibling</code></li>
+</ol>
+<pre><code class="language-js">import * from './sibling'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L853-L857">[~]</a></p>
+<ol start="6">
+<li><code>index</code></li>
+</ol>
+<pre><code class="language-js">import * from '.'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L861-L865">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulessort-importssort-importsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulessort-importssort-importsa"><a href="https://eslint.org/docs/rules/sort-imports">sort-imports</a></a></h4>
+<p>Sort import members:</p>
+<pre><code class="language-js">// Fail
+import { c, a, b } from 'module'
+
+// Pass
+import { a, b, c } from 'module'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L883-L892">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesimport-indexmdunicornimport-indexa"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesimport-indexmdunicornimport-indexa"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/import-index.md">unicorn/import-index</a></a></h4>
+<pre><code class="language-js">// Fail
+import * from './index'
+
+// Pass
+import * from '.'
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L902-L910">[~]</a></p>
+<h3 id="rules-for-regular-expressions"><a class="header" href="#rules-for-regular-expressions">Rules for regular expressions</a></h3>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L917-L918">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesprefer-named-capture-groupprefer-named-capture-groupa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-named-capture-groupprefer-named-capture-groupa"><a href="https://eslint.org/docs/rules/prefer-named-capture-group">prefer-named-capture-group</a></a></h4>
+<p>We use named capture groups as they are more explicit while matching or replacing:</p>
+<pre><code class="language-js">// Fail
+const regexp = /(ba[rz])/
+const groupResult = regexp.exec('bar')[1] // 'bar'
+'foobar'.replace(regexp, '($1)') // 'foo(bar)'
+
+// Pass
+const regexp = /(?&lt;named&gt;ba[rz])/
+const groupResult = regexp.exec('bar').groups.named // 'bar'
+'foobar'.replace(regexp, '($&lt;named&gt;)') // 'foo(bar)'
+</code></pre>
+<p>If you don't need the result of capturing, mark group as a non-capturing:</p>
+<pre><code class="language-js">// Pass
+const regexp = /(?:ba[rz])/
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L926-L944">[~]</a></p>
+<h4 id="a-hrefhttpseslintorgdocsrulesprefer-regex-literalsprefer-regex-literalsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-regex-literalsprefer-regex-literalsa"><a href="https://eslint.org/docs/rules/prefer-regex-literals">prefer-regex-literals</a></a></h4>
+<pre><code class="language-js">// Fail
+new RegExp(&quot;abc&quot;)
+
+// Pass
+/abc/
+new RegExp(someVariable)
+new RegExp(`${prefix}abc`)
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L948-L958">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesbetter-regexmdunicornbetter-regexa"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesbetter-regexmdunicornbetter-regexa"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/better-regex.md">unicorn/better-regex</a></a></h4>
+<pre><code class="language-js">// Fail
+/[0-9]/
+
+// Pass
+/\d/
+</code></pre>
+<p><a href="https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/base.js#L962-L970">[~]</a></p>
 
                     </main>
 
