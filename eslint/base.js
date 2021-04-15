@@ -2,24 +2,22 @@ const { merge } = require('webpack-merge')
 
 /**
  * @Article Base
- * ## Syntactic rules
- * ### Principles
+ * ## Principles
+ * ### Syntax
  * 1. Using Prettier for better formatting.
- * 2. Syntactic homogeneity. Semantically identical construction must be implemented by syntactic identical construction, except in cases of using shorthand techniques which helps to avoid extra syntactic noise. We fix spacings, paddings, quotes and shorthand techniques. Related rules: `curly`, `dot-notation`, `operator-assignment`, `padding-line-between-statements`, `prefer-const`, `object-shorthand`, `import-index`
- * Иногда этот принцип может конфликтовать с explicitness (no-undef-init, no-useless-undefined), в таком случае предпочтение отдаётся explicitness
- * 3. Minimization of git diffs, when code is being changed or refactored. Code changing or extending must change minimal count of symbols which aren't connected with change of logic. Related rules: `prettier/prettier`
- * 4. Minimization of disabling eslint rules. Rules shouldn't interfere with writing code. Rules should never be permanently switched off. Disabling rules is possible only as an exception and a temporary measure. Because of this, we don't use next rules: `no-mixed-operators`, `prefer-arrow/*`, `prefer-arrow-callback`, `no-useless-return`, etc.
- * 5. All kinds of undesirable constructions must be fixed. Because of it, we can't use warnings. Warnings may not be corrected very long time. It adds noise to the result of building project. Warnings can be allowed only in situation of long refactoring as a temporary measure.
+ * 2. Syntactic homogeneity. Semantically identical constructions must use the same syntax. To achieve that we fix spacings, paddings, quotes, shorthand techniques, etc. E.g., `curly` and `dot-notation`.
+ * 3. Minimization of git diffs when code is being changed or refactored. Changing or extending code must change minimal count of symbols which aren't connected with the change in logic. By the most part this is achieved by using Prettier.
+ * 4. Avoid disabling linting rules. We believe that linting rules shouldn't interfere with writing code. Disabling rules is allowed as an exception and a temporary measure. Because of this, we don't use frequently disabled rules like `no-mixed-operators`, `prefer-arrow-callback`, `no-useless-return`, etc.
+ * 5. No warnings. All kinds of undesirable constructions must be fixed. Warning add noise to the result of project building and quickly become being ignored. As an exception warnings are allowed in a situation of a long refactoring but only as a temporary measure.
  */
 
 /**
  * @Article Base
- * ## Semantic rules
- * ### Principles
- * 1. Explicit is better than implicit. JS has many implicit defaults. We strictly prefer using explicit semantic construction and not using ambiguous construction. Also, when it can make our code longer. E.g.: `radix`, `no-bitwise`, `no-implicit-coercion`, `promise/no-return-wrap`, `promise/no-new-statics`, `no-new-wrappers`.
- * 2. Minimization of possibility of errors. JavaScript is an interpreted language. Because of it, many incorrect or meaningless constructions can be detected only during execution. We try to minimize the amount of constructions that can lead to runtime errors or can be unpredictable in run-time. E.g.: `guard-for-in`, `eqeqeq`, `import/no-cycle`, `no-throw-literal`, `no-var`, `promise/catch-or-return`.
- * 3. Reasonable limitation of the programmer at work. We don't want to restrict the programmer's ability to describe programme logic. We try to restrict semantic constructions which made it extremely difficult to analyze code. E.g. we don't use next rules: `complexity`, `max-nested-callbacks`, `max-lines`, `max-depth`, etc. But we still use rules like `max-params` and `no-nested-ternary`.
- * 4. If code is checked by linter, code will be ready to deployment on production environment. Code can't contain temporary or debug construction. E.g.: `no-eval`, `no-console`, `no-debugger`, `no-unused-expressions`, `no-unused-var`, `unicorn/no-abusive-eslint-disable`
+ * ### Semantics
+ * 1. Explicit is better than implicit. JS has many implicit defaults so to avoid confusion we prefer being explicit and not using ambiguous constructions. E.g., `no-implicit-coercion`.
+ * 2. Minimization of errors. JavaScript is an interpreted language so all the incorrect or meaningless constructions can be detected only during execution. We try to minimize the amount of constructions that can lead to runtime errors. E.g., `guard-for-in` and `eqeqeq`.
+ * 3. Make code readable without limiting developers too much. We don't want for linting to be in the way of writing logic so we don't use rules like `complexity` or `max-depth`. But we still try to restrict semantic constructions which make reading code difficult and use rules like `max-params` or `no-nested-ternary`.
+ * 4. Make sure code is ready for production environment. Code shouldn't contain temporary or debug construction. E.g., `no-eval`, `no-console`, `no-debugger`, etc.
  */
 
 /**
@@ -527,7 +525,7 @@ const baseConfig = {
     /**
      * @Article Base
      * #### [~~no-use-before-define~~](https://eslint.org/docs/rules/no-use-before-define)
-     * We don't enable this rule as it is often more practical to place usages before definitions. E.g. in React component it is better to place component code first and helper functions below. That way the most important thing in the file comes first.
+     * We don't enable this rule as it is often more practical to place usages before definitions. E.g., in React component it is better to place component code first and helper functions below. That way the most important thing in the file comes first.
      */
     'no-use-before-define': 'off',
   },
@@ -535,7 +533,7 @@ const baseConfig = {
 
 /**
  * @Article Base
- * ## Unicorn
+ * ### Unicorn
  * Additional rules from [`eslint-config-unicorn`](https://github.com/sindresorhus/eslint-plugin-unicorn).
  */
 const unicornConfig = {
@@ -619,7 +617,7 @@ const unicornConfig = {
 
 /**
  * @Article Base
- * ## Rules for asynchronous code
+ * ### Rules for asynchronous code
  * Using [`eslint-config-promise`](https://github.com/xjamundx/eslint-plugin-promise).
  */
 const promiseConfig = {
@@ -721,7 +719,7 @@ const promiseConfig = {
 const importConfig = {
   /**
    * @Article Base
-   * ## Import rules
+   * ### Import rules
    * Using [`eslint-config-import`](https://github.com/benmosher/eslint-plugin-import) and [`eslint-config-unicorn`](https://github.com/sindresorhus/eslint-plugin-unicorn).
    */
   plugins: ['import', 'unicorn'],
@@ -917,7 +915,7 @@ const importConfig = {
 
 /**
  * @Article Base
- * ## Rules for regular expressions
+ * ### Rules for regular expressions
  */
 const regexConfig = {
   // todo: look through https://github.com/ota-meshi/eslint-plugin-regexp

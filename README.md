@@ -99,4 +99,4 @@ module.exports = {
 }
 ```
 
-You can find more recommendations for manual configuration [here](./SELF_CONFIG.md)
+You can find more recommendations for manual configuration [here](eslint/Recommendations.md).
