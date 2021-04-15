@@ -1,6 +1,4 @@
 /**
- * @Article Node JS
- *
  * > NOTE: We don't use special syntactic limitations for Node enviroment, because we prefer to use same syntax for all enviroments.
  * ## Semantic rules
  * ### Principles
@@ -43,7 +41,8 @@ module.exports = {
     'security-node/detect-insecure-randomness': 'error',
     'security-node/detect-non-literal-require-calls': 'error',
     'security-node/detect-dangerous-redirects': 'error',
-    'security-node/detect-option-rejectunauthorized-in-nodejs-httpsrequest': 'error',
+    'security-node/detect-option-rejectunauthorized-in-nodejs-httpsrequest':
+      'error',
     'security-node/detect-runinthiscontext-method-in-nodes-vm': 'error',
     'security-node/disable-ssl-across-node-server': 'error',
     'security-node/non-literal-reg-expr': 'error',
