@@ -1,15 +1,19 @@
+[CSSSR](https://csssr.com)'s linting configs for Prettier and ESLint.
+
+## [Documentation](docs_src/SUMMARY.md)
+
 ## Installation
 
-First install `csssr-base-lint` itself:
+First install `@csssr/linters` itself:
 ```bash
-npm i -D CSSSR/csssr-base-lint
+npm i -D @csssr/linters
 
-yarn add -D CSSSR/csssr-base-lint
+yarn add -D @csssr/linters
 ```
 
 Then install peer dependencies (Prettier, ESLint and its plugins):
 ```bash
-npx install-peerdeps -D CSSSR/csssr-base-lint
+npx install-peerdeps -D @csssr/linters
 ```
 
 ## Prettier configuration
@@ -19,7 +23,7 @@ You may use your own Prettier config or use predefined one:
 ```js
 // File: .prettierrc.js
 module.exports = {
-  ...require('csssr-base-lint/prettier.config'),
+  ...require('@csssr/linters/prettier.config'),
 }
 ```
 
@@ -38,8 +42,8 @@ Install [`@babel/eslint-parser`](https://github.com/babel/babel/tree/main/eslint
 module.exports = {
   parser: "@babel/eslint-parser",
   extends: [
-    require.resolve('csssr-base-lint/eslint/base'),
-    require.resolve('csssr-base-lint/eslint/react'),
+    require.resolve('@csssr/linters/eslint/base'),
+    require.resolve('@csssr/linters/eslint/react'),
   ],
 }
 ```
@@ -50,9 +54,9 @@ module.exports = {
 // File: .eslintrc.js
 module.exports = {
   extends: [
-    require.resolve('csssr-base-lint/eslint/base'),
-    require.resolve('csssr-base-lint/eslint/react'),
-    require.resolve('csssr-base-lint/eslint/typescript'),
+    require.resolve('@csssr/linters/eslint/base'),
+    require.resolve('@csssr/linters/eslint/react'),
+    require.resolve('@csssr/linters/eslint/typescript'),
   ],
 }
 ```
@@ -69,9 +73,9 @@ Feel free to add new plugins and rules and disable existing rules which are not 
 // File: .eslintrc.js
 module.exports = {
   extends: [
-    require.resolve('csssr-base-lint/eslint/base'),
-    require.resolve('csssr-base-lint/eslint/react'),
-    require.resolve('csssr-base-lint/eslint/typescript'),
+    require.resolve('@csssr/linters/eslint/base'),
+    require.resolve('@csssr/linters/eslint/react'),
+    require.resolve('@csssr/linters/eslint/typescript'),
   ],
   plugins: ['todo-plz'],
   rules: {

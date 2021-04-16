@@ -1,7 +1,7 @@
 {
-  "name": "csssr-base-lint",
-  "version": "0.0.1",
-  "description": "",
+  "name": "@csssr/linters",
+  "version": "0.1.0",
+  "description": "CSSSR's linting configs for Prettier and ESLint",
   "scripts": {
     "build": "fundoc"
   },
@@ -9,8 +9,6 @@
     "type": "git",
     "url": "git+https://github.com/CSSSR/csssr-base-lint.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/CSSSR/csssr-base-lint/issues"
   },
