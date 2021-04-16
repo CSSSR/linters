@@ -11,7 +11,7 @@
  */
 
 module.exports = {
-  plugins: ['node', 'security-node'], // TODO добавить `eslint-plugin-security`
+  plugins: ['node', 'security-node'], // TODO add `eslint-plugin-security`
   rules: {
     'no-console': 'off',
 

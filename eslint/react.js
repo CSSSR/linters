@@ -32,7 +32,7 @@ const reactConfig = {
   extends: [
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    // Чтобы перебить правила react
+    // To override React rules
     'plugin:prettier/recommended',
   ],
   settings: {

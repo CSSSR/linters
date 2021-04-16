@@ -574,7 +574,7 @@ const unicornConfig = {
           pascalCase: true,
         },
         ignore: [
-          // en-US и другие возможные названия файлов локализации
+          // en-US and other locale files
           /^[a-z]{2}-[A-Z]{2}\./,
         ],
       },
@@ -981,9 +981,9 @@ const regexConfig = {
 module.exports = merge(
   {
     env: {
-      browser: true, // window, document и т.д.
+      browser: true, // window, document
       es6: true,
-      node: true, // process, module, require и т.д.
+      node: true, // process, module, require
       jest: true, // describe, it, expect
     },
   },
@@ -992,6 +992,6 @@ module.exports = merge(
   regexConfig,
   promiseConfig,
   importConfig,
-  // обязательно последний, т.к. отключает правила из eslint, unicorn, react и других конфигов
+  // Prettier config should always go last to override conflicting rules from other configs
   prettierConfig
 )
