@@ -4,7 +4,7 @@
   "files_patterns": [
     "**/*.js"
   ],
-  "repository_host": "https://github.com/CSSSR/csssr-base-lint/blob/master/",
+  "repository_host": "https://github.com/CSSSR/linters/blob/master/",
   "comment_start_string": "/**",
   "comment_prefix": "*",
   "comment_end_string": "*/",

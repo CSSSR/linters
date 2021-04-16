@@ -7,12 +7,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CSSSR/csssr-base-lint.git"
+    "url": "git+https://github.com/CSSSR/linters.git"
   },
   "bugs": {
-    "url": "https://github.com/CSSSR/csssr-base-lint/issues"
+    "url": "https://github.com/CSSSR/linters/issues"
   },
-  "homepage": "https://github.com/CSSSR/csssr-base-lint#readme",
+  "homepage": "https://github.com/CSSSR/linters#readme",
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "eslint": "^7.21.0",
