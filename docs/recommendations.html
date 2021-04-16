@@ -3,10 +3,8 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title></title>
+        <title>Recommendations - CSSSR Linting</title>
         
-        
-        <base href="/">
         
 
 
@@ -97,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">1.</strong> TypeScript</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">4.</strong> Recommendations</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">1.</strong> TypeScript</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="recommendations.html" class="active"><strong aria-hidden="true">4.</strong> Recommendations</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -165,13 +163,72 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <h1 id="recommendations"><a class="header" href="#recommendations">Recommendations</a></h1>
+<p>Here we present some advices regarding further ESLint configuration in your project.</p>
+<h2 id="recommended-rules-for-manual-configuration"><a class="header" href="#recommended-rules-for-manual-configuration">Recommended rules for manual configuration</a></h2>
+<p>There are some helpful ESLint rules and plugins which are too strict to enable for all projects. We recommend to look through them and enable those that fit your project's needs.</p>
+<h3 id="javascript"><a class="header" href="#javascript">JavaScript</a></h3>
+<ul>
+<li><a href="https://github.com/sawyerh/eslint-plugin-todo-plz"><code>todo-plz/ticket-ref</code></a> — require TODOs to contain an associated issue ticket:
+<pre><code class="language-js">// Fail
+// TODO fix that later
+
+// Pass
+// TODO will be fixed in PROJ-123
+</code></pre>
+</li>
+<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/dynamic-import-chunkname.md"><code>import/dynamic-import-chunkname</code></a> — if you are using dynamic imports in webpack.</li>
+<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md"><code>import/no-extraneous-dependencies</code></a> — forbid importing dependencies which are not listed as dependencies in <code>package.json</code>.</li>
+<li><a href="https://github.com/mozilla/eslint-plugin-no-unsanitized"><code>eslint-plugin-no-unsanitized</code></a> — if you are inserting HTML directly in JS. You'll need to choose a sanitizer library and configure this plugin accordingly.</li>
+</ul>
+<h3 id="typescript"><a class="header" href="#typescript">TypeScript</a></h3>
+<ul>
+<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unnecessary-condition.md"><code>@typescript-eslint/no-unnecessary-condition</code></a> — requires TS 4.1 or higher with <code>noUncheckedIndexedAccess</code> option enabled. Combination of this TS option and linting rule will provide better type safety but you'll need to write more type guards.
+<pre><code class="language-ts">const items: Item[] = []
+
+// Fail
+// noUncheckedIndexedAccess: false
+const item = items[0] // type: Item
+if (item) {} // no-unnecessary-condition will report error here
+
+// Pass
+// noUncheckedIndexedAccess: true
+const item = items[0] // type: Item | undefined
+if (item) {}
+</code></pre>
+</li>
+<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md"><code>@typescript-eslint/switch-exhaustiveness-check</code></a> — it may be overkill to enable this rule globally so you can enable it in specific files and/or use <a href="https://github.com/krzkaczor/ts-essentials#exhaustive-switch-cases"><code>UnreachableCaseError</code> from <code>ts-essentials</code></a></li>
+</ul>
+<h3 id="react"><a class="header" href="#react">React</a></h3>
+<ul>
+<li><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><code>react-hooks/exhaustive-deps</code></a> — we recommend enable this rule only the files which are heavily rely on memoization. In some situations following this rule may lead to breaking logic (e.g. when <code>useEffect</code> is used as a watcher). To enable this rule in specific file add this comment at the file start:
+<pre><code class="language-js">/* eslint react-hooks/exhaustive-deps: &quot;error&quot; */
+</code></pre>
+</li>
+<li><a href="https://github.com/cvazac/eslint-plugin-react-perf"><code>eslint-plugin-react-perf</code></a> — this plugin has several rules requiring memoization of objects, arrays and functions and JSX passed as props. These rules may be helpful in performance-critical places, but it may be too restrictive to enable them globally. We recommend enabling these rules either via <a href="https://eslint.org/docs/user-guide/configuring/configuration-files#how-do-overrides-work"><code>overrides</code> ESLing config field</a> or by adding this comment in specific files:
+<pre><code class="language-js">/* eslint
+    react-perf/jsx-no-new-object-as-prop: &quot;error&quot;,
+    react-perf/jsx-no-new-array-as-prop: &quot;error&quot;,
+    react-perf/jsx-no-new-function-as-prop: &quot;error&quot;,
+    react-perf/jsx-no-jsx-as-prop: &quot;error&quot;
+*/
+</code></pre>
+</li>
+<li><a href="https://github.com/DianaSuvorova/eslint-plugin-react-redux"><code>eslint-plugin-react-redux</code></a> — for projects using Redux.</li>
+<li><a href="https://github.com/jonaskello/eslint-plugin-functional#no-mutations-rules"><code>plugin:functional/no-mutations</code></a> — if you want to enforce usage of readonly data structures and avoid mutations. </li>
+</ul>
+<h2 id="linting-performance"><a class="header" href="#linting-performance">Linting performance</a></h2>
+<p>If you feel that linting your project takes too long you can run ESLint with <a href="https://eslint.org/docs/developer-guide/working-with-rules-deprecated#per-rule-performance"><code>TIMING=1</code> environment variable</a> and it'll show you which rules are taking the most time.</p>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/Recommendations.fdoc.md#L1-L1">[~]</a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="base.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
                         
 
                         
@@ -182,6 +239,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="base.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
                 
 
                 

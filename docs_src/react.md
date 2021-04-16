@@ -7,7 +7,7 @@
 2. Making JSX more compact. JSX is similar to HTML and tend to extend by width. We use rules which help make our markup narrower. E.g., `react/jsx-boolean-value`.
 3. Minimizing the count of symbols and their kinds. JSX (as HTML too) has very noisy syntax. We try to omit unnecessary and optional symbols and prefer to use more compact syntax. When we need to use some decorative symbols, we prefer more consistent syntax. E.g., `react/jsx-no-useless-fragment`, `react/jsx-tag-spacing`.
 4. We try not to affect the look of JSX code too much so we don't force the use of specific form of syntax. E.g., we don't use `react/jsx-sort-props`.
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L4-L11)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L4-L11)
 
 ### Semantics
 1. Explicit declaration React semantics rules. React and JSX have many specific semantic rules, the violation of which leads to error. For example react hooks, lifecycle, component declarations have many implicit rules which has no meaning in Vanilla JS context. But if this rules is breaked, react will works incorrectly. Because JS interpreter(and base linting rules for JS) doesn't know anything about `state`, `props`, `lifecycle`, `hooks` and so on. We declare this rules in linting and help base lint rules(as "no-unused-vars") works with React syntax/semantics. E.g., `react-hooks/rules-of-hooks`, `react/no-typos`, `react/jsx-no-constructed-context-values`, `react/no-access-state-in-setstate`, etc.
@@ -17,11 +17,11 @@
 5. Enforce usage of `prop-types` in non-TS projects. We prefer to use `props-types` because it is a standardized way to declare component API. That's why we enable rules helping to write better prop types: e.g., `react/prop-types`, `react/forbid-prop-types`, `react/no-unused-prop-types` etc.
 6. Don't specify naming for React props. Though React code has typical props templates (handlers, boolean flags, etc), we don't enforce naming convention for them. Naming convention must be project-specific so we don't use rules like `react/boolean-prop-naming` or `react/jsx-handler-names`. We still use `react/jsx-pascal-case` to encourage consistent component naming between projects.
 7. Don't enforce conventions about structure of your project and components. All these conventions are be project-specific and must be defined by project developers. We don't use rules like `react/static-property-placement`, `react/no-multi-comp` or `react/jsx-max-depth`.
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L15-L23)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L15-L23)
 
 ## React rules
 As a base we use recommended configs from [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react) and [`eslint-plugin-react-hooks`](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks).
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L28-L30)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L28-L30)
 
 #### [react/button-has-type](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/button-has-type.md)
 ```jsx
@@ -31,7 +31,7 @@ return <button>Hello</button>
 // Pass
 return <button type="button">Hello</button>
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L53-L61)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L53-L61)
 
 #### [react/default-props-match-prop-types](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/default-props-match-prop-types.md)
 ```js
@@ -56,7 +56,7 @@ MyComponent.defaultProps = {
 foo: "foo"
 }
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L65-L88)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L65-L88)
 
 #### [react/forbid-prop-types](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md)
 ```js
@@ -77,7 +77,7 @@ c2: PropTypes.string,
 })
 }
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L92-L111)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L92-L111)
 
 #### [react/function-component-definition](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/function-component-definition.md)
 We prefer components as arrow function for the sake of homogeneity. Benefit of arrow function over function expression is inability to use `this`.
@@ -88,7 +88,7 @@ export function MyComponent() {}
 // Pass
 export const MyComponent = () => {}
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L115-L124)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L115-L124)
 
 #### [react/jsx-boolean-value](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md)
 ```jsx
@@ -98,7 +98,7 @@ return <Component disabled={true} />
 // Pass
 return <Component disabled />
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L134-L142)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L134-L142)
 
 #### [react/jsx-fragments](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-fragments.md)
 ```jsx
@@ -109,7 +109,7 @@ return <React.Fragment>...</React.Fragment>
 return <>...</>
 return <React.Fragment key="key">...</React.Fragment>
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L146-L155)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L146-L155)
 
 #### [react/jsx-no-constructed-context-values](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md)
 ```jsx
@@ -128,7 +128,7 @@ return (
 </MyContext.Provider>
 )
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L159-L176)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L159-L176)
 
 #### [react/jsx-pascal-case](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md)
 ```jsx
@@ -139,7 +139,7 @@ return <MY_COMPONENT />
 // Pass
 return <MyComponent />
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L180-L189)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L180-L189)
 
 #### [react/no-access-state-in-setstate](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-access-state-in-setstate.md)
 ```js
@@ -149,7 +149,7 @@ this.setState({ value: this.state.value + 1 })
 // Pass
 this.setState(state => ({ value: state.value + 1 }))
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L193-L201)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L193-L201)
 
 #### [react/no-array-index-key](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md)
 In a few cases when only index is available as a key, rule can be disabled for a specific line.
@@ -164,14 +164,14 @@ return items.map((item, index) => (
 <Item key={item.id} />
 ))
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L205-L218)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L205-L218)
 
 #### [react/no-danger](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md)
 ```jsx
 // Fail
 return <div dangerouslySetInnerHTML={{ __html: 'Hello World' }}></div>
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L222-L227)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L222-L227)
 
 #### [react/no-typos](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-typos.md)
 ```js
@@ -197,7 +197,7 @@ componentWillMount() {}
 componentDidUpdate() {}
 }
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L231-L255)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L231-L255)
 
 #### [react/no-unsafe](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unsafe.md)
 ```js
@@ -208,7 +208,7 @@ UNSAFE_componentWillReceiveProps() {}
 UNSAFE_componentWillUpdate() {}
 }
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L259-L268)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L259-L268)
 
 #### [react/no-unused-prop-types](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-prop-types.md)
 ```jsx
@@ -226,7 +226,7 @@ firstName: PropTypes.string,
 lastName: PropTypes.string,
 }
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L272-L288)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L272-L288)
 
 #### [react/prefer-stateless-function](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md)
 Though we prefer to use functional components with hooks over class components, we don't enforce it for all the components, only for class components with no state or lifecycle methods.
@@ -241,7 +241,7 @@ return <span>{this.props.name}</span>
 // Pass
 const MyComponent = ({ name }) => <span>{name}</span>
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L292-L305)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L292-L305)
 
 #### [react/self-closing-comp](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md)
 ```jsx
@@ -251,50 +251,50 @@ return <MyComponent></MyComponent>
 // Pass
 return <MyComponent />
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L309-L317)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L309-L317)
 
 ### Disabling recommended rules
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L322-L323)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L322-L323)
 
 #### [~~react/display-name~~](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md)
 Disabled this rule as it gives false positives for render props.
 Also we prefer named exports which guarantees that exported component functions have proper names.
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L326-L329)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L326-L329)
 
 #### [~~react/react-in-jsx-scope~~](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md)
 Disabled this rule as it is common to have React as a global variable (e.g., out-of-the-box in Next.js or via webpack's ProvidePlugin).
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L333-L335)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L333-L335)
 
 #### [~~react-hooks/exhaustive-deps~~](https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration)
 This rule may trigger a lot of unwanted errors when `useEffect` is used as watcher.
 It is recommended to manually enable this rule inside files which heavily rely on memoization.
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L339-L342)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L339-L342)
 
 ## JSX A11y rules
 Using `plugin:jsx-a11y/recommended` config as a starting point.
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L359-L361)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L359-L361)
 
 ### Disabling recommended rules
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L367-L368)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L367-L368)
 
 #### [~~jsx-a11y/accessible-emoji~~](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md)
 Deprecated
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L371-L373)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L371-L373)
 
 #### [~~jsx-a11y/no-onchange~~](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-onchange.md)
 Deprecated
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L377-L379)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L377-L379)
 
 #### [~~jsx-a11y/label-has-associated-control~~](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md)
 Disabled until [this issue](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/511) is fixed.
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L383-L385)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L383-L385)
 
 #### [~~jsx-a11y/no-autofocus~~](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md)
 It may be [considered OK](https://www.brucelawson.co.uk/2009/the-accessibility-of-html-5-autofocus/) to use `autofocus` on pages which consist only of form (e.g., login page). In other cases usage of `autofocus` may lead to a confusion of a screen reader user. We leave the decision to use autofocus to developers on a case-by-case basis.
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L389-L391)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L389-L391)
 
 ### Clarifying recommended rules
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L396-L397)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L396-L397)
 
 #### [jsx-a11y/anchor-is-valid](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md)
 ```jsx
@@ -305,7 +305,7 @@ return <a onClick={foo}>Perform action</a>
 return <a href="/some/valid/uri">Navigate to page</a>
 ```
 This rule may lead to a lot of errors when linting Next.js projects so consider either turning it off or [following these recommendations](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-use-nextjs-and-im-getting-this-error-inside-of-links).
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L400-L409)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L400-L409)
 
 #### [jsx-a11y/mouse-events-have-key-events](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md)
 If an element has some logic tied to hover it should be duplicated via focus/blur keyboard events. It is important for both purely visual changes (e.g., highlighting) and actual page changes (e.g., showing hint).
@@ -322,7 +322,7 @@ onFocus={() => {}}
 />
 )
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L413-L428)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L413-L428)
 
 #### [jsx-a11y/anchor-has-content](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md)
 This rule is always linting `<a>` tags. Additionally we configured this rule for `<Link>` component. If you have other custom link components configure this rule inside your project specifying the name of your custom link component.
@@ -335,4 +335,4 @@ return <Link />
 return <a>Link content</a>
 return <Link>Link content</Link>
 ```
-[[~]](https://github.com/CSSSR/csssr-base-lint/blob/master/eslint/react.js#L432-L443)
+[[~]](https://github.com/CSSSR/linters/blob/master/eslint/react.js#L432-L443)
