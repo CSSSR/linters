@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">1.</strong> React</a></li><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">2.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="typescript.html" class="active"><strong aria-hidden="true">4.</strong> TypeScript</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="typescript.html" class="active"><strong aria-hidden="true">1.</strong> TypeScript</a></li><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">2.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">4.</strong> React</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -171,252 +171,215 @@
 <h3 id="upgrading-warnings-from-recommended-config-to-errors"><a class="header" href="#upgrading-warnings-from-recommended-config-to-errors">Upgrading warnings from recommended config to errors</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L22-L23">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/explicit-module-boundary-types.md">@typescript-eslint/explicit-module-boundary-types</a></a></h4>
-<pre><code> Exported functions should have return type declared explicitly to avoid unexpected changes in return type.
- In case you want all functions to have return type specified, use rule `@typescript-eslint/explicit-function-return-type`.
- ```ts
- // Fail
- export const getString = () =&gt; 'string'
+<p>Exported functions should have return type declared explicitly to avoid unexpected changes in return type.
+In case you want all functions to have return type specified, use rule <code>@typescript-eslint/explicit-function-return-type</code>.</p>
+<pre><code class="language-ts">// Fail
+export const getString = () =&gt; 'string'
 
- // Pass
- export const getString = (): string =&gt; 'string'
- const getString = () =&gt; 'string'
- ```
+// Pass
+export const getString = (): string =&gt; 'string'
+const getString = () =&gt; 'string'
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L27-L38">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-explicit-any.md">@typescript-eslint/no-explicit-any</a></a></h4>
-<pre><code> ```ts
- // Fail
- let a: any
+<pre><code class="language-ts">// Fail
+let a: any
 
- // Pass
- let a: unknown
- ```
+// Pass
+let a: unknown
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L42-L50">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-non-null-assertion.md">@typescript-eslint/no-non-null-assertion</a></a></h4>
-<pre><code> ```ts
- // Fail
- return foo!.bar
+<pre><code class="language-ts">// Fail
+return foo!.bar
 
- // Pass
- return foo?.bar
- ```
+// Pass
+return foo?.bar
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L54-L62">[~]</a></p>
 <h3 id="clarifying-recommended-rules"><a class="header" href="#clarifying-recommended-rules">Clarifying recommended rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L67-L68">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-floating-promises.md">@typescript-eslint/no-floating-promises</a></a></h4>
-<pre><code> If function returns promise but we want to ignore this promise it should be explicitly shown that this is an async function call. Add `void` before such function calls to distinguish them from synchronous ones.
- ```ts
- const asyncSideEffect = async () =&gt; { await doSomething() }
+<p>If function returns promise but we want to ignore this promise it should be explicitly shown that this is an async function call. Add <code>void</code> before such function calls to distinguish them from synchronous ones.</p>
+<pre><code class="language-ts">const asyncSideEffect = async () =&gt; { await doSomething() }
 
- // Fail
- asyncSideEffect()
+// Fail
+asyncSideEffect()
 
- // Pass
- await asyncSideEffect() // wait for result
- void asyncSideEffect() // ignore and don't wait
- ```
+// Pass
+await asyncSideEffect() // wait for result
+void asyncSideEffect() // ignore and don't wait
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L72-L84">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/restrict-template-expressions.md">@typescript-eslint/restrict-template-expressions</a></a></h4>
-<pre><code> Avoid `null` or `undefined` being included in a string:
- ```ts
- // Fail
- const print = (a?: string | null) =&gt; `a: ${a}`
+<p>Avoid <code>null</code> or <code>undefined</code> being included in a string:</p>
+<pre><code class="language-ts">// Fail
+const print = (a?: string | null) =&gt; `a: ${a}`
 
- // Pass
- const print = (a?: string | null) =&gt; `a: ${a ?? 'empty'}`
- ```
+// Pass
+const print = (a?: string | null) =&gt; `a: ${a ?? 'empty'}`
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L88-L97">[~]</a></p>
 <h3 id="disabling-recommended-rules"><a class="header" href="#disabling-recommended-rules">Disabling recommended rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L102-L103">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-assignment.md"><del>@typescript-eslint/no-unsafe-assignment</del></a></a></h4>
-<pre><code> #### [~~@typescript-eslint/no-unsafe-call~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-call.md)
- #### [~~@typescript-eslint/no-unsafe-member-access~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-member-access.md)
- #### [~~@typescript-eslint/no-unsafe-return~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-return.md)
- Disabled this group of rules as they flag usages of external libraries which typings contain `any.`
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L107-L112">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-callmddeltypescript-eslintno-unsafe-calldela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-callmddeltypescript-eslintno-unsafe-calldela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-call.md"><del>@typescript-eslint/no-unsafe-call</del></a></a></h4>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-member-accessmddeltypescript-eslintno-unsafe-member-accessdela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-member-accessmddeltypescript-eslintno-unsafe-member-accessdela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-member-access.md"><del>@typescript-eslint/no-unsafe-member-access</del></a></a></h4>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-returnmddeltypescript-eslintno-unsafe-returndela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-returnmddeltypescript-eslintno-unsafe-returndela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-return.md"><del>@typescript-eslint/no-unsafe-return</del></a></a></h4>
+<p>Disabled this group of rules as they flag usages of external libraries which typings contain <code>any.</code>
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L107-L112">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/unbound-method.md"><del>@typescript-eslint/unbound-method</del></a></a></h4>
-<pre><code> Disabled as it flags usages of unbound methods from external libraries (e.g., `_.noop` from Lodash)
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L119-L121">[~]</a></p>
+<p>Disabled as it flags usages of unbound methods from external libraries (e.g., <code>_.noop</code> from Lodash)
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L119-L121">[~]</a></p>
 <h3 id="enabling-new-rules"><a class="header" href="#enabling-new-rules">Enabling new rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L126-L127">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/array-type.md#array-simple">@typescript-eslint/array-type.md</a></a></h4>
-<pre><code> Use `T[]` for primitives and type references and `Array&lt;T&gt;` for other cases:
- ```ts
- // Fail
- type A = Array&lt;string&gt;
- type B = { param: string }[]
- type C = (string | number)[]
+<p>Use <code>T[]</code> for primitives and type references and <code>Array&lt;T&gt;</code> for other cases:</p>
+<pre><code class="language-ts">// Fail
+type A = Array&lt;string&gt;
+type B = { param: string }[]
+type C = (string | number)[]
 
- // Pass
- type A = string[]
- type B = Array&lt;{ param: string }&gt;
- type C = Array&lt;string | number&gt;
- ```
+// Pass
+type A = string[]
+type B = Array&lt;{ param: string }&gt;
+type C = Array&lt;string | number&gt;
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L131-L144">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-indexed-object-style.md">@typescript-eslint/consistent-indexed-object-style</a></a></h4>
-<pre><code> ```ts
- // Fail
- type A = { [key: Key]: Value }
+<pre><code class="language-ts">// Fail
+type A = { [key: Key]: Value }
 
- // Pass
- type A = Record&lt;Key, Value&gt;
- ```
+// Pass
+type A = Record&lt;Key, Value&gt;
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L148-L156">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-assertions.md">@typescript-eslint/consistent-type-assertions</a></a></h4>
-<pre><code> To prevent conflicts with JSX:
- ```ts
- // Fail
- const a = &lt;T&gt;b
+<p>To prevent conflicts with JSX:</p>
+<pre><code class="language-ts">// Fail
+const a = &lt;T&gt;b
 
- // Pass
- const a = b as T
- ```
+// Pass
+const a = b as T
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L160-L169">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-definitions.md">@typescript-eslint/consistent-type-definitions</a></a></h4>
-<pre><code> Prefer `type` to `interface`:
- `type` can be used for any type variations (objects, arrays, unions, primitives and so on) while `interface` is only for object shapes. So for the sake of consistency it is better to use `type` everywhere and not mix it with `interface`.
- `type` can only be defined once, while `interface` can be defined multiple times and these definitions [will merge](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces).
- ```ts
- // Fail
- interface A {
-   foo: string
- }
+<p>Prefer <code>type</code> to <code>interface</code>:</p>
+<ul>
+<li><code>type</code> can be used for any type variations (objects, arrays, unions, primitives and so on) while <code>interface</code> is only for object shapes. So for the sake of consistency it is better to use <code>type</code> everywhere and not mix it with <code>interface</code>.</li>
+<li><code>type</code> can only be defined once, while <code>interface</code> can be defined multiple times and these definitions <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces">will merge</a>.</li>
+</ul>
+<pre><code class="language-ts">// Fail
+interface A {
+  foo: string
+}
 
- // Pass
- type A = {
-   foo: string
- }
- ```
+// Pass
+type A = {
+  foo: string
+}
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L173-L188">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md">@typescript-eslint/consistent-type-imports</a></a></h4>
-<pre><code> Prefer [type imports](https://devblogs.microsoft.com/typescript/announcing-typescript-3-8-beta/#type-only-imports-exports): it helps to better distinguish types from similarly named variables and avoid `import/no-cycle` errors when importing types.
- `import type { T } from 'lib'`
- ```ts
- // Fail
- import { T } from 'lib'
+<p>Prefer <a href="https://devblogs.microsoft.com/typescript/announcing-typescript-3-8-beta/#type-only-imports-exports">type imports</a>: it helps to better distinguish types from similarly named variables and avoid <code>import/no-cycle</code> errors when importing types.
+<code>import type { T } from 'lib'</code></p>
+<pre><code class="language-ts">// Fail
+import { T } from 'lib'
 
- // Pass
- import type { T } from 'lib'
- ```
- There are [some cases](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md#when-not-to-use-it) when you might need to disable this rule (e.g. with NestJS).
+// Pass
+import type { T } from 'lib'
 </code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L192-L203">[~]</a></p>
+<p>There are <a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md#when-not-to-use-it">some cases</a> when you might need to disable this rule (e.g. with NestJS).
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L192-L203">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/method-signature-style.md">@typescript-eslint/method-signature-style</a></a></h4>
-<pre><code> ```ts
- // Fail
- type A = {
-   method(): void
- }
+<pre><code class="language-ts">// Fail
+type A = {
+  method(): void
+}
 
- // Pass
- type A = {
-   method: () =&gt; void
- }
- ```
+// Pass
+type A = {
+  method: () =&gt; void
+}
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L207-L219">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md">@typescript-eslint/naming-convention</a></a></h4>
-<pre><code> The only common naming convention we enforce is PascalCase for types.
- You may add more naming conventions based on your project needs.
- ```ts
- // Fail
- type myType = {}
+<p>The only common naming convention we enforce is PascalCase for types.
+You may add more naming conventions based on your project needs.</p>
+<pre><code class="language-ts">// Fail
+type myType = {}
 
- // Pass
- type MyType = {}
- ```
+// Pass
+type MyType = {}
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L223-L233">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-nullish-coalescing.md">@typescript-eslint/prefer-nullish-coalescing</a></a></h4>
-<pre><code> Prefer `??` to `!!` as `??` will not fallback if value is falsy (`0`, `''`, false, etc.):
- ```ts
- const a: number | null | undefined = 0
+<p>Prefer <code>??</code> to <code>!!</code> as <code>??</code> will not fallback if value is falsy (<code>0</code>, <code>''</code>, false, etc.):</p>
+<pre><code class="language-ts">const a: number | null | undefined = 0
 
- // Fail
- const b = a || 999 // result: 999
+// Fail
+const b = a || 999 // result: 999
 
- // Pass
- const b = a ?? 999 // result: 0
- ```
+// Pass
+const b = a ?? 999 // result: 0
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L243-L254">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-optional-chain.md">@typescript-eslint/prefer-optional-chain</a></a></h4>
-<pre><code> ```ts
- const a: {
-   b? : Array&lt;{
-     c?: () =&gt; void
-   }&gt;
- } | undefined = {}
+<pre><code class="language-ts">const a: {
+  b? : Array&lt;{
+    c?: () =&gt; void
+  }&gt;
+} | undefined = {}
 
- // Fail
- a &amp;&amp; a.b &amp;&amp; a.b[0] &amp;&amp; a.b[0].c &amp;&amp; a.b[0].c()
+// Fail
+a &amp;&amp; a.b &amp;&amp; a.b[0] &amp;&amp; a.b[0].c &amp;&amp; a.b[0].c()
 
- // Pass
- a?.b?.[0]?.c?.()
- ```
+// Pass
+a?.b?.[0]?.c?.()
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L258-L272">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-reduce-type-parameter.md">@typescript-eslint/prefer-reduce-type-parameter</a></a></h4>
-<pre><code> Provide result type for `Array#reduce` calls when it can't be properly inferred from initial value.
- ```ts
- // Fail
- [1, 2, 3].reduce((arr, num) =&gt; arr.concat(num 2), [] as number[])
+<p>Provide result type for <code>Array#reduce</code> calls when it can't be properly inferred from initial value.</p>
+<pre><code class="language-ts">// Fail
+[1, 2, 3].reduce((arr, num) =&gt; arr.concat(num * 2), [] as number[])
 
- // Pass
- [1, 2, 3].reduce&lt;number[]&gt;((arr, num) =&gt; arr.concat(num 2), [])
- ```
+// Pass
+[1, 2, 3].reduce&lt;number[]&gt;((arr, num) =&gt; arr.concat(num * 2), [])
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L276-L285">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-ts-expect-error.md">@typescript-eslint/prefer-ts-expect-error</a></a></h4>
-<pre><code> ```ts
- // Fail
- // @ts-ignore
- const str: string = 1
+<pre><code class="language-ts">// Fail
+// @ts-ignore
+const str: string = 1
 
- // Pass
- // @ts-expect-error: I know what I'm doing
- const str: string = 1
- ```
+// Pass
+// @ts-expect-error: I know what I'm doing
+const str: string = 1
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L289-L299">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/require-array-sort-compare.md">@typescript-eslint/require-array-sort-compare</a></a></h4>
-<pre><code> ```ts
- // Fail
- [1, 5, 10].sort() // [1, 10, 5]
+<pre><code class="language-ts">// Fail
+[1, 5, 10].sort() // [1, 10, 5]
 
- // Pass
- [1, 5, 10].sort((a, b) =&gt; a - b) // [1, 5, 10]
- ['c', 'a', 'b'].sort()
- ```
+// Pass
+[1, 5, 10].sort((a, b) =&gt; a - b) // [1, 5, 10]
+['c', 'a', 'b'].sort()
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L303-L312">[~]</a></p>
 <h3 id="ts-alternatives-to-js-rules"><a class="header" href="#ts-alternatives-to-js-rules">TS alternatives to JS rules</a></h3>
-<pre><code> Some ESLint rules have better alternatives in `@typescript-eslint` so we enable them instead of ESLint rules.
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L322-L324">[~]</a></p>
+<p>Some ESLint rules have better alternatives in <code>@typescript-eslint</code> so we enable them instead of ESLint rules.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L322-L324">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/default-param-last.md">@typescript-eslint/default-param-last</a></a></h4>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L328-L329">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/dot-notation.md">@typescript-eslint/dot-notation</a></a></h4>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L334-L335">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/init-declarations.md">@typescript-eslint/init-declarations</a></a></h4>
-<pre><code> In TS instead of `no-undef-init` we enable opposite rule `init-declarations` to avoid runtime errors with `let` variables:
- ```ts
- // Fail
- let str: string // Actually it's `undefined`, but TS sees it as a `string`
+<p>In TS instead of <code>no-undef-init</code> we enable opposite rule <code>init-declarations</code> to avoid runtime errors with <code>let</code> variables:</p>
+<pre><code class="language-ts">// Fail
+let str: string // Actually it's `undefined`, but TS sees it as a `string`
 
- // Pass
- let str: string | undefined = undefined
- ```
+// Pass
+let str: string | undefined = undefined
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L340-L349">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-duplicate-imports.md">@typescript-eslint/no-duplicate-imports</a></a></h4>
@@ -435,11 +398,11 @@
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="base.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                        
 
+                        
+                            <a rel="next" href="recommendations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -449,11 +412,11 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="base.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                
 
+                
+                    <a rel="next" href="recommendations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                 
             </nav>
 

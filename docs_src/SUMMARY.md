@@ -1,6 +1,6 @@
 # Summary
 
-* [React](./react.md)
+* [TypeScript](./typescript.md)
 * [Recommendations](./recommendations.md)
 * [Base](./base.md)
-* [TypeScript](./typescript.md)
+* [React](./react.md)
