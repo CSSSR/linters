@@ -97,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">1.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">4.</strong> TypeScript</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">1.</strong> React</a></li><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">2.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">4.</strong> TypeScript</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -165,7 +165,342 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="recommendations"><a class="header" href="#recommendations">Recommendations</a></h1>
+                        <h1 id="react"><a class="header" href="#react">React</a></h1>
+<h2 id="syntactic-rules"><a class="header" href="#syntactic-rules">Syntactic rules</a></h2>
+<h2 id="principles"><a class="header" href="#principles">Principles</a></h2>
+<h3 id="syntax"><a class="header" href="#syntax">Syntax</a></h3>
+<ol>
+<li>As with the base config we use Prettier for familiar formatting defaults.</li>
+<li>Making JSX more compact. JSX is similar to HTML and tend to extend by width. We use rules which help make our markup narrower. E.g., <code>react/jsx-boolean-value</code>.</li>
+<li>Minimizing the count of symbols and their kinds. JSX (as HTML too) has very noisy syntax. We try to omit unnecessary and optional symbols and prefer to use more compact syntax. When we need to use some decorative symbols, we prefer more consistent syntax. E.g., <code>react/jsx-no-useless-fragment</code>, <code>react/jsx-tag-spacing</code>.</li>
+<li>We try not to affect the look of JSX code too much so we don't force the use of specific form of syntax. E.g., we don't use <code>react/jsx-sort-props</code>.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L4-L11">[~]</a></li>
+</ol>
+<h3 id="semantics"><a class="header" href="#semantics">Semantics</a></h3>
+<ol>
+<li>Explicit declaration React semantics rules. React and JSX have many specific semantic rules, the violation of which leads to error. For example react hooks, lifecycle, component declarations have many implicit rules which has no meaning in Vanilla JS context. But if this rules is breaked, react will works incorrectly. Because JS interpreter(and base linting rules for JS) doesn't know anything about <code>state</code>, <code>props</code>, <code>lifecycle</code>, <code>hooks</code> and so on. We declare this rules in linting and help base lint rules(as &quot;no-unused-vars&quot;) works with React syntax/semantics. E.g., <code>react-hooks/rules-of-hooks</code>, <code>react/no-typos</code>, <code>react/jsx-no-constructed-context-values</code>, <code>react/no-access-state-in-setstate</code>, etc.</li>
+<li>Prevent usage of constructions which break a11y or web security. We use config <code>jsx-a11y/recommended</code> and rule <code>react/no-danger</code>.</li>
+<li>Prevent usage of deprecated or unconventional API. Most of the rules covering this issue are included in recommended config, additionally we enable <code>react/no-unsafe</code>.</li>
+<li>Optimize React for performance. React's performance relies on change detection of props by reference. To make it work, we should avoid several constructions which lead to the generation of new references. E.g., <code>react/prefer-stateless-function</code>, <code>react/no-array-index-key</code></li>
+<li>Enforce usage of <code>prop-types</code> in non-TS projects. We prefer to use <code>props-types</code> because it is a standardized way to declare component API. That's why we enable rules helping to write better prop types: e.g., <code>react/prop-types</code>, <code>react/forbid-prop-types</code>, <code>react/no-unused-prop-types</code> etc.</li>
+<li>Don't specify naming for React props. Though React code has typical props templates (handlers, boolean flags, etc), we don't enforce naming convention for them. Naming convention must be project-specific so we don't use rules like <code>react/boolean-prop-naming</code> or <code>react/jsx-handler-names</code>. We still use <code>react/jsx-pascal-case</code> to encourage consistent component naming between projects.</li>
+<li>Don't enforce conventions about structure of your project and components. All these conventions are be project-specific and must be defined by project developers. We don't use rules like <code>react/static-property-placement</code>, <code>react/no-multi-comp</code> or <code>react/jsx-max-depth</code>.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L15-L23">[~]</a></li>
+</ol>
+<h2 id="react-rules"><a class="header" href="#react-rules">React rules</a></h2>
+<p>As a base we use recommended configs from <a href="https://github.com/yannickcr/eslint-plugin-react"><code>eslint-plugin-react</code></a> and <a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks"><code>eslint-plugin-react-hooks</code></a>.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L28-L30">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesbutton-has-typemdreactbutton-has-typea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesbutton-has-typemdreactbutton-has-typea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/button-has-type.md">react/button-has-type</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;button&gt;Hello&lt;/button&gt;
+
+ // Pass
+ return &lt;button type=&quot;button&quot;&gt;Hello&lt;/button&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L53-L61">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdefault-props-match-prop-typesmdreactdefault-props-match-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdefault-props-match-prop-typesmdreactdefault-props-match-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/default-props-match-prop-types.md">react/default-props-match-prop-types</a></a></h4>
+<pre><code> ```js
+ // Fail
+ MyComponent.propTypes = {
+   foo: React.PropTypes.string.isRequired,
+ }
+ MyComponent.defaultProps = {
+   foo: &quot;foo&quot;
+ }
+
+ // Pass
+ MyComponent.propTypes = {
+   foo: React.PropTypes.string.isRequired,
+ }
+
+ // Pass
+ MyComponent.propTypes = {
+   foo: React.PropTypes.string,
+ }
+ MyComponent.defaultProps = {
+   foo: &quot;foo&quot;
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L65-L88">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesforbid-prop-typesmdreactforbid-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesforbid-prop-typesmdreactforbid-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md">react/forbid-prop-types</a></a></h4>
+<pre><code> ```js
+ // Fail
+ Component.propTypes = {
+   a: PropTypes.any,
+   b: PropTypes.array,
+   c: PropTypes.object
+ }
+
+ // Pass
+ Component.propTypes = {
+   a: PropTypes.objectOf(PropTypes.number),
+   b: PropTypes.arrayOf(PropTypes.string),
+   c: PropTypes.shape({
+     c1: PropTypes.number,
+     c2: PropTypes.string,
+   })
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L92-L111">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesfunction-component-definitionmdreactfunction-component-definitiona"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesfunction-component-definitionmdreactfunction-component-definitiona"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/function-component-definition.md">react/function-component-definition</a></a></h4>
+<pre><code> We prefer components as arrow function for the sake of homogeneity. Benefit of arrow function over function expression is inability to use `this`.
+ ```js
+ // Fail
+ export function MyComponent() {}
+
+ // Pass
+ export const MyComponent = () =&gt; {}
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L115-L124">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-boolean-valuemdreactjsx-boolean-valuea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-boolean-valuemdreactjsx-boolean-valuea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md">react/jsx-boolean-value</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;Component disabled={true} /&gt;
+
+ // Pass
+ return &lt;Component disabled /&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L134-L142">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-fragmentsmdreactjsx-fragmentsa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-fragmentsmdreactjsx-fragmentsa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-fragments.md">react/jsx-fragments</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;React.Fragment&gt;...&lt;/React.Fragment&gt;
+
+ // Pass
+ return &lt;&gt;...&lt;/&gt;
+ return &lt;React.Fragment key=&quot;key&quot;&gt;...&lt;/React.Fragment&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L146-L155">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-no-constructed-context-valuesmdreactjsx-no-constructed-context-valuesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-no-constructed-context-valuesmdreactjsx-no-constructed-context-valuesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md">react/jsx-no-constructed-context-values</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return (
+   &lt;MyContext.Provider value={{ foo }}&gt;
+     ...
+   &lt;/MyContext.Provider&gt;
+ )
+
+ // Pass
+ const value = useMemo(() =&gt; ({ foo }), [foo])
+ return (
+   &lt;MyContext.Provider value={value}&gt;
+     ...
+   &lt;/MyContext.Provider&gt;
+ )
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L159-L176">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-pascal-casemdreactjsx-pascal-casea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-pascal-casemdreactjsx-pascal-casea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md">react/jsx-pascal-case</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;My_component /&gt;
+ return &lt;MY_COMPONENT /&gt;
+
+ // Pass
+ return &lt;MyComponent /&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L180-L189">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-access-state-in-setstatemdreactno-access-state-in-setstatea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-access-state-in-setstatemdreactno-access-state-in-setstatea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-access-state-in-setstate.md">react/no-access-state-in-setstate</a></a></h4>
+<pre><code> ```js
+ // Fail
+ this.setState({ value: this.state.value + 1 })
+
+ // Pass
+ this.setState(state =&gt; ({ value: state.value + 1 }))
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L193-L201">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-array-index-keymdreactno-array-index-keya"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-array-index-keymdreactno-array-index-keya"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md">react/no-array-index-key</a></a></h4>
+<pre><code> In a few cases when only index is available as a key, rule can be disabled for a specific line.
+ ```jsx
+ // Fail
+ return items.map((item, index) =&gt; (
+   &lt;Item key={index} /&gt;
+ ))
+
+ // Pass
+ return items.map((item, index) =&gt; (
+   &lt;Item key={item.id} /&gt;
+ ))
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L205-L218">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-dangermdreactno-dangera"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-dangermdreactno-dangera"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md">react/no-danger</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;div dangerouslySetInnerHTML={{ __html: 'Hello World' }}&gt;&lt;/div&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L222-L227">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-typosmdreactno-typosa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-typosmdreactno-typosa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-typos.md">react/no-typos</a></a></h4>
+<pre><code> ```js
+ // Fail
+ class MyComponent extends React.Component {
+   static PropTypes = {
+     a: PropTypes.bol
+   }
+   static defaultprops = {}
+   getDerivedStateFromProps() {}
+   ComponentWillMount() {}
+   componentdidupdate() {}
+ }
+
+ // Pass
+ class MyComponent extends React.Component {
+   static propTypes = {
+     a: PropTypes.bool
+   }
+   static defaultProps = {}
+   static getDerivedStateFromProps() {}
+   componentWillMount() {}
+   componentDidUpdate() {}
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L231-L255">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unsafemdreactno-unsafea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unsafemdreactno-unsafea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unsafe.md">react/no-unsafe</a></a></h4>
+<pre><code> ```js
+ // Fail
+ class MyComponent extends React.Component {
+   UNSAFE_componentWillMount() {}
+   UNSAFE_componentWillReceiveProps() {}
+   UNSAFE_componentWillUpdate() {}
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L259-L268">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unused-prop-typesmdreactno-unused-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unused-prop-typesmdreactno-unused-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-prop-types.md">react/no-unused-prop-types</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ const MyComponent = ({ firstName }) =&gt; &lt;span&gt;{firstName}&lt;/span&gt;
+ MyComponent.propTypes = {
+   firstName: PropTypes.string,
+   lastName: PropTypes.string,
+ }
+
+ // Pass
+ const MyComponent = ({ firstName, lastName }) =&gt; &lt;span&gt;{firstName} {lastName}&lt;/span&gt;
+ MyComponent.propTypes = {
+   firstName: PropTypes.string,
+   lastName: PropTypes.string,
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L272-L288">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesprefer-stateless-functionmdreactprefer-stateless-functiona"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesprefer-stateless-functionmdreactprefer-stateless-functiona"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md">react/prefer-stateless-function</a></a></h4>
+<pre><code> Though we prefer to use functional components with hooks over class components, we don't enforce it for all the components, only for class components with no state or lifecycle methods.
+ ```jsx
+ // Fail
+ class MyComponent extends React.Component {
+   render() {
+     return &lt;span&gt;{this.props.name}&lt;/span&gt;
+   }
+ }
+
+ // Pass
+ const MyComponent = ({ name }) =&gt; &lt;span&gt;{name}&lt;/span&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L292-L305">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesself-closing-compmdreactself-closing-compa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesself-closing-compmdreactself-closing-compa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md">react/self-closing-comp</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;MyComponent&gt;&lt;/MyComponent&gt;
+
+ // Pass
+ return &lt;MyComponent /&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L309-L317">[~]</a></p>
+<h3 id="disabling-recommended-rules"><a class="header" href="#disabling-recommended-rules">Disabling recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L322-L323">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md"><del>react/display-name</del></a></a></h4>
+<pre><code> Disabled this rule as it gives false positives for render props.
+ Also we prefer named exports which guarantees that exported component functions have proper names.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L326-L329">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesreact-in-jsx-scopemddelreactreact-in-jsx-scopedela"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesreact-in-jsx-scopemddelreactreact-in-jsx-scopedela"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md"><del>react/react-in-jsx-scope</del></a></a></h4>
+<pre><code> Disabled this rule as it is common to have React as a global variable (e.g., out-of-the-box in Next.js or via webpack's ProvidePlugin).
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L333-L335">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomfacebookreacttreemasterpackageseslint-plugin-react-hooksadvanced-configurationdelreact-hooksexhaustive-depsdela"><a class="header" href="#a-hrefhttpsgithubcomfacebookreacttreemasterpackageseslint-plugin-react-hooksadvanced-configurationdelreact-hooksexhaustive-depsdela"><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><del>react-hooks/exhaustive-deps</del></a></a></h4>
+<pre><code> This rule may trigger a lot of unwanted errors when `useEffect` is used as watcher.
+ It is recommended to manually enable this rule inside files which heavily rely on memoization.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L339-L342">[~]</a></p>
+<h2 id="jsx-a11y-rules"><a class="header" href="#jsx-a11y-rules">JSX A11y rules</a></h2>
+<p>Using <code>plugin:jsx-a11y/recommended</code> config as a starting point.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L359-L361">[~]</a></p>
+<h3 id="disabling-recommended-rules-1"><a class="header" href="#disabling-recommended-rules-1">Disabling recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L367-L368">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md"><del>jsx-a11y/accessible-emoji</del></a></a></h4>
+<pre><code> Deprecated
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L371-L373">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-onchangemddeljsx-a11yno-onchangedela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-onchangemddeljsx-a11yno-onchangedela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-onchange.md"><del>jsx-a11y/no-onchange</del></a></a></h4>
+<pre><code> Deprecated
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L377-L379">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsruleslabel-has-associated-controlmddeljsx-a11ylabel-has-associated-controldela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsruleslabel-has-associated-controlmddeljsx-a11ylabel-has-associated-controldela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md"><del>jsx-a11y/label-has-associated-control</del></a></a></h4>
+<pre><code> Disabled until [this issue](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/511) is fixed.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L383-L385">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md"><del>jsx-a11y/no-autofocus</del></a></a></h4>
+<pre><code> It may be [considered OK](https://www.brucelawson.co.uk/2009/the-accessibility-of-html-5-autofocus/) to use `autofocus` on pages which consist only of form (e.g., login page). In other cases usage of `autofocus` may lead to a confusion of a screen reader user. We leave the decision to use autofocus to developers on a case-by-case basis.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L389-L391">[~]</a></p>
+<h3 id="clarifying-recommended-rules"><a class="header" href="#clarifying-recommended-rules">Clarifying recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L396-L397">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md">jsx-a11y/anchor-is-valid</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;a onClick={foo}&gt;Perform action&lt;/a&gt;
+
+ // Pass
+ return &lt;a href=&quot;/some/valid/uri&quot;&gt;Navigate to page&lt;/a&gt;
+ ```
+ This rule may lead to a lot of errors when linting Next.js projects so consider either turning it off or [following these recommendations](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-use-nextjs-and-im-getting-this-error-inside-of-links).
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L400-L409">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesmouse-events-have-key-eventsmdjsx-a11ymouse-events-have-key-eventsa"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesmouse-events-have-key-eventsmdjsx-a11ymouse-events-have-key-eventsa"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md">jsx-a11y/mouse-events-have-key-events</a></a></h4>
+<pre><code> If an element has some logic tied to hover it should be duplicated via focus/blur keyboard events. It is important for both purely visual changes (e.g., highlighting) and actual page changes (e.g., showing hint).
+ ```jsx
+ // Fail
+ return &lt;div onMouseOver={() =&gt; {}} /&gt;
+
+ // Pass
+ return (
+   &lt;div
+     tabindex={0}
+     onMouseOver={() =&gt; {}}
+     onFocus={() =&gt; {}}
+   /&gt;
+ )
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L413-L428">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-has-contentmdjsx-a11yanchor-has-contenta"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-has-contentmdjsx-a11yanchor-has-contenta"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md">jsx-a11y/anchor-has-content</a></a></h4>
+<pre><code> This rule is always linting `&lt;a&gt;` tags. Additionally we configured this rule for `&lt;Link&gt;` component. If you have other custom link components configure this rule inside your project specifying the name of your custom link component.
+ ```jsx
+ // Fail
+ return &lt;a /&gt;
+ return &lt;Link /&gt;
+
+ // Pass
+ return &lt;a&gt;Link content&lt;/a&gt;
+ return &lt;Link&gt;Link content&lt;/Link&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L432-L443">[~]</a></p>
+<h1 id="recommendations"><a class="header" href="#recommendations">Recommendations</a></h1>
 <p>Here we present some advices regarding further ESLint configuration in your project.</p>
 <h2 id="recommended-rules-for-manual-configuration"><a class="header" href="#recommended-rules-for-manual-configuration">Recommended rules for manual configuration</a></h2>
 <p>There are some helpful ESLint rules and plugins which are too strict to enable for all projects. We recommend to look through them and enable those that fit your project's needs.</p>
@@ -201,7 +536,7 @@ if (item) {}
 </li>
 <li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md"><code>@typescript-eslint/switch-exhaustiveness-check</code></a> — it may be overkill to enable this rule globally so you can enable it in specific files and/or use <a href="https://github.com/krzkaczor/ts-essentials#exhaustive-switch-cases"><code>UnreachableCaseError</code> from <code>ts-essentials</code></a></li>
 </ul>
-<h3 id="react"><a class="header" href="#react">React</a></h3>
+<h3 id="react-1"><a class="header" href="#react-1">React</a></h3>
 <ul>
 <li><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><code>react-hooks/exhaustive-deps</code></a> — we recommend enable this rule only the files which are heavily rely on memoization. In some situations following this rule may lead to breaking logic (e.g. when <code>useEffect</code> is used as a watcher). To enable this rule in specific file add this comment at the file start:
 <pre><code class="language-js">/* eslint react-hooks/exhaustive-deps: &quot;error&quot; */
@@ -222,341 +557,6 @@ if (item) {}
 <h2 id="linting-performance"><a class="header" href="#linting-performance">Linting performance</a></h2>
 <p>If you feel that linting your project takes too long you can run ESLint with <a href="https://eslint.org/docs/developer-guide/working-with-rules-deprecated#per-rule-performance"><code>TIMING=1</code> environment variable</a> and it'll show you which rules are taking the most time.</p>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/Recommendations.fdoc.md#L1-L1">[~]</a></p>
-<h1 id="react-1"><a class="header" href="#react-1">React</a></h1>
-<h2 id="syntactic-rules"><a class="header" href="#syntactic-rules">Syntactic rules</a></h2>
-<h2 id="principles"><a class="header" href="#principles">Principles</a></h2>
-<h3 id="syntax"><a class="header" href="#syntax">Syntax</a></h3>
-<ol>
-<li>As with the base config we use Prettier for familiar formatting defaults.</li>
-<li>Making JSX more compact. JSX is similar to HTML and tend to extend by width. We use rules which help make our markup narrower. E.g., <code>react/jsx-boolean-value</code>.</li>
-<li>Minimizing the count of symbols and their kinds. JSX (as HTML too) has very noisy syntax. We try to omit unnecessary and optional symbols and prefer to use more compact syntax. When we need to use some decorative symbols, we prefer more consistent syntax. E.g., <code>react/jsx-no-useless-fragment</code>, <code>react/jsx-tag-spacing</code>.</li>
-<li>We try not to affect the look of JSX code too much so we don't force the use of specific form of syntax. E.g., we don't use <code>react/jsx-sort-props</code>.
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L4-L11">[~]</a></li>
-</ol>
-<h3 id="semantics"><a class="header" href="#semantics">Semantics</a></h3>
-<ol>
-<li>Explicit declaration React semantics rules. React and JSX have many specific semantic rules, the violation of which leads to error. For example react hooks, lifecycle, component declarations have many implicit rules which has no meaning in Vanilla JS context. But if this rules is breaked, react will works incorrectly. Because JS interpreter(and base linting rules for JS) doesn't know anything about <code>state</code>, <code>props</code>, <code>lifecycle</code>, <code>hooks</code> and so on. We declare this rules in linting and help base lint rules(as &quot;no-unused-vars&quot;) works with React syntax/semantics. E.g., <code>react-hooks/rules-of-hooks</code>, <code>react/no-typos</code>, <code>react/jsx-no-constructed-context-values</code>, <code>react/no-access-state-in-setstate</code>, etc.</li>
-<li>Prevent usage of constructions which break a11y or web security. We use config <code>jsx-a11y/recommended</code> and rule <code>react/no-danger</code>.</li>
-<li>Prevent usage of deprecated or unconventional API. Most of the rules covering this issue are included in recommended config, additionally we enable <code>react/no-unsafe</code>.</li>
-<li>Optimize React for performance. React's performance relies on change detection of props by reference. To make it work, we should avoid several constructions which lead to the generation of new references. E.g., <code>react/prefer-stateless-function</code>, <code>react/no-array-index-key</code></li>
-<li>Enforce usage of <code>prop-types</code> in non-TS projects. We prefer to use <code>props-types</code> because it is a standardized way to declare component API. That's why we enable rules helping to write better prop types: e.g., <code>react/prop-types</code>, <code>react/forbid-prop-types</code>, <code>react/no-unused-prop-types</code> etc.</li>
-<li>Don't specify naming for React props. Though React code has typical props templates (handlers, boolean flags, etc), we don't enforce naming convention for them. Naming convention must be project-specific so we don't use rules like <code>react/boolean-prop-naming</code> or <code>react/jsx-handler-names</code>. We still use <code>react/jsx-pascal-case</code> to encourage consistent component naming between projects.</li>
-<li>Don't enforce conventions about structure of your project and components. All these conventions are be project-specific and must be defined by project developers. We don't use rules like <code>react/static-property-placement</code>, <code>react/no-multi-comp</code> or <code>react/jsx-max-depth</code>.
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L15-L23">[~]</a></li>
-</ol>
-<h2 id="react-rules"><a class="header" href="#react-rules">React rules</a></h2>
-<p>As a base we use recommended configs from <a href="https://github.com/yannickcr/eslint-plugin-react"><code>eslint-plugin-react</code></a> and <a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks"><code>eslint-plugin-react-hooks</code></a>.
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L28-L30">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesbutton-has-typemdreactbutton-has-typea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesbutton-has-typemdreactbutton-has-typea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/button-has-type.md">react/button-has-type</a></a></h4>
-<pre><code>```jsx
-// Fail
-return &lt;button&gt;Hello&lt;/button&gt;
- *
-// Pass
-return &lt;button type=&quot;button&quot;&gt;Hello&lt;/button&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L53-L61">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdefault-props-match-prop-typesmdreactdefault-props-match-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdefault-props-match-prop-typesmdreactdefault-props-match-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/default-props-match-prop-types.md">react/default-props-match-prop-types</a></a></h4>
-<pre><code>```js
-// Fail
-MyComponent.propTypes = {
-  foo: React.PropTypes.string.isRequired,
-}
-MyComponent.defaultProps = {
-  foo: &quot;foo&quot;
-}
- *
-// Pass
-MyComponent.propTypes = {
-  foo: React.PropTypes.string.isRequired,
-}
- *
-// Pass
-MyComponent.propTypes = {
-  foo: React.PropTypes.string,
-}
-MyComponent.defaultProps = {
-  foo: &quot;foo&quot;
-}
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L65-L88">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesforbid-prop-typesmdreactforbid-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesforbid-prop-typesmdreactforbid-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md">react/forbid-prop-types</a></a></h4>
-<pre><code>```js
-// Fail
-Component.propTypes = {
-  a: PropTypes.any,
-  b: PropTypes.array,
-  c: PropTypes.object
-}
- *
-// Pass
-Component.propTypes = {
-  a: PropTypes.objectOf(PropTypes.number),
-  b: PropTypes.arrayOf(PropTypes.string),
-  c: PropTypes.shape({
-    c1: PropTypes.number,
-    c2: PropTypes.string,
-  })
-}
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L92-L111">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesfunction-component-definitionmdreactfunction-component-definitiona"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesfunction-component-definitionmdreactfunction-component-definitiona"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/function-component-definition.md">react/function-component-definition</a></a></h4>
-<pre><code>We prefer components as arrow function for the sake of homogeneity. Benefit of arrow function over function expression is inability to use `this`.
-```js
-// Fail
-export function MyComponent() {}
- *
-// Pass
-export const MyComponent = () =&gt; {}
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L115-L124">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-boolean-valuemdreactjsx-boolean-valuea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-boolean-valuemdreactjsx-boolean-valuea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md">react/jsx-boolean-value</a></a></h4>
-<pre><code>```jsx
-// Fail
-return &lt;Component disabled={true} /&gt;
- *
-// Pass
-return &lt;Component disabled /&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L134-L142">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-fragmentsmdreactjsx-fragmentsa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-fragmentsmdreactjsx-fragmentsa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-fragments.md">react/jsx-fragments</a></a></h4>
-<pre><code>```jsx
-// Fail
-return &lt;React.Fragment&gt;...&lt;/React.Fragment&gt;
- *
-// Pass
-return &lt;&gt;...&lt;/&gt;
-return &lt;React.Fragment key=&quot;key&quot;&gt;...&lt;/React.Fragment&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L146-L155">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-no-constructed-context-valuesmdreactjsx-no-constructed-context-valuesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-no-constructed-context-valuesmdreactjsx-no-constructed-context-valuesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md">react/jsx-no-constructed-context-values</a></a></h4>
-<pre><code>```jsx
-// Fail
-return (
-  &lt;MyContext.Provider value={{ foo }}&gt;
-    ...
-  &lt;/MyContext.Provider&gt;
-)
- *
-// Pass
-const value = useMemo(() =&gt; ({ foo }), [foo])
-return (
-  &lt;MyContext.Provider value={value}&gt;
-    ...
-  &lt;/MyContext.Provider&gt;
-)
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L159-L176">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-pascal-casemdreactjsx-pascal-casea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-pascal-casemdreactjsx-pascal-casea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md">react/jsx-pascal-case</a></a></h4>
-<pre><code>```jsx
-// Fail
-return &lt;My_component /&gt;
-return &lt;MY_COMPONENT /&gt;
- *
-// Pass
-return &lt;MyComponent /&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L180-L189">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-access-state-in-setstatemdreactno-access-state-in-setstatea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-access-state-in-setstatemdreactno-access-state-in-setstatea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-access-state-in-setstate.md">react/no-access-state-in-setstate</a></a></h4>
-<pre><code>```js
-// Fail
-this.setState({ value: this.state.value + 1 })
- *
-// Pass
-this.setState(state =&gt; ({ value: state.value + 1 }))
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L193-L201">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-array-index-keymdreactno-array-index-keya"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-array-index-keymdreactno-array-index-keya"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md">react/no-array-index-key</a></a></h4>
-<pre><code>In a few cases when only index is available as a key, rule can be disabled for a specific line.
-```jsx
-// Fail
-return items.map((item, index) =&gt; (
-  &lt;Item key={index} /&gt;
-))
- *
-// Pass
-return items.map((item, index) =&gt; (
-  &lt;Item key={item.id} /&gt;
-))
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L205-L218">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-dangermdreactno-dangera"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-dangermdreactno-dangera"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md">react/no-danger</a></a></h4>
-<pre><code>```jsx
-// Fail
-return &lt;div dangerouslySetInnerHTML={{ __html: 'Hello World' }}&gt;&lt;/div&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L222-L227">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-typosmdreactno-typosa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-typosmdreactno-typosa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-typos.md">react/no-typos</a></a></h4>
-<pre><code>```js
-// Fail
-class MyComponent extends React.Component {
-  static PropTypes = {
-    a: PropTypes.bol
-  }
-  static defaultprops = {}
-  getDerivedStateFromProps() {}
-  ComponentWillMount() {}
-  componentdidupdate() {}
-}
- *
-// Pass
-class MyComponent extends React.Component {
-  static propTypes = {
-    a: PropTypes.bool
-  }
-  static defaultProps = {}
-  static getDerivedStateFromProps() {}
-  componentWillMount() {}
-  componentDidUpdate() {}
-}
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L231-L255">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unsafemdreactno-unsafea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unsafemdreactno-unsafea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unsafe.md">react/no-unsafe</a></a></h4>
-<pre><code>```js
-// Fail
-class MyComponent extends React.Component {
-  UNSAFE_componentWillMount() {}
-  UNSAFE_componentWillReceiveProps() {}
-  UNSAFE_componentWillUpdate() {}
-}
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L259-L268">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unused-prop-typesmdreactno-unused-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unused-prop-typesmdreactno-unused-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-prop-types.md">react/no-unused-prop-types</a></a></h4>
-<pre><code>```jsx
-// Fail
-const MyComponent = ({ firstName }) =&gt; &lt;span&gt;{firstName}&lt;/span&gt;
-MyComponent.propTypes = {
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-}
- *
-// Pass
-const MyComponent = ({ firstName, lastName }) =&gt; &lt;span&gt;{firstName} {lastName}&lt;/span&gt;
-MyComponent.propTypes = {
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-}
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L272-L288">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesprefer-stateless-functionmdreactprefer-stateless-functiona"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesprefer-stateless-functionmdreactprefer-stateless-functiona"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md">react/prefer-stateless-function</a></a></h4>
-<pre><code>Though we prefer to use functional components with hooks over class components, we don't enforce it for all the components, only for class components with no state or lifecycle methods.
-```jsx
-// Fail
-class MyComponent extends React.Component {
-  render() {
-    return &lt;span&gt;{this.props.name}&lt;/span&gt;
-  }
-}
- *
-// Pass
-const MyComponent = ({ name }) =&gt; &lt;span&gt;{name}&lt;/span&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L292-L305">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesself-closing-compmdreactself-closing-compa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesself-closing-compmdreactself-closing-compa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md">react/self-closing-comp</a></a></h4>
-<pre><code>```jsx
-// Fail
-return &lt;MyComponent&gt;&lt;/MyComponent&gt;
- *
-// Pass
-return &lt;MyComponent /&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L309-L317">[~]</a></p>
-<h3 id="disabling-recommended-rules"><a class="header" href="#disabling-recommended-rules">Disabling recommended rules</a></h3>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L322-L323">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md"><del>react/display-name</del></a></a></h4>
-<pre><code>Disabled this rule as it gives false positives for render props.
-Also we prefer named exports which guarantees that exported component functions have proper names.
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L326-L329">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesreact-in-jsx-scopemddelreactreact-in-jsx-scopedela"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesreact-in-jsx-scopemddelreactreact-in-jsx-scopedela"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md"><del>react/react-in-jsx-scope</del></a></a></h4>
-<pre><code>Disabled this rule as it is common to have React as a global variable (e.g., out-of-the-box in Next.js or via webpack's ProvidePlugin).
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L333-L335">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomfacebookreacttreemasterpackageseslint-plugin-react-hooksadvanced-configurationdelreact-hooksexhaustive-depsdela"><a class="header" href="#a-hrefhttpsgithubcomfacebookreacttreemasterpackageseslint-plugin-react-hooksadvanced-configurationdelreact-hooksexhaustive-depsdela"><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><del>react-hooks/exhaustive-deps</del></a></a></h4>
-<pre><code>This rule may trigger a lot of unwanted errors when `useEffect` is used as watcher.
-It is recommended to manually enable this rule inside files which heavily rely on memoization.
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L339-L342">[~]</a></p>
-<h2 id="jsx-a11y-rules"><a class="header" href="#jsx-a11y-rules">JSX A11y rules</a></h2>
-<p>Using <code>plugin:jsx-a11y/recommended</code> config as a starting point.
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L359-L361">[~]</a></p>
-<h3 id="disabling-recommended-rules-1"><a class="header" href="#disabling-recommended-rules-1">Disabling recommended rules</a></h3>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L367-L368">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md"><del>jsx-a11y/accessible-emoji</del></a></a></h4>
-<pre><code>Deprecated
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L371-L373">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-onchangemddeljsx-a11yno-onchangedela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-onchangemddeljsx-a11yno-onchangedela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-onchange.md"><del>jsx-a11y/no-onchange</del></a></a></h4>
-<pre><code>Deprecated
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L377-L379">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsruleslabel-has-associated-controlmddeljsx-a11ylabel-has-associated-controldela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsruleslabel-has-associated-controlmddeljsx-a11ylabel-has-associated-controldela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md"><del>jsx-a11y/label-has-associated-control</del></a></a></h4>
-<pre><code>Disabled until [this issue](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/511) is fixed.
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L383-L385">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md"><del>jsx-a11y/no-autofocus</del></a></a></h4>
-<pre><code>It may be [considered OK](https://www.brucelawson.co.uk/2009/the-accessibility-of-html-5-autofocus/) to use `autofocus` on pages which consist only of form (e.g., login page). In other cases usage of `autofocus` may lead to a confusion of a screen reader user. We leave the decision to use autofocus to developers on a case-by-case basis.
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L389-L391">[~]</a></p>
-<h3 id="clarifying-recommended-rules"><a class="header" href="#clarifying-recommended-rules">Clarifying recommended rules</a></h3>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L396-L397">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md">jsx-a11y/anchor-is-valid</a></a></h4>
-<pre><code>```jsx
-// Fail
-return &lt;a onClick={foo}&gt;Perform action&lt;/a&gt;
- *
-// Pass
-return &lt;a href=&quot;/some/valid/uri&quot;&gt;Navigate to page&lt;/a&gt;
-```
-This rule may lead to a lot of errors when linting Next.js projects so consider either turning it off or [following these recommendations](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-use-nextjs-and-im-getting-this-error-inside-of-links).
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L400-L409">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesmouse-events-have-key-eventsmdjsx-a11ymouse-events-have-key-eventsa"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesmouse-events-have-key-eventsmdjsx-a11ymouse-events-have-key-eventsa"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md">jsx-a11y/mouse-events-have-key-events</a></a></h4>
-<pre><code>If an element has some logic tied to hover it should be duplicated via focus/blur keyboard events. It is important for both purely visual changes (e.g., highlighting) and actual page changes (e.g., showing hint).
-```jsx
-// Fail
-return &lt;div onMouseOver={() =&gt; {}} /&gt;
- *
-// Pass
-return (
-  &lt;div
-    tabindex={0}
-    onMouseOver={() =&gt; {}}
-    onFocus={() =&gt; {}}
-  /&gt;
-)
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L413-L428">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-has-contentmdjsx-a11yanchor-has-contenta"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-has-contentmdjsx-a11yanchor-has-contenta"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md">jsx-a11y/anchor-has-content</a></a></h4>
-<pre><code>This rule is always linting `&lt;a&gt;` tags. Additionally we configured this rule for `&lt;Link&gt;` component. If you have other custom link components configure this rule inside your project specifying the name of your custom link component.
-```jsx
-// Fail
-return &lt;a /&gt;
-return &lt;Link /&gt;
- *
-// Pass
-return &lt;a&gt;Link content&lt;/a&gt;
-return &lt;Link&gt;Link content&lt;/Link&gt;
-```
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L432-L443">[~]</a></p>
 <h1 id="base"><a class="header" href="#base">Base</a></h1>
 <h2 id="principles-1"><a class="header" href="#principles-1">Principles</a></h2>
 <h3 id="syntax-1"><a class="header" href="#syntax-1">Syntax</a></h3>
@@ -580,503 +580,510 @@ return &lt;Link&gt;Link content&lt;/Link&gt;
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L24-L25">[~]</a></p>
 <h3 id="prettier"><a class="header" href="#prettier">Prettier</a></h3>
 <p><a href="https://github.com/prettier/eslint-plugin-prettier"><code>eslint-plugin-prettier</code></a> is used for integration of Prettier and ESLint.</p>
-<ul>
-<li></li>
-</ul>
 <p><a href="https://github.com/prettier/eslint-config-prettier"><code>eslint-config-prettier</code></a> turns off all the rules from ESLint and its plugins that might conflict with Prettier.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L29-L33">[~]</a></p>
 <h3 id="eslint-rules"><a class="header" href="#eslint-rules">ESLint rules</a></h3>
 <p>We are using <code>eslint:recommended</code> as starting point. You can see list of included rules <a href="https://eslint.org/docs/rules/">here</a> marked with a check mark.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L40-L42">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulescamelcasecamelcasea"><a class="header" href="#a-hrefhttpseslintorgdocsrulescamelcasecamelcasea"><a href="https://eslint.org/docs/rules/camelcase">camelcase</a></a></h4>
-<pre><code>```js
-// Fail
-const my_var = { prop_name: 1 }
- *
-// Pass
-const myVar = { propName: 1 }
-```
-Names starting with `UNSAFE_` are allowed to support React's legacy lifecycle methods:
-```js
-class MyComponent extends React.Component {
-  UNSAFE_componentWillUpdate() {}
-}
-```
+<pre><code> ```js
+ // Fail
+ const my_var = { prop_name: 1 }
+
+ // Pass
+ const myVar = { propName: 1 }
+ ```
+ Names starting with `UNSAFE_` are allowed to support React's legacy lifecycle methods:
+ ```js
+ class MyComponent extends React.Component {
+   UNSAFE_componentWillUpdate() {}
+ }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L48-L62">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulescurlycurlya"><a class="header" href="#a-hrefhttpseslintorgdocsrulescurlycurlya"><a href="https://eslint.org/docs/rules/curly">curly</a></a></h4>
-<pre><code>```js
-// Fail
-if (true) return null
- *
-// Pass
-if (true) { return null }
-```
+<pre><code> ```js
+ // Fail
+ if (true) return null
+
+ // Pass
+ if (true) { return null }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L71-L79">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesdefault-param-lastdefault-param-lasta"><a class="header" href="#a-hrefhttpseslintorgdocsrulesdefault-param-lastdefault-param-lasta"><a href="https://eslint.org/docs/rules/default-param-last">default-param-last</a></a></h4>
-<pre><code>```js
-// Fail
-function f(foo = 0, bar) {}
- *
-// Pass
-function f(bar, foo = 0) {}
-```
+<pre><code> ```js
+ // Fail
+ function f(foo = 0, bar) {}
+
+ // Pass
+ function f(bar, foo = 0) {}
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L83-L91">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesdot-notationdot-notationa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesdot-notationdot-notationa"><a href="https://eslint.org/docs/rules/dot-notation">dot-notation</a></a></h4>
-<pre><code>```js
-// Fail
-obj['param']
- *
-// Pass
-obj.param
-```
+<pre><code> ```js
+ // Fail
+ obj['param']
+
+ // Pass
+ obj.param
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L95-L103">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsruleseqeqeqeqeqeqa"><a class="header" href="#a-hrefhttpseslintorgdocsruleseqeqeqeqeqeqa"><a href="https://eslint.org/docs/rules/eqeqeq">eqeqeq</a></a></h4>
-<pre><code>Prefer strict equals to avoid implicit checks.
- ```js
- // Fail
- if (x == null) {}
- *
- // Pass
- const isNil = (v) =&gt; v === null || v === undefined
- *
- if (isNil(x)) {}
- ```
+<pre><code> Prefer strict equals to avoid implicit checks.
+  ```js
+  // Fail
+  if (x == null) {}
+
+  // Pass
+  const isNil = (v) =&gt; v === null || v === undefined
+
+  if (isNil(x)) {}
+  ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L107-L118">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesguard-for-inguard-for-ina"><a class="header" href="#a-hrefhttpseslintorgdocsrulesguard-for-inguard-for-ina"><a href="https://eslint.org/docs/rules/guard-for-in">guard-for-in</a></a></h4>
-<pre><code>For iterating over object keys use `Object.keys` instead of `for ... in` as it returns object's **own** property names and ignores inherited ones.
-```js
-// Fail
-for (key in obj) { }
- *
-// Pass
-Object.keys(obj).forEach((key) =&gt; {})
-```
+<pre><code> For iterating over object keys use `Object.keys` instead of `for ... in` as it returns object's*own** property names and ignores inherited ones.
+ ```js
+ // Fail
+ for (key in obj) { }
+
+ // Pass
+ Object.keys(obj).forEach((key) =&gt; {})
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L122-L131">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesmax-paramsmax-paramsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesmax-paramsmax-paramsa"><a href="https://eslint.org/docs/rules/max-params">max-params</a></a></h4>
-<pre><code>Functions may have maximum 3 parameters:
-```js
-// Fail
-const myFn = (a, b, c, d) =&gt; {}
- *
-// Pass
-const myFn = ({ a, b, c, d }) =&gt; {}
-```
-If you're using [`reselect`](https://github.com/reduxjs/reselect) and errors are reported for `createSelector` with too many params, switch to `createStructuredSelector`.
+<pre><code> Functions may have maximum 3 parameters:
+ ```js
+ // Fail
+ const myFn = (a, b, c, d) =&gt; {}
+
+ // Pass
+ const myFn = ({ a, b, c, d }) =&gt; {}
+ ```
+ If you're using [`reselect`](https://github.com/reduxjs/reselect) and errors are reported for `createSelector` with too many params, switch to `createStructuredSelector`.
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L135-L145">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-bitwiseno-bitwisea"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-bitwiseno-bitwisea"><a href="https://eslint.org/docs/rules/no-bitwise">no-bitwise</a></a></h4>
-<pre><code>Quite often bitwise operator is just a typo in logical operator:
-```js
-// Fail
-const x = y | z
- *
-// Pass
-const x = y || z
-```
-If you need to use bitwise operators, disable this rule for the lines containing them.
+<pre><code> Quite often bitwise operator is just a typo in logical operator:
+ ```js
+ // Fail
+ const x = y | z
+
+ // Pass
+ const x = y || z
+ ```
+ If you need to use bitwise operators, disable this rule for the lines containing them.
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L149-L159">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-consoleno-consolea"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-consoleno-consolea"><a href="https://eslint.org/docs/rules/no-console">no-console</a></a></h4>
-<pre><code>Remove `console.log` from production code:
-```js
-// Fail
-console.log('Debug info')
- *
-// Pass
-console.info('Info')
-console.warn('Warning')
-console.error('Error')
-```
+<pre><code> Remove `console.log` from production code:
+ ```js
+ // Fail
+ console.log('Debug info')
+
+ // Pass
+ console.info('Info')
+ console.warn('Warning')
+ console.error('Error')
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L163-L174">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-evalno-evala"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-evalno-evala"><a href="https://eslint.org/docs/rules/no-eval">no-eval</a></a></h4>
-<pre><code>Forbid usages of `eval` as potentially dangerous:
-```js
-// Fail
-eval(&quot;var a = 0&quot;)
-```
+<pre><code> Forbid usages of `eval` as potentially dangerous:
+ ```js
+ // Fail
+ eval(&quot;var a = 0&quot;)
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L183-L189">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-implicit-coercionno-implicit-coerciona"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-implicit-coercionno-implicit-coerciona"><a href="https://eslint.org/docs/rules/no-implicit-coercion">no-implicit-coercion</a></a></h4>
-<pre><code>All implicit coercions except `!!` are disallowed:
-```js
-// Fail
-+foo
-1foo
-'' + foo
-`${foo}`
-~foo.indexOf(bar)
- *
-// Pass
-!!foo
-```
+<pre><code> All implicit coercions except `!!` are disallowed:
+ ```js
+ // Fail
+ +foo
+ 1 foo
+ '' + foo
+ `${foo}`
+ ~foo.indexOf(bar)
+
+ // Pass
+ !!foo
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L193-L206">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-nested-ternaryno-nested-ternarya"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-nested-ternaryno-nested-ternarya"><a href="https://eslint.org/docs/rules/no-nested-ternary">no-nested-ternary</a></a></h4>
-<pre><code>```js
-// Fail
-return a ? b ? c : d : e
- *
-// Pass
-if (a) {
-  return b ? c : d
-} else {
-  return e
-}
-```
+<pre><code> ```js
+ // Fail
+ return a ? b ? c : d : e
+
+ // Pass
+ if (a) {
+   return b ? c : d
+ } else {
+   return e
+ }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L216-L228">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-new-wrappersno-new-wrappersa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-new-wrappersno-new-wrappersa"><a href="https://eslint.org/docs/rules/no-new-wrappers">no-new-wrappers</a></a></h4>
-<pre><code>```js
-// Fail
-const n = new Number(1)
- *
-// Pass
-const n = 1
-```
+<pre><code> ```js
+ // Fail
+ const n = new Number(1)
+
+ // Pass
+ const n = 1
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L232-L240">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-param-reassignno-param-reassigna"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-param-reassignno-param-reassigna"><a href="https://eslint.org/docs/rules/no-param-reassign">no-param-reassign</a></a></h4>
-<pre><code>```js
-// Fail
-function f(foo) {
-  foo++
-}
- *
-// Pass
-function f(foo) {
-  const bar = foo + 1
-}
-```
+<pre><code> ```js
+ // Fail
+ function f(foo) {
+   foo++
+ }
+
+ // Pass
+ function f(foo) {
+   const bar = foo + 1
+ }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L244-L256">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-shadowno-shadowa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-shadowno-shadowa"><a href="https://eslint.org/docs/rules/no-shadow">no-shadow</a></a></h4>
-<pre><code>```js
-// Fail
-rows.forEach((item) =&gt; {
-  item.columns.forEach((item) =&gt; {
-    // `item` is shadowed
-  })
-})
- *
-// Pass
-rows.forEach((row) =&gt; {
-  item.columns.forEach((column) =&gt; {
-  })
-})
-```
+<pre><code> ```js
+ // Fail
+ rows.forEach((item) =&gt; {
+   item.columns.forEach((item) =&gt; {
+     // `item` is shadowed
+   })
+ })
+
+ // Pass
+ rows.forEach((row) =&gt; {
+   item.columns.forEach((column) =&gt; {
+   })
+ })
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L260-L275">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-template-curly-in-stringno-template-curly-in-stringa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-template-curly-in-stringno-template-curly-in-stringa"><a href="https://eslint.org/docs/rules/no-template-curly-in-string">no-template-curly-in-string</a></a></h4>
-<pre><code>```js
-// Fail
-&quot;Hello, ${name}&quot;
- *
-// Pass
-`Hello, ${name}`
-```
+<pre><code> ```js
+ // Fail
+ &quot;Hello, ${name}&quot;
+
+ // Pass
+ `Hello, ${name}`
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L279-L287">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-throw-literalno-throw-literala"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-throw-literalno-throw-literala"><a href="https://eslint.org/docs/rules/no-throw-literal">no-throw-literal</a></a></h4>
-<pre><code>```js
-// Fail
-throw 'Error'
- *
-// Pass
-throw new Error('Error')
-```
+<pre><code> ```js
+ // Fail
+ throw 'Error'
+
+ // Pass
+ throw new Error('Error')
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L291-L299">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-undef-initno-undef-inita"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-undef-initno-undef-inita"><a href="https://eslint.org/docs/rules/no-undef-init">no-undef-init</a></a></h4>
-<pre><code>```js
-// Fail
-let foo = undefined
- *
-// Pass
-let foo
-```
+<pre><code> ```js
+ // Fail
+ let foo = undefined
+
+ // Pass
+ let foo
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L303-L311">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-underscore-dangleno-underscore-danglea"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-underscore-dangleno-underscore-danglea"><a href="https://eslint.org/docs/rules/no-underscore-dangle">no-underscore-dangle</a></a></h4>
-<pre><code>```js
-// Fail
-const _private = 1
- *
-// Pass
-items.map((_item, idx) =&gt; idx)
-```
+<pre><code> ```js
+ // Fail
+ const _private = 1
+
+ // Pass
+ items.map((_item, idx) =&gt; idx)
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L315-L323">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-unneeded-ternaryno-unneeded-ternarya"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-unneeded-ternaryno-unneeded-ternarya"><a href="https://eslint.org/docs/rules/no-unneeded-ternary">no-unneeded-ternary</a></a></h4>
-<pre><code>```js
-// Fail
-const isYes = answer === 1 ? true : false
- *
-// Pass
-const isYes = answer === 1
-```
+<pre><code> ```js
+ // Fail
+ const isYes = answer === 1 ? true : false
+
+ // Pass
+ const isYes = answer === 1
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L332-L340">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-unused-expressionsno-unused-expressionsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-unused-expressionsno-unused-expressionsa"><a href="https://eslint.org/docs/rules/no-unused-expressions">no-unused-expressions</a></a></h4>
-<pre><code>```js
-// Fail
-a || b
-(function f() {})
- *
-// Pass
-a &amp;&amp; b()
-a ? b() : c()
-```
+<pre><code> ```js
+ // Fail
+ a || b
+ (function f() {})
+
+ // Pass
+ a &amp;&amp; b()
+ a ? b() : c()
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L344-L354">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-unused-varsno-unused-varsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-unused-varsno-unused-varsa"><a href="https://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></a></h4>
-<pre><code>```js
-// Fail
-const { foo, bar } = props
-console.log(foo)
- *
-// Pass
-const { foo } = props
-console.log(foo)
-```
+<pre><code> ```js
+ // Fail
+ const { foo, bar } = props
+ console.log(foo)
+
+ // Pass
+ const { foo } = props
+ console.log(foo)
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L366-L376">[~]</a></p>
 <p>Hanging unused parameters in functions are not allowed:
-<code>js // Fail function f(a, b, c, d) { console.log(b) } * // Pass function f(a, b) { console.log(b) } </code>
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L383-L395">[~]</a></p>
+```js
+// Fail
+function f(a, b, c, d) {
+console.log(b)
+}</p>
+<pre><code>     // Pass
+     function f(a, b) {
+       console.log(b)
+     }
+     ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L383-L395">[~]</a></p>
 <p>Omitted params in object destructuring can be left unused:
 <code>js // Pass const { foo, ...rest } = props console.log(rest) </code>
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L399-L405">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-varno-vara"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-varno-vara"><a href="https://eslint.org/docs/rules/no-var">no-var</a></a></h4>
-<pre><code>```js
-// Fail
-var foo
- *
-// Pass
-let foo
-```
+<pre><code> ```js
+ // Fail
+ var foo
+
+ // Pass
+ let foo
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L411-L419">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesobject-shorthandobject-shorthanda"><a class="header" href="#a-hrefhttpseslintorgdocsrulesobject-shorthandobject-shorthanda"><a href="https://eslint.org/docs/rules/object-shorthand">object-shorthand</a></a></h4>
-<pre><code>```js
-// Fail
-const a = { x : x }
- *
-// Pass
-const a = { x }
-```
+<pre><code> ```js
+ // Fail
+ const a = { x : x }
+
+ // Pass
+ const a = { x }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L423-L431">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesone-varone-vara"><a class="header" href="#a-hrefhttpseslintorgdocsrulesone-varone-vara"><a href="https://eslint.org/docs/rules/one-var">one-var</a></a></h4>
-<pre><code>```js
-// Fail
-let foo, bar
- *
-// Pass
-let foo
-let bar
-```
+<pre><code> ```js
+ // Fail
+ let foo, bar
+
+ // Pass
+ let foo
+ let bar
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L435-L444">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesoperator-assignmentoperator-assignmenta"><a class="header" href="#a-hrefhttpseslintorgdocsrulesoperator-assignmentoperator-assignmenta"><a href="https://eslint.org/docs/rules/operator-assignment">operator-assignment</a></a></h4>
-<pre><code>```js
-// Fail
-x = x + y
- *
-// Pass
-x += y
-```
+<pre><code> ```js
+ // Fail
+ x = x + y
+
+ // Pass
+ x += y
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L448-L456">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulespadding-line-between-statementspadding-line-between-statementsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulespadding-line-between-statementspadding-line-between-statementsa"><a href="https://eslint.org/docs/rules/padding-line-between-statements">padding-line-between-statements</a></a></h4>
-<pre><code>We only configure paddings between exports and other statements to emphasize exported values. You may customize this rule in your project depending on your needs.
-```js
-// Fail
-const a = 1
-export const b = 2
- *
-// Pass
-const a = 1
- *
-export const b =2
-```
+<pre><code> We only configure paddings between exports and other statements to emphasize exported values. You may customize this rule in your project depending on your needs.
+ ```js
+ // Fail
+ const a = 1
+ export const b = 2
+
+ // Pass
+ const a = 1
+
+ export const b =2
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L460-L472">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesprefer-constprefer-consta"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-constprefer-consta"><a href="https://eslint.org/docs/rules/prefer-const">prefer-const</a></a></h4>
-<pre><code>```js
-// Fail
-let a = 3
- *
-// Pass
-const a = 3
-```
+<pre><code> ```js
+ // Fail
+ let a = 3
+
+ // Pass
+ const a = 3
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L481-L489">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesradixradixa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesradixradixa"><a href="https://eslint.org/docs/rules/radix">radix</a></a></h4>
-<pre><code>ES5 no longer treats strings with leading 0 as octal literal, so there's no need to pass the radix 10:
-```js
-// Fail
-const n = parseInt('071', 10)
- *
-// Pass
-const n = parseInt('071')
-```
+<pre><code> ES5 no longer treats strings with leading 0 as octal literal, so there's no need to pass the radix 10:
+ ```js
+ // Fail
+ const n = parseInt('071', 10)
+
+ // Pass
+ const n = parseInt('071')
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L493-L502">[~]</a></p>
 <h3 id="disabled-rules"><a class="header" href="#disabled-rules">Disabled rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L507-L508">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-irregular-whitespacedelno-irregular-whitespacedela"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-irregular-whitespacedelno-irregular-whitespacedela"><a href="https://eslint.org/docs/rules/no-irregular-whitespace"><del>no-irregular-whitespace</del></a></a></h4>
-<pre><code>We disable this rule as it can't properly allow using non-breaking whitespaces inside JSX tags.
-It forces to use `&amp;nbsp;` instead:
-```jsx
-&lt;&gt;Push the&amp;nbsp;button&lt;/&gt;
-```
-Which leads to a problem when converting JSX text node to a string:
-```jsx
-&lt;&gt;{'Push the&amp;nbsp;button'}&lt;/&gt;
-```
-If developer don't pay attention or text is too big to look through it properly, `&amp;nbsp;` moves into string without any warning and shows up in UI as a group of symbols, not a whitespace.
+<pre><code> We disable this rule as it can't properly allow using non-breaking whitespaces inside JSX tags.
+ It forces to use `&amp;nbsp;` instead:
+ ```jsx
+ &lt;&gt;Push the&amp;nbsp;button&lt;/&gt;
+ ```
+ Which leads to a problem when converting JSX text node to a string:
+ ```jsx
+ &lt;&gt;{'Push the&amp;nbsp;button'}&lt;/&gt;
+ ```
+ If developer don't pay attention or text is too big to look through it properly, `&amp;nbsp;` moves into string without any warning and shows up in UI as a group of symbols, not a whitespace.
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L511-L522">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesno-use-before-definedelno-use-before-definedela"><a class="header" href="#a-hrefhttpseslintorgdocsrulesno-use-before-definedelno-use-before-definedela"><a href="https://eslint.org/docs/rules/no-use-before-define"><del>no-use-before-define</del></a></a></h4>
-<pre><code>We don't enable this rule as it is often more practical to place usages before definitions. E.g., in React component it is better to place component code first and helper functions below. That way the most important thing in the file comes first.
+<pre><code> We don't enable this rule as it is often more practical to place usages before definitions. E.g., in React component it is better to place component code first and helper functions below. That way the most important thing in the file comes first.
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L526-L528">[~]</a></p>
 <h3 id="unicorn"><a class="header" href="#unicorn">Unicorn</a></h3>
 <p>Additional rules from <a href="https://github.com/sindresorhus/eslint-plugin-unicorn"><code>eslint-config-unicorn</code></a>.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L535-L537">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesexplicit-length-checkmdunicornexplicit-length-checka"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesexplicit-length-checkmdunicornexplicit-length-checka"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md">unicorn/explicit-length-check</a></a></h4>
-<pre><code>Checking for `.length` of an empty array can lead to rendering `0` instead of not rendering anything. This rule forces to always explicitly check for array length by comparing it:
-```jsx
-// Fail
-return items.length &amp;&amp; &lt;Items /&gt;
- *
-// Pass
-return items.length &gt; 0 &amp;&amp; &lt;Items /&gt;
-```
+<pre><code> Checking for `.length` of an empty array can lead to rendering `0` instead of not rendering anything. This rule forces to always explicitly check for array length by comparing it:
+ ```jsx
+ // Fail
+ return items.length &amp;&amp; &lt;Items /&gt;
+
+ // Pass
+ return items.length &gt; 0 &amp;&amp; &lt;Items /&gt;
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L543-L552">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesfilename-casemdunicornfilename-casea"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesfilename-casemdunicornfilename-casea"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/filename-case.md">unicorn/filename-case</a></a></h4>
-<pre><code>```
-// Fail
-my-component.js
-my_component.js
- *
-// Pass
-myComponent.js
-MyComponent.js
-en-US.js
-```
+<pre><code> ```
+ // Fail
+ my-component.js
+ my_component.js
+
+ // Pass
+ myComponent.js
+ MyComponent.js
+ en-US.js
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L556-L567">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesno-abusive-eslint-disablemdunicornno-abusive-eslint-disablea"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesno-abusive-eslint-disablemdunicornno-abusive-eslint-disablea"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-abusive-eslint-disable.md">unicorn/no-abusive-eslint-disable</a></a></h4>
-<pre><code>```js
-// Fail
-// eslint-disable-next-line
-console.log(message);
- *
-// Pass
-// eslint-disable-next-line no-console
-console.log(message);
-```
+<pre><code> ```js
+ // Fail
+ // eslint-disable-next-line
+ console.log(message);
+
+ // Pass
+ // eslint-disable-next-line no-console
+ console.log(message);
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L583-L593">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesthrow-new-errormdunicornthrow-new-errora"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesthrow-new-errormdunicornthrow-new-errora"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/throw-new-error.md">unicorn/throw-new-error</a></a></h4>
-<pre><code>By design `Error(msg)` and `new Error(msg)` can be used interchangeably but for the sake of homogeneity it is better to always use only one form.
-```js
-// Fail
-throw Error()
- *
-// Pass
-throw new Error()
-```
-We prefer `new Error` for consistency with custom subclassed errors which cannot be created without `new`:
-```js
-class MyError extends Error {}
-throw MyError() // Uncaught TypeError
-throw new MyError() // OK
-```
+<pre><code> By design `Error(msg)` and `new Error(msg)` can be used interchangeably but for the sake of homogeneity it is better to always use only one form.
+ ```js
+ // Fail
+ throw Error()
+
+ // Pass
+ throw new Error()
+ ```
+ We prefer `new Error` for consistency with custom subclassed errors which cannot be created without `new`:
+ ```js
+ class MyError extends Error {}
+ throw MyError() // Uncaught TypeError
+ throw new MyError() // OK
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L597-L612">[~]</a></p>
 <h3 id="rules-for-asynchronous-code"><a class="header" href="#rules-for-asynchronous-code">Rules for asynchronous code</a></h3>
 <p>Using <a href="https://github.com/xjamundx/eslint-plugin-promise"><code>eslint-config-promise</code></a>.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L619-L621">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesprefer-promise-reject-errorsprefer-promise-reject-errorsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-promise-reject-errorsprefer-promise-reject-errorsa"><a href="https://eslint.org/docs/rules/prefer-promise-reject-errors">prefer-promise-reject-errors</a></a></h4>
-<pre><code>```js
-// Fail
-Promise.reject('Error')
- *
-// Pass
-Promise.reject(new Error('Error'))
-```
+<pre><code> ```js
+ // Fail
+ Promise.reject('Error')
+
+ // Pass
+ Promise.reject(new Error('Error'))
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L627-L635">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesrequire-awaitrequire-awaita"><a class="header" href="#a-hrefhttpseslintorgdocsrulesrequire-awaitrequire-awaita"><a href="https://eslint.org/docs/rules/require-await">require-await</a></a></h4>
-<pre><code>```js
-// Fail
-async function f() {
-  doSomethingSynchronously()
-}
- *
-// Pass
-async function f() {
-  await doSomethingAsynchronously()
-}
-```
+<pre><code> ```js
+ // Fail
+ async function f() {
+   doSomethingSynchronously()
+ }
+
+ // Pass
+ async function f() {
+   await doSomethingAsynchronously()
+ }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L639-L651">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulescatch-or-returnmdpromisecatch-or-returna"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulescatch-or-returnmdpromisecatch-or-returna"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/catch-or-return.md">promise/catch-or-return</a></a></h4>
-<pre><code>```js
-// Fail
-myPromise.then(doSomething)
- *
-// Pass
-myPromise.then(doSomething).catch(handleError)
-```
+<pre><code> ```js
+ // Fail
+ myPromise.then(doSomething)
+
+ // Pass
+ myPromise.then(doSomething).catch(handleError)
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L655-L663">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-in-finallymdpromiseno-return-in-finallya"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-in-finallymdpromiseno-return-in-finallya"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/no-return-in-finally.md">promise/no-return-in-finally</a></a></h4>
-<pre><code>```js
-// Fail
-myPromise.finally(() =&gt; {
-  return 'done'
-})
- *
-// Pass
-myPromise.finally(() =&gt; {
-  alert('done')
-})
-```
+<pre><code> ```js
+ // Fail
+ myPromise.finally(() =&gt; {
+   return 'done'
+ })
+
+ // Pass
+ myPromise.finally(() =&gt; {
+   alert('done')
+ })
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L673-L685">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-wrapmdpromiseno-return-wrapa"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesno-return-wrapmdpromiseno-return-wrapa"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/no-return-wrap.md">promise/no-return-wrap</a></a></h4>
-<pre><code>```js
-// Fail
-myPromise.then((val) =&gt; Promise.resolve(val2))
-myPromise.then(() =&gt; Promise.reject(new Error()))
- *
-// Pass
-myPromise.then((val) =&gt; val2)
-myPromise.then(() =&gt; {
-  throw new Error()
-})
-```
+<pre><code> ```js
+ // Fail
+ myPromise.then((val) =&gt; Promise.resolve(val 2))
+ myPromise.then(() =&gt; Promise.reject(new Error()))
+
+ // Pass
+ myPromise.then((val) =&gt; val 2)
+ myPromise.then(() =&gt; {
+   throw new Error()
+ })
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L689-L701">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesparam-namesmdpromiseparam-namesa"><a class="header" href="#a-hrefhttpsgithubcomxjamundxeslint-plugin-promiseblobdevelopmentdocsrulesparam-namesmdpromiseparam-namesa"><a href="https://github.com/xjamundx/eslint-plugin-promise/blob/development/docs/rules/param-names.md">promise/param-names</a></a></h4>
-<pre><code>```js
-// Fail
-new Promise((reject, resolve) =&gt; {})
- *
-// Pass
-new Promise((resolve, reject) =&gt; {})
-```
+<pre><code> ```js
+ // Fail
+ new Promise((reject, resolve) =&gt; {})
+
+ // Pass
+ new Promise((resolve, reject) =&gt; {})
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L705-L713">[~]</a></p>
 <h3 id="import-rules"><a class="header" href="#import-rules">Import rules</a></h3>
@@ -1085,166 +1092,166 @@ new Promise((resolve, reject) =&gt; {})
 <p>Extending <a href="https://github.com/benmosher/eslint-plugin-import/blob/master/config/errors.js"><code>plugin:import/errors</code></a>.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L727-L728">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-duplicatesmdimportno-duplicatesa"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-duplicatesmdimportno-duplicatesa"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-duplicates.md">import/no-duplicates</a></a></h4>
-<pre><code>```js
-// Fail
-import { App } from './App'
-import { SOME_CONST } from './App'
- *
-// Pass
-import { App, SOME_CONST } from './App'
-```
+<pre><code> ```js
+ // Fail
+ import { App } from './App'
+ import { SOME_CONST } from './App'
+
+ // Pass
+ import { App, SOME_CONST } from './App'
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L733-L742">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesfirstmdimportfirsta"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesfirstmdimportfirsta"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md">import/first</a></a></h4>
-<pre><code>```js
-// Fail
-init()
-import { App } from './App'
- *
-// Pass
-import { App } from './App'
-init()
-```
+<pre><code> ```js
+ // Fail
+ init()
+ import { App } from './App'
+
+ // Pass
+ import { App } from './App'
+ init()
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L746-L756">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesnewline-after-importmdimportnewline-after-importa"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesnewline-after-importmdimportnewline-after-importa"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/newline-after-import.md">import/newline-after-import</a></a></h4>
-<pre><code>```js
-// Fail
-import { App } from './App'
-render(App)
- *
-// Pass
-import { App } from './App'
- *
-render(App)
-```
+<pre><code> ```js
+ // Fail
+ import { App } from './App'
+ render(App)
+
+ // Pass
+ import { App } from './App'
+
+ render(App)
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L760-L771">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-cyclemdimportno-cyclea"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-cyclemdimportno-cyclea"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-cycle.md">import/no-cycle</a></a></h4>
-<pre><code>```js
-// Fail
- *
- // a.js
-import { b } from './b'
-export const a = 1
- *
-// b.js
-import { a } from './a'
-export const b = 2
-```
+<pre><code> ```js
+ // Fail
+
+  // a.js
+ import { b } from './b'
+ export const a = 1
+
+ // b.js
+ import { a } from './a'
+ export const b = 2
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L775-L787">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-default-exportmdimportno-default-exporta"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesno-default-exportmdimportno-default-exporta"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md">import/no-default-export</a></a></h4>
-<pre><code>```js
-// Fail
-export default function foo() {}
- *
-// Pass
-export function foo() {}
-```
+<pre><code> ```js
+ // Fail
+ export default function foo() {}
+
+ // Pass
+ export function foo() {}
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L791-L799">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesordermdimportordera"><a class="header" href="#a-hrefhttpsgithubcombenmoshereslint-plugin-importblobmasterdocsrulesordermdimportordera"><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/order.md">import/order</a></a></h4>
-<pre><code>Group imports by module type and sort them alphabetically inside a group.
- *
-Order of import groups:
+<pre><code> Group imports by module type and sort them alphabetically inside a group.
+
+ Order of import groups:
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L803-L807">[~]</a></p>
 <ol>
 <li>
 <p><code>builtin</code>
-<code>js importfrom 'path' </code>
+<code>js import from 'path' </code>
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L819-L823">[~]</a></p>
 </li>
 <li>
 <p><code>external</code>
-<code>js importfrom 'lodash' </code>
+<code>js import from 'lodash' </code>
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L827-L831">[~]</a></p>
 </li>
 <li>
 <p><code>internal</code>
-<code>js importfrom 'src/utils' importfrom '@/utils' importfrom '~/utils' </code>
+<code>js import from 'src/utils' import from '@/utils' import from '~/utils' </code>
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L835-L841">[~]</a></p>
 </li>
 <li>
 <p><code>parent</code>
-<code>js importfrom '../' </code>
+<code>js import from '../' </code>
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L845-L849">[~]</a></p>
 </li>
 <li>
 <p><code>sibling</code>
-<code>js importfrom './sibling' </code>
+<code>js import from './sibling' </code>
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L853-L857">[~]</a></p>
 </li>
 <li>
 <p><code>index</code>
-<code>js importfrom '.' </code>
+<code>js import from '.' </code>
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L861-L865">[~]</a></p>
 </li>
 </ol>
 <h4 id="a-hrefhttpseslintorgdocsrulessort-importssort-importsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulessort-importssort-importsa"><a href="https://eslint.org/docs/rules/sort-imports">sort-imports</a></a></h4>
-<pre><code>Sort import members:
-```js
-// Fail
-import { c, a, b } from 'module'
- *
-// Pass
-import { a, b, c } from 'module'
-```
+<pre><code> Sort import members:
+ ```js
+ // Fail
+ import { c, a, b } from 'module'
+
+ // Pass
+ import { a, b, c } from 'module'
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L883-L892">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesimport-indexmdunicornimport-indexa"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesimport-indexmdunicornimport-indexa"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/import-index.md">unicorn/import-index</a></a></h4>
-<pre><code>```js
-// Fail
-importfrom './index'
- *
-// Pass
-importfrom '.'
-```
+<pre><code> ```js
+ // Fail
+ import from './index'
+
+ // Pass
+ import from '.'
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L902-L910">[~]</a></p>
 <h3 id="rules-for-regular-expressions"><a class="header" href="#rules-for-regular-expressions">Rules for regular expressions</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L917-L918">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesprefer-named-capture-groupprefer-named-capture-groupa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-named-capture-groupprefer-named-capture-groupa"><a href="https://eslint.org/docs/rules/prefer-named-capture-group">prefer-named-capture-group</a></a></h4>
-<pre><code>We use named capture groups as they are more explicit while matching or replacing:
-```js
-// Fail
-const regexp = /(ba[rz])/
-const groupResult = regexp.exec('bar')[1] // 'bar'
-'foobar'.replace(regexp, '($1)') // 'foo(bar)'
- *
-// Pass
-const regexp = /(?&lt;named&gt;ba[rz])/
-const groupResult = regexp.exec('bar').groups.named // 'bar'
-'foobar'.replace(regexp, '($&lt;named&gt;)') // 'foo(bar)'
-```
-If you don't need the result of capturing, mark group as a non-capturing:
-```js
-// Pass
-const regexp = /(?:ba[rz])/
-```
+<pre><code> We use named capture groups as they are more explicit while matching or replacing:
+ ```js
+ // Fail
+ const regexp = /(ba[rz])/
+ const groupResult = regexp.exec('bar')[1] // 'bar'
+ 'foobar'.replace(regexp, '($1)') // 'foo(bar)'
+
+ // Pass
+ const regexp = /(?&lt;named&gt;ba[rz])/
+ const groupResult = regexp.exec('bar').groups.named // 'bar'
+ 'foobar'.replace(regexp, '($&lt;named&gt;)') // 'foo(bar)'
+ ```
+ If you don't need the result of capturing, mark group as a non-capturing:
+ ```js
+ // Pass
+ const regexp = /(?:ba[rz])/
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L926-L944">[~]</a></p>
 <h4 id="a-hrefhttpseslintorgdocsrulesprefer-regex-literalsprefer-regex-literalsa"><a class="header" href="#a-hrefhttpseslintorgdocsrulesprefer-regex-literalsprefer-regex-literalsa"><a href="https://eslint.org/docs/rules/prefer-regex-literals">prefer-regex-literals</a></a></h4>
-<pre><code>```js
-// Fail
-new RegExp(&quot;abc&quot;)
- *
-// Pass
-/abc/
-new RegExp(someVariable)
-new RegExp(`${prefix}abc`)
-```
+<pre><code> ```js
+ // Fail
+ new RegExp(&quot;abc&quot;)
+
+ // Pass
+ /abc/
+ new RegExp(someVariable)
+ new RegExp(`${prefix}abc`)
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L948-L958">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesbetter-regexmdunicornbetter-regexa"><a class="header" href="#a-hrefhttpsgithubcomsindresorhuseslint-plugin-unicornblobmaindocsrulesbetter-regexmdunicornbetter-regexa"><a href="https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/better-regex.md">unicorn/better-regex</a></a></h4>
-<pre><code>```js
-// Fail
-/[0-9]/
- *
-// Pass
-/\d/
-```
+<pre><code> ```js
+ // Fail
+ /[0-9]/
+
+ // Pass
+ /\d/
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L962-L970">[~]</a></p>
 <h1 id="typescript-1"><a class="header" href="#typescript-1">TypeScript</a></h1>
@@ -1255,237 +1262,237 @@ new RegExp(`${prefix}abc`)
 <h3 id="upgrading-warnings-from-recommended-config-to-errors"><a class="header" href="#upgrading-warnings-from-recommended-config-to-errors">Upgrading warnings from recommended config to errors</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L22-L23">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/explicit-module-boundary-types.md">@typescript-eslint/explicit-module-boundary-types</a></a></h4>
-<pre><code>Exported functions should have return type declared explicitly to avoid unexpected changes in return type.
-In case you want all functions to have return type specified, use rule `@typescript-eslint/explicit-function-return-type`.
-```ts
-// Fail
-export const getString = () =&gt; 'string'
- *
-// Pass
-export const getString = (): string =&gt; 'string'
-const getString = () =&gt; 'string'
-```
+<pre><code> Exported functions should have return type declared explicitly to avoid unexpected changes in return type.
+ In case you want all functions to have return type specified, use rule `@typescript-eslint/explicit-function-return-type`.
+ ```ts
+ // Fail
+ export const getString = () =&gt; 'string'
+
+ // Pass
+ export const getString = (): string =&gt; 'string'
+ const getString = () =&gt; 'string'
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L27-L38">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-explicit-any.md">@typescript-eslint/no-explicit-any</a></a></h4>
-<pre><code>```ts
-// Fail
-let a: any
- *
-// Pass
-let a: unknown
-```
+<pre><code> ```ts
+ // Fail
+ let a: any
+
+ // Pass
+ let a: unknown
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L42-L50">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-non-null-assertion.md">@typescript-eslint/no-non-null-assertion</a></a></h4>
-<pre><code>```ts
-// Fail
-return foo!.bar
- *
-// Pass
-return foo?.bar
-```
+<pre><code> ```ts
+ // Fail
+ return foo!.bar
+
+ // Pass
+ return foo?.bar
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L54-L62">[~]</a></p>
 <h3 id="clarifying-recommended-rules-1"><a class="header" href="#clarifying-recommended-rules-1">Clarifying recommended rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L67-L68">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-floating-promises.md">@typescript-eslint/no-floating-promises</a></a></h4>
-<pre><code>If function returns promise but we want to ignore this promise it should be explicitly shown that this is an async function call. Add `void` before such function calls to distinguish them from synchronous ones.
-```ts
-const asyncSideEffect = async () =&gt; { await doSomething() }
- *
-// Fail
-asyncSideEffect()
- *
-// Pass
-await asyncSideEffect() // wait for result
-void asyncSideEffect() // ignore and don't wait
-```
+<pre><code> If function returns promise but we want to ignore this promise it should be explicitly shown that this is an async function call. Add `void` before such function calls to distinguish them from synchronous ones.
+ ```ts
+ const asyncSideEffect = async () =&gt; { await doSomething() }
+
+ // Fail
+ asyncSideEffect()
+
+ // Pass
+ await asyncSideEffect() // wait for result
+ void asyncSideEffect() // ignore and don't wait
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L72-L84">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/restrict-template-expressions.md">@typescript-eslint/restrict-template-expressions</a></a></h4>
-<pre><code>Avoid `null` or `undefined` being included in a string:
-```ts
-// Fail
-const print = (a?: string | null) =&gt; `a: ${a}`
- *
-// Pass
-const print = (a?: string | null) =&gt; `a: ${a ?? 'empty'}`
-```
+<pre><code> Avoid `null` or `undefined` being included in a string:
+ ```ts
+ // Fail
+ const print = (a?: string | null) =&gt; `a: ${a}`
+
+ // Pass
+ const print = (a?: string | null) =&gt; `a: ${a ?? 'empty'}`
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L88-L97">[~]</a></p>
 <h3 id="disabling-recommended-rules-2"><a class="header" href="#disabling-recommended-rules-2">Disabling recommended rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L102-L103">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-assignment.md"><del>@typescript-eslint/no-unsafe-assignment</del></a></a></h4>
-<pre><code>#### [~~@typescript-eslint/no-unsafe-call~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-call.md)
-#### [~~@typescript-eslint/no-unsafe-member-access~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-member-access.md)
-#### [~~@typescript-eslint/no-unsafe-return~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-return.md)
-Disabled this group of rules as they flag usages of external libraries which typings contain `any.`
+<pre><code> #### [~~@typescript-eslint/no-unsafe-call~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-call.md)
+ #### [~~@typescript-eslint/no-unsafe-member-access~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-member-access.md)
+ #### [~~@typescript-eslint/no-unsafe-return~~](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-return.md)
+ Disabled this group of rules as they flag usages of external libraries which typings contain `any.`
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L107-L112">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/unbound-method.md"><del>@typescript-eslint/unbound-method</del></a></a></h4>
-<pre><code>Disabled as it flags usages of unbound methods from external libraries (e.g., `_.noop` from Lodash)
+<pre><code> Disabled as it flags usages of unbound methods from external libraries (e.g., `_.noop` from Lodash)
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L119-L121">[~]</a></p>
 <h3 id="enabling-new-rules"><a class="header" href="#enabling-new-rules">Enabling new rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L126-L127">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/array-type.md#array-simple">@typescript-eslint/array-type.md</a></a></h4>
-<pre><code>Use `T[]` for primitives and type references and `Array&lt;T&gt;` for other cases:
-```ts
-// Fail
-type A = Array&lt;string&gt;
-type B = { param: string }[]
-type C = (string | number)[]
- *
-// Pass
-type A = string[]
-type B = Array&lt;{ param: string }&gt;
-type C = Array&lt;string | number&gt;
-```
+<pre><code> Use `T[]` for primitives and type references and `Array&lt;T&gt;` for other cases:
+ ```ts
+ // Fail
+ type A = Array&lt;string&gt;
+ type B = { param: string }[]
+ type C = (string | number)[]
+
+ // Pass
+ type A = string[]
+ type B = Array&lt;{ param: string }&gt;
+ type C = Array&lt;string | number&gt;
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L131-L144">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-indexed-object-style.md">@typescript-eslint/consistent-indexed-object-style</a></a></h4>
-<pre><code>```ts
-// Fail
-type A = { [key: Key]: Value }
- *
-// Pass
-type A = Record&lt;Key, Value&gt;
-```
+<pre><code> ```ts
+ // Fail
+ type A = { [key: Key]: Value }
+
+ // Pass
+ type A = Record&lt;Key, Value&gt;
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L148-L156">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-assertions.md">@typescript-eslint/consistent-type-assertions</a></a></h4>
-<pre><code>To prevent conflicts with JSX:
-```ts
-// Fail
-const a = &lt;T&gt;b
- *
-// Pass
-const a = b as T
-```
+<pre><code> To prevent conflicts with JSX:
+ ```ts
+ // Fail
+ const a = &lt;T&gt;b
+
+ // Pass
+ const a = b as T
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L160-L169">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-definitions.md">@typescript-eslint/consistent-type-definitions</a></a></h4>
-<pre><code>Prefer `type` to `interface`:
-* `type` can be used for any type variations (objects, arrays, unions, primitives and so on) while `interface` is only for object shapes. So for the sake of consistency it is better to use `type` everywhere and not mix it with `interface`.
-* `type` can only be defined once, while `interface` can be defined multiple times and these definitions [will merge](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces).
-```ts
-// Fail
-interface A {
-  foo: string
-}
- *
-// Pass
-type A = {
-  foo: string
-}
-```
+<pre><code> Prefer `type` to `interface`:
+ `type` can be used for any type variations (objects, arrays, unions, primitives and so on) while `interface` is only for object shapes. So for the sake of consistency it is better to use `type` everywhere and not mix it with `interface`.
+ `type` can only be defined once, while `interface` can be defined multiple times and these definitions [will merge](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces).
+ ```ts
+ // Fail
+ interface A {
+   foo: string
+ }
+
+ // Pass
+ type A = {
+   foo: string
+ }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L173-L188">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md">@typescript-eslint/consistent-type-imports</a></a></h4>
-<pre><code>Prefer [type imports](https://devblogs.microsoft.com/typescript/announcing-typescript-3-8-beta/#type-only-imports-exports): it helps to better distinguish types from similarly named variables and avoid `import/no-cycle` errors when importing types.
-`import type { T } from 'lib'`
-```ts
-// Fail
-import { T } from 'lib'
- *
-// Pass
-import type { T } from 'lib'
-```
-There are [some cases](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md#when-not-to-use-it) when you might need to disable this rule (e.g. with NestJS).
+<pre><code> Prefer [type imports](https://devblogs.microsoft.com/typescript/announcing-typescript-3-8-beta/#type-only-imports-exports): it helps to better distinguish types from similarly named variables and avoid `import/no-cycle` errors when importing types.
+ `import type { T } from 'lib'`
+ ```ts
+ // Fail
+ import { T } from 'lib'
+
+ // Pass
+ import type { T } from 'lib'
+ ```
+ There are [some cases](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md#when-not-to-use-it) when you might need to disable this rule (e.g. with NestJS).
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L192-L203">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/method-signature-style.md">@typescript-eslint/method-signature-style</a></a></h4>
-<pre><code>```ts
-// Fail
-type A = {
-  method(): void
-}
- *
-// Pass
-type A = {
-  method: () =&gt; void
-}
-```
+<pre><code> ```ts
+ // Fail
+ type A = {
+   method(): void
+ }
+
+ // Pass
+ type A = {
+   method: () =&gt; void
+ }
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L207-L219">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md">@typescript-eslint/naming-convention</a></a></h4>
-<pre><code>The only common naming convention we enforce is PascalCase for types.
-You may add more naming conventions based on your project needs.
-```ts
-// Fail
-type myType = {}
- *
-// Pass
-type MyType = {}
-```
+<pre><code> The only common naming convention we enforce is PascalCase for types.
+ You may add more naming conventions based on your project needs.
+ ```ts
+ // Fail
+ type myType = {}
+
+ // Pass
+ type MyType = {}
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L223-L233">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-nullish-coalescing.md">@typescript-eslint/prefer-nullish-coalescing</a></a></h4>
-<pre><code>Prefer `??` to `!!` as `??` will not fallback if value is falsy (`0`, `''`, false, etc.):
-```ts
-const a: number | null | undefined = 0
- *
-// Fail
-const b = a || 999 // result: 999
- *
-// Pass
-const b = a ?? 999 // result: 0
-```
+<pre><code> Prefer `??` to `!!` as `??` will not fallback if value is falsy (`0`, `''`, false, etc.):
+ ```ts
+ const a: number | null | undefined = 0
+
+ // Fail
+ const b = a || 999 // result: 999
+
+ // Pass
+ const b = a ?? 999 // result: 0
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L243-L254">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-optional-chain.md">@typescript-eslint/prefer-optional-chain</a></a></h4>
-<pre><code>```ts
-const a: {
-  b? : Array&lt;{
-    c?: () =&gt; void
-  }&gt;
-} | undefined = {}
- *
-// Fail
-a &amp;&amp; a.b &amp;&amp; a.b[0] &amp;&amp; a.b[0].c &amp;&amp; a.b[0].c()
- *
-// Pass
-a?.b?.[0]?.c?.()
-```
+<pre><code> ```ts
+ const a: {
+   b? : Array&lt;{
+     c?: () =&gt; void
+   }&gt;
+ } | undefined = {}
+
+ // Fail
+ a &amp;&amp; a.b &amp;&amp; a.b[0] &amp;&amp; a.b[0].c &amp;&amp; a.b[0].c()
+
+ // Pass
+ a?.b?.[0]?.c?.()
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L258-L272">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-reduce-type-parameter.md">@typescript-eslint/prefer-reduce-type-parameter</a></a></h4>
-<pre><code>Provide result type for `Array#reduce` calls when it can't be properly inferred from initial value.
-```ts
-// Fail
-[1, 2, 3].reduce((arr, num) =&gt; arr.concat(num2), [] as number[])
- *
-// Pass
-[1, 2, 3].reduce&lt;number[]&gt;((arr, num) =&gt; arr.concat(num2), [])
-```
+<pre><code> Provide result type for `Array#reduce` calls when it can't be properly inferred from initial value.
+ ```ts
+ // Fail
+ [1, 2, 3].reduce((arr, num) =&gt; arr.concat(num 2), [] as number[])
+
+ // Pass
+ [1, 2, 3].reduce&lt;number[]&gt;((arr, num) =&gt; arr.concat(num 2), [])
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L276-L285">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-ts-expect-error.md">@typescript-eslint/prefer-ts-expect-error</a></a></h4>
-<pre><code>```ts
-// Fail
-// @ts-ignore
-const str: string = 1
- *
-// Pass
-// @ts-expect-error: I know what I'm doing
-const str: string = 1
-```
+<pre><code> ```ts
+ // Fail
+ // @ts-ignore
+ const str: string = 1
+
+ // Pass
+ // @ts-expect-error: I know what I'm doing
+ const str: string = 1
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L289-L299">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/require-array-sort-compare.md">@typescript-eslint/require-array-sort-compare</a></a></h4>
-<pre><code>```ts
-// Fail
-[1, 5, 10].sort() // [1, 10, 5]
- *
-// Pass
-[1, 5, 10].sort((a, b) =&gt; a - b) // [1, 5, 10]
-['c', 'a', 'b'].sort()
-```
+<pre><code> ```ts
+ // Fail
+ [1, 5, 10].sort() // [1, 10, 5]
+
+ // Pass
+ [1, 5, 10].sort((a, b) =&gt; a - b) // [1, 5, 10]
+ ['c', 'a', 'b'].sort()
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L303-L312">[~]</a></p>
 <h3 id="ts-alternatives-to-js-rules"><a class="header" href="#ts-alternatives-to-js-rules">TS alternatives to JS rules</a></h3>
-<pre><code>Some ESLint rules have better alternatives in `@typescript-eslint` so we enable them instead of ESLint rules.
+<pre><code> Some ESLint rules have better alternatives in `@typescript-eslint` so we enable them instead of ESLint rules.
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L322-L324">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/default-param-last.md">@typescript-eslint/default-param-last</a></a></h4>
@@ -1493,14 +1500,14 @@ const str: string = 1
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/dot-notation.md">@typescript-eslint/dot-notation</a></a></h4>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L334-L335">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/init-declarations.md">@typescript-eslint/init-declarations</a></a></h4>
-<pre><code>In TS instead of `no-undef-init` we enable opposite rule `init-declarations` to avoid runtime errors with `let` variables:
-```ts
-// Fail
-let str: string // Actually it's `undefined`, but TS sees it as a `string`
- *
-// Pass
-let str: string | undefined = undefined
-```
+<pre><code> In TS instead of `no-undef-init` we enable opposite rule `init-declarations` to avoid runtime errors with `let` variables:
+ ```ts
+ // Fail
+ let str: string // Actually it's `undefined`, but TS sees it as a `string`
+
+ // Pass
+ let str: string | undefined = undefined
+ ```
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L340-L349">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-duplicate-imports.md">@typescript-eslint/no-duplicate-imports</a></a></h4>

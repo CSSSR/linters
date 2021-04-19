@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Recommendations - CSSSR Linting</title>
+        <title>React - CSSSR Linting</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">1.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">4.</strong> TypeScript</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">1.</strong> React</a></li><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">2.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">4.</strong> TypeScript</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,63 +163,341 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="recommendations"><a class="header" href="#recommendations">Recommendations</a></h1>
-<p>Here we present some advices regarding further ESLint configuration in your project.</p>
-<h2 id="recommended-rules-for-manual-configuration"><a class="header" href="#recommended-rules-for-manual-configuration">Recommended rules for manual configuration</a></h2>
-<p>There are some helpful ESLint rules and plugins which are too strict to enable for all projects. We recommend to look through them and enable those that fit your project's needs.</p>
-<h3 id="javascript"><a class="header" href="#javascript">JavaScript</a></h3>
-<ul>
-<li><a href="https://github.com/sawyerh/eslint-plugin-todo-plz"><code>todo-plz/ticket-ref</code></a> — require TODOs to contain an associated issue ticket:
-<pre><code class="language-js">// Fail
-// TODO fix that later
+                        <h1 id="react"><a class="header" href="#react">React</a></h1>
+<h2 id="syntactic-rules"><a class="header" href="#syntactic-rules">Syntactic rules</a></h2>
+<h2 id="principles"><a class="header" href="#principles">Principles</a></h2>
+<h3 id="syntax"><a class="header" href="#syntax">Syntax</a></h3>
+<ol>
+<li>As with the base config we use Prettier for familiar formatting defaults.</li>
+<li>Making JSX more compact. JSX is similar to HTML and tend to extend by width. We use rules which help make our markup narrower. E.g., <code>react/jsx-boolean-value</code>.</li>
+<li>Minimizing the count of symbols and their kinds. JSX (as HTML too) has very noisy syntax. We try to omit unnecessary and optional symbols and prefer to use more compact syntax. When we need to use some decorative symbols, we prefer more consistent syntax. E.g., <code>react/jsx-no-useless-fragment</code>, <code>react/jsx-tag-spacing</code>.</li>
+<li>We try not to affect the look of JSX code too much so we don't force the use of specific form of syntax. E.g., we don't use <code>react/jsx-sort-props</code>.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L4-L11">[~]</a></li>
+</ol>
+<h3 id="semantics"><a class="header" href="#semantics">Semantics</a></h3>
+<ol>
+<li>Explicit declaration React semantics rules. React and JSX have many specific semantic rules, the violation of which leads to error. For example react hooks, lifecycle, component declarations have many implicit rules which has no meaning in Vanilla JS context. But if this rules is breaked, react will works incorrectly. Because JS interpreter(and base linting rules for JS) doesn't know anything about <code>state</code>, <code>props</code>, <code>lifecycle</code>, <code>hooks</code> and so on. We declare this rules in linting and help base lint rules(as &quot;no-unused-vars&quot;) works with React syntax/semantics. E.g., <code>react-hooks/rules-of-hooks</code>, <code>react/no-typos</code>, <code>react/jsx-no-constructed-context-values</code>, <code>react/no-access-state-in-setstate</code>, etc.</li>
+<li>Prevent usage of constructions which break a11y or web security. We use config <code>jsx-a11y/recommended</code> and rule <code>react/no-danger</code>.</li>
+<li>Prevent usage of deprecated or unconventional API. Most of the rules covering this issue are included in recommended config, additionally we enable <code>react/no-unsafe</code>.</li>
+<li>Optimize React for performance. React's performance relies on change detection of props by reference. To make it work, we should avoid several constructions which lead to the generation of new references. E.g., <code>react/prefer-stateless-function</code>, <code>react/no-array-index-key</code></li>
+<li>Enforce usage of <code>prop-types</code> in non-TS projects. We prefer to use <code>props-types</code> because it is a standardized way to declare component API. That's why we enable rules helping to write better prop types: e.g., <code>react/prop-types</code>, <code>react/forbid-prop-types</code>, <code>react/no-unused-prop-types</code> etc.</li>
+<li>Don't specify naming for React props. Though React code has typical props templates (handlers, boolean flags, etc), we don't enforce naming convention for them. Naming convention must be project-specific so we don't use rules like <code>react/boolean-prop-naming</code> or <code>react/jsx-handler-names</code>. We still use <code>react/jsx-pascal-case</code> to encourage consistent component naming between projects.</li>
+<li>Don't enforce conventions about structure of your project and components. All these conventions are be project-specific and must be defined by project developers. We don't use rules like <code>react/static-property-placement</code>, <code>react/no-multi-comp</code> or <code>react/jsx-max-depth</code>.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L15-L23">[~]</a></li>
+</ol>
+<h2 id="react-rules"><a class="header" href="#react-rules">React rules</a></h2>
+<p>As a base we use recommended configs from <a href="https://github.com/yannickcr/eslint-plugin-react"><code>eslint-plugin-react</code></a> and <a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks"><code>eslint-plugin-react-hooks</code></a>.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L28-L30">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesbutton-has-typemdreactbutton-has-typea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesbutton-has-typemdreactbutton-has-typea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/button-has-type.md">react/button-has-type</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;button&gt;Hello&lt;/button&gt;
 
-// Pass
-// TODO will be fixed in PROJ-123
+ // Pass
+ return &lt;button type=&quot;button&quot;&gt;Hello&lt;/button&gt;
+ ```
 </code></pre>
-</li>
-<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/dynamic-import-chunkname.md"><code>import/dynamic-import-chunkname</code></a> — if you are using dynamic imports in webpack.</li>
-<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md"><code>import/no-extraneous-dependencies</code></a> — forbid importing dependencies which are not listed as dependencies in <code>package.json</code>.</li>
-<li><a href="https://github.com/mozilla/eslint-plugin-no-unsanitized"><code>eslint-plugin-no-unsanitized</code></a> — if you are inserting HTML directly in JS. You'll need to choose a sanitizer library and configure this plugin accordingly.</li>
-</ul>
-<h3 id="typescript"><a class="header" href="#typescript">TypeScript</a></h3>
-<ul>
-<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unnecessary-condition.md"><code>@typescript-eslint/no-unnecessary-condition</code></a> — requires TS 4.1 or higher with <code>noUncheckedIndexedAccess</code> option enabled. Combination of this TS option and linting rule will provide better type safety but you'll need to write more type guards.
-<pre><code class="language-ts">const items: Item[] = []
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L53-L61">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdefault-props-match-prop-typesmdreactdefault-props-match-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdefault-props-match-prop-typesmdreactdefault-props-match-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/default-props-match-prop-types.md">react/default-props-match-prop-types</a></a></h4>
+<pre><code> ```js
+ // Fail
+ MyComponent.propTypes = {
+   foo: React.PropTypes.string.isRequired,
+ }
+ MyComponent.defaultProps = {
+   foo: &quot;foo&quot;
+ }
 
-// Fail
-// noUncheckedIndexedAccess: false
-const item = items[0] // type: Item
-if (item) {} // no-unnecessary-condition will report error here
+ // Pass
+ MyComponent.propTypes = {
+   foo: React.PropTypes.string.isRequired,
+ }
 
-// Pass
-// noUncheckedIndexedAccess: true
-const item = items[0] // type: Item | undefined
-if (item) {}
+ // Pass
+ MyComponent.propTypes = {
+   foo: React.PropTypes.string,
+ }
+ MyComponent.defaultProps = {
+   foo: &quot;foo&quot;
+ }
+ ```
 </code></pre>
-</li>
-<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md"><code>@typescript-eslint/switch-exhaustiveness-check</code></a> — it may be overkill to enable this rule globally so you can enable it in specific files and/or use <a href="https://github.com/krzkaczor/ts-essentials#exhaustive-switch-cases"><code>UnreachableCaseError</code> from <code>ts-essentials</code></a></li>
-</ul>
-<h3 id="react"><a class="header" href="#react">React</a></h3>
-<ul>
-<li><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><code>react-hooks/exhaustive-deps</code></a> — we recommend enable this rule only the files which are heavily rely on memoization. In some situations following this rule may lead to breaking logic (e.g. when <code>useEffect</code> is used as a watcher). To enable this rule in specific file add this comment at the file start:
-<pre><code class="language-js">/* eslint react-hooks/exhaustive-deps: &quot;error&quot; */
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L65-L88">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesforbid-prop-typesmdreactforbid-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesforbid-prop-typesmdreactforbid-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md">react/forbid-prop-types</a></a></h4>
+<pre><code> ```js
+ // Fail
+ Component.propTypes = {
+   a: PropTypes.any,
+   b: PropTypes.array,
+   c: PropTypes.object
+ }
+
+ // Pass
+ Component.propTypes = {
+   a: PropTypes.objectOf(PropTypes.number),
+   b: PropTypes.arrayOf(PropTypes.string),
+   c: PropTypes.shape({
+     c1: PropTypes.number,
+     c2: PropTypes.string,
+   })
+ }
+ ```
 </code></pre>
-</li>
-<li><a href="https://github.com/cvazac/eslint-plugin-react-perf"><code>eslint-plugin-react-perf</code></a> — this plugin has several rules requiring memoization of objects, arrays and functions and JSX passed as props. These rules may be helpful in performance-critical places, but it may be too restrictive to enable them globally. We recommend enabling these rules either via <a href="https://eslint.org/docs/user-guide/configuring/configuration-files#how-do-overrides-work"><code>overrides</code> ESLing config field</a> or by adding this comment in specific files:
-<pre><code class="language-js">/* eslint
-    react-perf/jsx-no-new-object-as-prop: &quot;error&quot;,
-    react-perf/jsx-no-new-array-as-prop: &quot;error&quot;,
-    react-perf/jsx-no-new-function-as-prop: &quot;error&quot;,
-    react-perf/jsx-no-jsx-as-prop: &quot;error&quot;
-*/
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L92-L111">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesfunction-component-definitionmdreactfunction-component-definitiona"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesfunction-component-definitionmdreactfunction-component-definitiona"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/function-component-definition.md">react/function-component-definition</a></a></h4>
+<pre><code> We prefer components as arrow function for the sake of homogeneity. Benefit of arrow function over function expression is inability to use `this`.
+ ```js
+ // Fail
+ export function MyComponent() {}
+
+ // Pass
+ export const MyComponent = () =&gt; {}
+ ```
 </code></pre>
-</li>
-<li><a href="https://github.com/DianaSuvorova/eslint-plugin-react-redux"><code>eslint-plugin-react-redux</code></a> — for projects using Redux.</li>
-<li><a href="https://github.com/jonaskello/eslint-plugin-functional#no-mutations-rules"><code>plugin:functional/no-mutations</code></a> — if you want to enforce usage of readonly data structures and avoid mutations. </li>
-</ul>
-<h2 id="linting-performance"><a class="header" href="#linting-performance">Linting performance</a></h2>
-<p>If you feel that linting your project takes too long you can run ESLint with <a href="https://eslint.org/docs/developer-guide/working-with-rules-deprecated#per-rule-performance"><code>TIMING=1</code> environment variable</a> and it'll show you which rules are taking the most time.</p>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/Recommendations.fdoc.md#L1-L1">[~]</a></p>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L115-L124">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-boolean-valuemdreactjsx-boolean-valuea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-boolean-valuemdreactjsx-boolean-valuea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md">react/jsx-boolean-value</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;Component disabled={true} /&gt;
+
+ // Pass
+ return &lt;Component disabled /&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L134-L142">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-fragmentsmdreactjsx-fragmentsa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-fragmentsmdreactjsx-fragmentsa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-fragments.md">react/jsx-fragments</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;React.Fragment&gt;...&lt;/React.Fragment&gt;
+
+ // Pass
+ return &lt;&gt;...&lt;/&gt;
+ return &lt;React.Fragment key=&quot;key&quot;&gt;...&lt;/React.Fragment&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L146-L155">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-no-constructed-context-valuesmdreactjsx-no-constructed-context-valuesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-no-constructed-context-valuesmdreactjsx-no-constructed-context-valuesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-constructed-context-values.md">react/jsx-no-constructed-context-values</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return (
+   &lt;MyContext.Provider value={{ foo }}&gt;
+     ...
+   &lt;/MyContext.Provider&gt;
+ )
+
+ // Pass
+ const value = useMemo(() =&gt; ({ foo }), [foo])
+ return (
+   &lt;MyContext.Provider value={value}&gt;
+     ...
+   &lt;/MyContext.Provider&gt;
+ )
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L159-L176">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-pascal-casemdreactjsx-pascal-casea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesjsx-pascal-casemdreactjsx-pascal-casea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md">react/jsx-pascal-case</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;My_component /&gt;
+ return &lt;MY_COMPONENT /&gt;
+
+ // Pass
+ return &lt;MyComponent /&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L180-L189">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-access-state-in-setstatemdreactno-access-state-in-setstatea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-access-state-in-setstatemdreactno-access-state-in-setstatea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-access-state-in-setstate.md">react/no-access-state-in-setstate</a></a></h4>
+<pre><code> ```js
+ // Fail
+ this.setState({ value: this.state.value + 1 })
+
+ // Pass
+ this.setState(state =&gt; ({ value: state.value + 1 }))
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L193-L201">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-array-index-keymdreactno-array-index-keya"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-array-index-keymdreactno-array-index-keya"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-array-index-key.md">react/no-array-index-key</a></a></h4>
+<pre><code> In a few cases when only index is available as a key, rule can be disabled for a specific line.
+ ```jsx
+ // Fail
+ return items.map((item, index) =&gt; (
+   &lt;Item key={index} /&gt;
+ ))
+
+ // Pass
+ return items.map((item, index) =&gt; (
+   &lt;Item key={item.id} /&gt;
+ ))
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L205-L218">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-dangermdreactno-dangera"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-dangermdreactno-dangera"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md">react/no-danger</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;div dangerouslySetInnerHTML={{ __html: 'Hello World' }}&gt;&lt;/div&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L222-L227">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-typosmdreactno-typosa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-typosmdreactno-typosa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-typos.md">react/no-typos</a></a></h4>
+<pre><code> ```js
+ // Fail
+ class MyComponent extends React.Component {
+   static PropTypes = {
+     a: PropTypes.bol
+   }
+   static defaultprops = {}
+   getDerivedStateFromProps() {}
+   ComponentWillMount() {}
+   componentdidupdate() {}
+ }
+
+ // Pass
+ class MyComponent extends React.Component {
+   static propTypes = {
+     a: PropTypes.bool
+   }
+   static defaultProps = {}
+   static getDerivedStateFromProps() {}
+   componentWillMount() {}
+   componentDidUpdate() {}
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L231-L255">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unsafemdreactno-unsafea"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unsafemdreactno-unsafea"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unsafe.md">react/no-unsafe</a></a></h4>
+<pre><code> ```js
+ // Fail
+ class MyComponent extends React.Component {
+   UNSAFE_componentWillMount() {}
+   UNSAFE_componentWillReceiveProps() {}
+   UNSAFE_componentWillUpdate() {}
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L259-L268">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unused-prop-typesmdreactno-unused-prop-typesa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesno-unused-prop-typesmdreactno-unused-prop-typesa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-prop-types.md">react/no-unused-prop-types</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ const MyComponent = ({ firstName }) =&gt; &lt;span&gt;{firstName}&lt;/span&gt;
+ MyComponent.propTypes = {
+   firstName: PropTypes.string,
+   lastName: PropTypes.string,
+ }
+
+ // Pass
+ const MyComponent = ({ firstName, lastName }) =&gt; &lt;span&gt;{firstName} {lastName}&lt;/span&gt;
+ MyComponent.propTypes = {
+   firstName: PropTypes.string,
+   lastName: PropTypes.string,
+ }
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L272-L288">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesprefer-stateless-functionmdreactprefer-stateless-functiona"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesprefer-stateless-functionmdreactprefer-stateless-functiona"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md">react/prefer-stateless-function</a></a></h4>
+<pre><code> Though we prefer to use functional components with hooks over class components, we don't enforce it for all the components, only for class components with no state or lifecycle methods.
+ ```jsx
+ // Fail
+ class MyComponent extends React.Component {
+   render() {
+     return &lt;span&gt;{this.props.name}&lt;/span&gt;
+   }
+ }
+
+ // Pass
+ const MyComponent = ({ name }) =&gt; &lt;span&gt;{name}&lt;/span&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L292-L305">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesself-closing-compmdreactself-closing-compa"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesself-closing-compmdreactself-closing-compa"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md">react/self-closing-comp</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;MyComponent&gt;&lt;/MyComponent&gt;
+
+ // Pass
+ return &lt;MyComponent /&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L309-L317">[~]</a></p>
+<h3 id="disabling-recommended-rules"><a class="header" href="#disabling-recommended-rules">Disabling recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L322-L323">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md"><del>react/display-name</del></a></a></h4>
+<pre><code> Disabled this rule as it gives false positives for render props.
+ Also we prefer named exports which guarantees that exported component functions have proper names.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L326-L329">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesreact-in-jsx-scopemddelreactreact-in-jsx-scopedela"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesreact-in-jsx-scopemddelreactreact-in-jsx-scopedela"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/react-in-jsx-scope.md"><del>react/react-in-jsx-scope</del></a></a></h4>
+<pre><code> Disabled this rule as it is common to have React as a global variable (e.g., out-of-the-box in Next.js or via webpack's ProvidePlugin).
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L333-L335">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomfacebookreacttreemasterpackageseslint-plugin-react-hooksadvanced-configurationdelreact-hooksexhaustive-depsdela"><a class="header" href="#a-hrefhttpsgithubcomfacebookreacttreemasterpackageseslint-plugin-react-hooksadvanced-configurationdelreact-hooksexhaustive-depsdela"><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><del>react-hooks/exhaustive-deps</del></a></a></h4>
+<pre><code> This rule may trigger a lot of unwanted errors when `useEffect` is used as watcher.
+ It is recommended to manually enable this rule inside files which heavily rely on memoization.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L339-L342">[~]</a></p>
+<h2 id="jsx-a11y-rules"><a class="header" href="#jsx-a11y-rules">JSX A11y rules</a></h2>
+<p>Using <code>plugin:jsx-a11y/recommended</code> config as a starting point.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L359-L361">[~]</a></p>
+<h3 id="disabling-recommended-rules-1"><a class="header" href="#disabling-recommended-rules-1">Disabling recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L367-L368">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md"><del>jsx-a11y/accessible-emoji</del></a></a></h4>
+<pre><code> Deprecated
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L371-L373">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-onchangemddeljsx-a11yno-onchangedela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-onchangemddeljsx-a11yno-onchangedela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-onchange.md"><del>jsx-a11y/no-onchange</del></a></a></h4>
+<pre><code> Deprecated
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L377-L379">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsruleslabel-has-associated-controlmddeljsx-a11ylabel-has-associated-controldela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsruleslabel-has-associated-controlmddeljsx-a11ylabel-has-associated-controldela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-associated-control.md"><del>jsx-a11y/label-has-associated-control</del></a></a></h4>
+<pre><code> Disabled until [this issue](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/511) is fixed.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L383-L385">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md"><del>jsx-a11y/no-autofocus</del></a></a></h4>
+<pre><code> It may be [considered OK](https://www.brucelawson.co.uk/2009/the-accessibility-of-html-5-autofocus/) to use `autofocus` on pages which consist only of form (e.g., login page). In other cases usage of `autofocus` may lead to a confusion of a screen reader user. We leave the decision to use autofocus to developers on a case-by-case basis.
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L389-L391">[~]</a></p>
+<h3 id="clarifying-recommended-rules"><a class="header" href="#clarifying-recommended-rules">Clarifying recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L396-L397">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md">jsx-a11y/anchor-is-valid</a></a></h4>
+<pre><code> ```jsx
+ // Fail
+ return &lt;a onClick={foo}&gt;Perform action&lt;/a&gt;
+
+ // Pass
+ return &lt;a href=&quot;/some/valid/uri&quot;&gt;Navigate to page&lt;/a&gt;
+ ```
+ This rule may lead to a lot of errors when linting Next.js projects so consider either turning it off or [following these recommendations](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md#case-i-use-nextjs-and-im-getting-this-error-inside-of-links).
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L400-L409">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesmouse-events-have-key-eventsmdjsx-a11ymouse-events-have-key-eventsa"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesmouse-events-have-key-eventsmdjsx-a11ymouse-events-have-key-eventsa"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md">jsx-a11y/mouse-events-have-key-events</a></a></h4>
+<pre><code> If an element has some logic tied to hover it should be duplicated via focus/blur keyboard events. It is important for both purely visual changes (e.g., highlighting) and actual page changes (e.g., showing hint).
+ ```jsx
+ // Fail
+ return &lt;div onMouseOver={() =&gt; {}} /&gt;
+
+ // Pass
+ return (
+   &lt;div
+     tabindex={0}
+     onMouseOver={() =&gt; {}}
+     onFocus={() =&gt; {}}
+   /&gt;
+ )
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L413-L428">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-has-contentmdjsx-a11yanchor-has-contenta"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-has-contentmdjsx-a11yanchor-has-contenta"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md">jsx-a11y/anchor-has-content</a></a></h4>
+<pre><code> This rule is always linting `&lt;a&gt;` tags. Additionally we configured this rule for `&lt;Link&gt;` component. If you have other custom link components configure this rule inside your project specifying the name of your custom link component.
+ ```jsx
+ // Fail
+ return &lt;a /&gt;
+ return &lt;Link /&gt;
+
+ // Pass
+ return &lt;a&gt;Link content&lt;/a&gt;
+ return &lt;Link&gt;Link content&lt;/Link&gt;
+ ```
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L432-L443">[~]</a></p>
 
                     </main>
 
@@ -228,7 +506,7 @@ if (item) {}
                         
 
                         
-                            <a rel="next" href="react.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="recommendations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -242,7 +520,7 @@ if (item) {}
                 
 
                 
-                    <a rel="next" href="react.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="recommendations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
