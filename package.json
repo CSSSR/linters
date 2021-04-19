@@ -13,6 +13,10 @@
     "url": "https://github.com/CSSSR/linters/issues"
   },
   "homepage": "https://github.com/CSSSR/linters#readme",
+  "files": [
+    "eslint",
+    "prettier.config.js"
+  ],
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "eslint": "^7.21.0",
