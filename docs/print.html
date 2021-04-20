@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>CSSSR Linting</title>
+        <title>CSSSR Linters</title>
         
         <meta name="robots" content="noindex" />
         
@@ -97,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">1.</strong> TypeScript</a></li><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">2.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">3.</strong> Base</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">4.</strong> React</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="base.html"><strong aria-hidden="true">1.</strong> Base</a></li><li class="chapter-item expanded "><a href="react.html"><strong aria-hidden="true">2.</strong> React</a></li><li class="chapter-item expanded "><a href="recommendations.html"><strong aria-hidden="true">3.</strong> Recommendations</a></li><li class="chapter-item expanded "><a href="typescript.html"><strong aria-hidden="true">4.</strong> TypeScript</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -129,7 +129,7 @@
                         
                     </div>
 
-                    <h1 class="menu-title">CSSSR Linting</h1>
+                    <h1 class="menu-title">CSSSR Linters</h1>
 
                     <div class="right-buttons">
                         
@@ -165,293 +165,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="typescript"><a class="header" href="#typescript">TypeScript</a></h1>
-<p>We are using <a href="https://github.com/typescript-eslint/typescript-eslint">TypeScript ESLint</a> and its <a href="https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#recommended-configs">recommended configs</a> as a starting point.
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L2-L3">[~]</a></p>
-<h2 id="rules-overview"><a class="header" href="#rules-overview">Rules overview</a></h2>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L17-L18">[~]</a></p>
-<h3 id="upgrading-warnings-from-recommended-config-to-errors"><a class="header" href="#upgrading-warnings-from-recommended-config-to-errors">Upgrading warnings from recommended config to errors</a></h3>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L22-L23">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/explicit-module-boundary-types.md">@typescript-eslint/explicit-module-boundary-types</a></a></h4>
-<p>Exported functions should have return type declared explicitly to avoid unexpected changes in return type.
-In case you want all functions to have return type specified, use rule <code>@typescript-eslint/explicit-function-return-type</code>.</p>
-<pre><code class="language-ts">// Fail
-export const getString = () =&gt; 'string'
-
-// Pass
-export const getString = (): string =&gt; 'string'
-const getString = () =&gt; 'string'
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L27-L38">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-explicit-any.md">@typescript-eslint/no-explicit-any</a></a></h4>
-<pre><code class="language-ts">// Fail
-let a: any
-
-// Pass
-let a: unknown
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L42-L50">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-non-null-assertion.md">@typescript-eslint/no-non-null-assertion</a></a></h4>
-<pre><code class="language-ts">// Fail
-return foo!.bar
-
-// Pass
-return foo?.bar
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L54-L62">[~]</a></p>
-<h3 id="clarifying-recommended-rules"><a class="header" href="#clarifying-recommended-rules">Clarifying recommended rules</a></h3>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L67-L68">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-floating-promises.md">@typescript-eslint/no-floating-promises</a></a></h4>
-<p>If function returns promise but we want to ignore this promise it should be explicitly shown that this is an async function call. Add <code>void</code> before such function calls to distinguish them from synchronous ones.</p>
-<pre><code class="language-ts">const asyncSideEffect = async () =&gt; { await doSomething() }
-
-// Fail
-asyncSideEffect()
-
-// Pass
-await asyncSideEffect() // wait for result
-void asyncSideEffect() // ignore and don't wait
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L72-L84">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/restrict-template-expressions.md">@typescript-eslint/restrict-template-expressions</a></a></h4>
-<p>Avoid <code>null</code> or <code>undefined</code> being included in a string:</p>
-<pre><code class="language-ts">// Fail
-const print = (a?: string | null) =&gt; `a: ${a}`
-
-// Pass
-const print = (a?: string | null) =&gt; `a: ${a ?? 'empty'}`
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L88-L97">[~]</a></p>
-<h3 id="disabling-recommended-rules"><a class="header" href="#disabling-recommended-rules">Disabling recommended rules</a></h3>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L102-L103">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-assignment.md"><del>@typescript-eslint/no-unsafe-assignment</del></a></a></h4>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-callmddeltypescript-eslintno-unsafe-calldela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-callmddeltypescript-eslintno-unsafe-calldela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-call.md"><del>@typescript-eslint/no-unsafe-call</del></a></a></h4>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-member-accessmddeltypescript-eslintno-unsafe-member-accessdela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-member-accessmddeltypescript-eslintno-unsafe-member-accessdela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-member-access.md"><del>@typescript-eslint/no-unsafe-member-access</del></a></a></h4>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-returnmddeltypescript-eslintno-unsafe-returndela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-returnmddeltypescript-eslintno-unsafe-returndela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-return.md"><del>@typescript-eslint/no-unsafe-return</del></a></a></h4>
-<p>Disabled this group of rules as they flag usages of external libraries which typings contain <code>any.</code>
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L107-L112">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/unbound-method.md"><del>@typescript-eslint/unbound-method</del></a></a></h4>
-<p>Disabled as it flags usages of unbound methods from external libraries (e.g., <code>_.noop</code> from Lodash)
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L119-L121">[~]</a></p>
-<h3 id="enabling-new-rules"><a class="header" href="#enabling-new-rules">Enabling new rules</a></h3>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L126-L127">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/array-type.md#array-simple">@typescript-eslint/array-type.md</a></a></h4>
-<p>Use <code>T[]</code> for primitives and type references and <code>Array&lt;T&gt;</code> for other cases:</p>
-<pre><code class="language-ts">// Fail
-type A = Array&lt;string&gt;
-type B = { param: string }[]
-type C = (string | number)[]
-
-// Pass
-type A = string[]
-type B = Array&lt;{ param: string }&gt;
-type C = Array&lt;string | number&gt;
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L131-L144">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-indexed-object-style.md">@typescript-eslint/consistent-indexed-object-style</a></a></h4>
-<pre><code class="language-ts">// Fail
-type A = { [key: Key]: Value }
-
-// Pass
-type A = Record&lt;Key, Value&gt;
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L148-L156">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-assertions.md">@typescript-eslint/consistent-type-assertions</a></a></h4>
-<p>To prevent conflicts with JSX:</p>
-<pre><code class="language-ts">// Fail
-const a = &lt;T&gt;b
-
-// Pass
-const a = b as T
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L160-L169">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-definitions.md">@typescript-eslint/consistent-type-definitions</a></a></h4>
-<p>Prefer <code>type</code> to <code>interface</code>:</p>
-<ul>
-<li><code>type</code> can be used for any type variations (objects, arrays, unions, primitives and so on) while <code>interface</code> is only for object shapes. So for the sake of consistency it is better to use <code>type</code> everywhere and not mix it with <code>interface</code>.</li>
-<li><code>type</code> can only be defined once, while <code>interface</code> can be defined multiple times and these definitions <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces">will merge</a>.</li>
-</ul>
-<pre><code class="language-ts">// Fail
-interface A {
-  foo: string
-}
-
-// Pass
-type A = {
-  foo: string
-}
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L173-L188">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md">@typescript-eslint/consistent-type-imports</a></a></h4>
-<p>Prefer <a href="https://devblogs.microsoft.com/typescript/announcing-typescript-3-8-beta/#type-only-imports-exports">type imports</a>: it helps to better distinguish types from similarly named variables and avoid <code>import/no-cycle</code> errors when importing types.
-<code>import type { T } from 'lib'</code></p>
-<pre><code class="language-ts">// Fail
-import { T } from 'lib'
-
-// Pass
-import type { T } from 'lib'
-</code></pre>
-<p>There are <a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md#when-not-to-use-it">some cases</a> when you might need to disable this rule (e.g. with NestJS).
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L192-L203">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/method-signature-style.md">@typescript-eslint/method-signature-style</a></a></h4>
-<pre><code class="language-ts">// Fail
-type A = {
-  method(): void
-}
-
-// Pass
-type A = {
-  method: () =&gt; void
-}
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L207-L219">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md">@typescript-eslint/naming-convention</a></a></h4>
-<p>The only common naming convention we enforce is PascalCase for types.
-You may add more naming conventions based on your project needs.</p>
-<pre><code class="language-ts">// Fail
-type myType = {}
-
-// Pass
-type MyType = {}
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L223-L233">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-nullish-coalescing.md">@typescript-eslint/prefer-nullish-coalescing</a></a></h4>
-<p>Prefer <code>??</code> to <code>!!</code> as <code>??</code> will not fallback if value is falsy (<code>0</code>, <code>''</code>, false, etc.):</p>
-<pre><code class="language-ts">const a: number | null | undefined = 0
-
-// Fail
-const b = a || 999 // result: 999
-
-// Pass
-const b = a ?? 999 // result: 0
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L243-L254">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-optional-chain.md">@typescript-eslint/prefer-optional-chain</a></a></h4>
-<pre><code class="language-ts">const a: {
-  b? : Array&lt;{
-    c?: () =&gt; void
-  }&gt;
-} | undefined = {}
-
-// Fail
-a &amp;&amp; a.b &amp;&amp; a.b[0] &amp;&amp; a.b[0].c &amp;&amp; a.b[0].c()
-
-// Pass
-a?.b?.[0]?.c?.()
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L258-L272">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-reduce-type-parameter.md">@typescript-eslint/prefer-reduce-type-parameter</a></a></h4>
-<p>Provide result type for <code>Array#reduce</code> calls when it can't be properly inferred from initial value.</p>
-<pre><code class="language-ts">// Fail
-[1, 2, 3].reduce((arr, num) =&gt; arr.concat(num * 2), [] as number[])
-
-// Pass
-[1, 2, 3].reduce&lt;number[]&gt;((arr, num) =&gt; arr.concat(num * 2), [])
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L276-L285">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-ts-expect-error.md">@typescript-eslint/prefer-ts-expect-error</a></a></h4>
-<pre><code class="language-ts">// Fail
-// @ts-ignore
-const str: string = 1
-
-// Pass
-// @ts-expect-error: I know what I'm doing
-const str: string = 1
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L289-L299">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/require-array-sort-compare.md">@typescript-eslint/require-array-sort-compare</a></a></h4>
-<pre><code class="language-ts">// Fail
-[1, 5, 10].sort() // [1, 10, 5]
-
-// Pass
-[1, 5, 10].sort((a, b) =&gt; a - b) // [1, 5, 10]
-['c', 'a', 'b'].sort()
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L303-L312">[~]</a></p>
-<h3 id="ts-alternatives-to-js-rules"><a class="header" href="#ts-alternatives-to-js-rules">TS alternatives to JS rules</a></h3>
-<p>Some ESLint rules have better alternatives in <code>@typescript-eslint</code> so we enable them instead of ESLint rules.
-<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L322-L324">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/default-param-last.md">@typescript-eslint/default-param-last</a></a></h4>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L328-L329">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/dot-notation.md">@typescript-eslint/dot-notation</a></a></h4>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L334-L335">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/init-declarations.md">@typescript-eslint/init-declarations</a></a></h4>
-<p>In TS instead of <code>no-undef-init</code> we enable opposite rule <code>init-declarations</code> to avoid runtime errors with <code>let</code> variables:</p>
-<pre><code class="language-ts">// Fail
-let str: string // Actually it's `undefined`, but TS sees it as a `string`
-
-// Pass
-let str: string | undefined = undefined
-</code></pre>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L340-L349">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-duplicate-imports.md">@typescript-eslint/no-duplicate-imports</a></a></h4>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L355-L356">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-shadowmdtypescript-eslintno-shadowa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-shadowmdtypescript-eslintno-shadowa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-shadow.md">@typescript-eslint/no-shadow</a></a></h4>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L362-L363">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-throw-literalmdtypescript-eslintno-throw-literala"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-throw-literalmdtypescript-eslintno-throw-literala"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-throw-literal.md">@typescript-eslint/no-throw-literal</a></a></h4>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L368-L369">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unused-expressionsmdtypescript-eslintno-unused-expressionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unused-expressionsmdtypescript-eslintno-unused-expressionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-expressions.md">@typescript-eslint/no-unused-expressions</a></a></h4>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L374-L375">[~]</a></p>
-<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-useless-constructormdtypescript-eslintno-useless-constructora"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-useless-constructormdtypescript-eslintno-useless-constructora"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-useless-constructor.md">@typescript-eslint/no-useless-constructor</a></a></h4>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L388-L389">[~]</a></p>
-<h1 id="recommendations"><a class="header" href="#recommendations">Recommendations</a></h1>
-<p>Here we present some advices regarding further ESLint configuration in your project.</p>
-<h2 id="recommended-rules-for-manual-configuration"><a class="header" href="#recommended-rules-for-manual-configuration">Recommended rules for manual configuration</a></h2>
-<p>There are some helpful ESLint rules and plugins which are too strict to enable for all projects. We recommend to look through them and enable those that fit your project's needs.</p>
-<h3 id="javascript"><a class="header" href="#javascript">JavaScript</a></h3>
-<ul>
-<li><a href="https://github.com/sawyerh/eslint-plugin-todo-plz"><code>todo-plz/ticket-ref</code></a> — require TODOs to contain an associated issue ticket:
-<pre><code class="language-js">// Fail
-// TODO fix that later
-
-// Pass
-// TODO will be fixed in PROJ-123
-</code></pre>
-</li>
-<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/dynamic-import-chunkname.md"><code>import/dynamic-import-chunkname</code></a> — if you are using dynamic imports in webpack.</li>
-<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md"><code>import/no-extraneous-dependencies</code></a> — forbid importing dependencies which are not listed as dependencies in <code>package.json</code>.</li>
-<li><a href="https://github.com/mozilla/eslint-plugin-no-unsanitized"><code>eslint-plugin-no-unsanitized</code></a> — if you are inserting HTML directly in JS. You'll need to choose a sanitizer library and configure this plugin accordingly.</li>
-</ul>
-<h3 id="typescript-1"><a class="header" href="#typescript-1">TypeScript</a></h3>
-<ul>
-<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unnecessary-condition.md"><code>@typescript-eslint/no-unnecessary-condition</code></a> — requires TS 4.1 or higher with <code>noUncheckedIndexedAccess</code> option enabled. Combination of this TS option and linting rule will provide better type safety but you'll need to write more type guards.
-<pre><code class="language-ts">const items: Item[] = []
-
-// Fail
-// noUncheckedIndexedAccess: false
-const item = items[0] // type: Item
-if (item) {} // no-unnecessary-condition will report error here
-
-// Pass
-// noUncheckedIndexedAccess: true
-const item = items[0] // type: Item | undefined
-if (item) {}
-</code></pre>
-</li>
-<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md"><code>@typescript-eslint/switch-exhaustiveness-check</code></a> — it may be overkill to enable this rule globally so you can enable it in specific files and/or use <a href="https://github.com/krzkaczor/ts-essentials#exhaustive-switch-cases"><code>UnreachableCaseError</code> from <code>ts-essentials</code></a></li>
-</ul>
-<h3 id="react"><a class="header" href="#react">React</a></h3>
-<ul>
-<li><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><code>react-hooks/exhaustive-deps</code></a> — we recommend enable this rule only the files which are heavily rely on memoization. In some situations following this rule may lead to breaking logic (e.g. when <code>useEffect</code> is used as a watcher). To enable this rule in specific file add this comment at the file start:
-<pre><code class="language-js">/* eslint react-hooks/exhaustive-deps: &quot;error&quot; */
-</code></pre>
-</li>
-<li><a href="https://github.com/cvazac/eslint-plugin-react-perf"><code>eslint-plugin-react-perf</code></a> — this plugin has several rules requiring memoization of objects, arrays and functions and JSX passed as props. These rules may be helpful in performance-critical places, but it may be too restrictive to enable them globally. We recommend enabling these rules either via <a href="https://eslint.org/docs/user-guide/configuring/configuration-files#how-do-overrides-work"><code>overrides</code> ESLing config field</a> or by adding this comment in specific files:
-<pre><code class="language-js">/* eslint
-    react-perf/jsx-no-new-object-as-prop: &quot;error&quot;,
-    react-perf/jsx-no-new-array-as-prop: &quot;error&quot;,
-    react-perf/jsx-no-new-function-as-prop: &quot;error&quot;,
-    react-perf/jsx-no-jsx-as-prop: &quot;error&quot;
-*/
-</code></pre>
-</li>
-<li><a href="https://github.com/DianaSuvorova/eslint-plugin-react-redux"><code>eslint-plugin-react-redux</code></a> — for projects using Redux.</li>
-<li><a href="https://github.com/jonaskello/eslint-plugin-functional#no-mutations-rules"><code>plugin:functional/no-mutations</code></a> — if you want to enforce usage of readonly data structures and avoid mutations. </li>
-</ul>
-<h2 id="linting-performance"><a class="header" href="#linting-performance">Linting performance</a></h2>
-<p>If you feel that linting your project takes too long you can run ESLint with <a href="https://eslint.org/docs/developer-guide/working-with-rules-deprecated#per-rule-performance"><code>TIMING=1</code> environment variable</a> and it'll show you which rules are taking the most time.</p>
-<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/Recommendations.fdoc.md#L1-L1">[~]</a></p>
-<h1 id="base"><a class="header" href="#base">Base</a></h1>
+                        <h1 id="base"><a class="header" href="#base">Base</a></h1>
 <h2 id="principles"><a class="header" href="#principles">Principles</a></h2>
 <h3 id="syntax"><a class="header" href="#syntax">Syntax</a></h3>
 <ol>
@@ -470,7 +184,7 @@ if (item) {}
 <li>Make sure code is ready for production environment. Code shouldn't contain temporary or debug construction. E.g., <code>no-eval</code>, <code>no-console</code>, <code>no-debugger</code>, etc.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L15-L20">[~]</a></li>
 </ol>
-<h2 id="rules-overview-1"><a class="header" href="#rules-overview-1">Rules overview</a></h2>
+<h2 id="rules-overview"><a class="header" href="#rules-overview">Rules overview</a></h2>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L24-L25">[~]</a></p>
 <h3 id="prettier"><a class="header" href="#prettier">Prettier</a></h3>
 <p><a href="https://github.com/prettier/eslint-plugin-prettier"><code>eslint-plugin-prettier</code></a> is used for integration of Prettier and ESLint.</p>
@@ -1049,7 +763,7 @@ new RegExp(`${prefix}abc`)
 /\d/
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/base.js#L962-L970">[~]</a></p>
-<h1 id="react-1"><a class="header" href="#react-1">React</a></h1>
+<h1 id="react"><a class="header" href="#react">React</a></h1>
 <h2 id="syntactic-rules"><a class="header" href="#syntactic-rules">Syntactic rules</a></h2>
 <h2 id="principles-1"><a class="header" href="#principles-1">Principles</a></h2>
 <h3 id="syntax-1"><a class="header" href="#syntax-1">Syntax</a></h3>
@@ -1272,7 +986,7 @@ return &lt;MyComponent&gt;&lt;/MyComponent&gt;
 return &lt;MyComponent /&gt;
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L309-L317">[~]</a></p>
-<h3 id="disabling-recommended-rules-1"><a class="header" href="#disabling-recommended-rules-1">Disabling recommended rules</a></h3>
+<h3 id="disabling-recommended-rules"><a class="header" href="#disabling-recommended-rules">Disabling recommended rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L322-L323">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a class="header" href="#a-hrefhttpsgithubcomyannickcreslint-plugin-reactblobmasterdocsrulesdisplay-namemddelreactdisplay-namedela"><a href="https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/display-name.md"><del>react/display-name</del></a></a></h4>
 <p>Disabled this rule as it gives false positives for render props.
@@ -1288,7 +1002,7 @@ It is recommended to manually enable this rule inside files which heavily rely o
 <h2 id="jsx-a11y-rules"><a class="header" href="#jsx-a11y-rules">JSX A11y rules</a></h2>
 <p>Using <code>plugin:jsx-a11y/recommended</code> config as a starting point.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L359-L361">[~]</a></p>
-<h3 id="disabling-recommended-rules-2"><a class="header" href="#disabling-recommended-rules-2">Disabling recommended rules</a></h3>
+<h3 id="disabling-recommended-rules-1"><a class="header" href="#disabling-recommended-rules-1">Disabling recommended rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L367-L368">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesaccessible-emojimddeljsx-a11yaccessible-emojidela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md"><del>jsx-a11y/accessible-emoji</del></a></a></h4>
 <p>Deprecated
@@ -1302,7 +1016,7 @@ It is recommended to manually enable this rule inside files which heavily rely o
 <h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesno-autofocusmddeljsx-a11yno-autofocusdela"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md"><del>jsx-a11y/no-autofocus</del></a></a></h4>
 <p>It may be <a href="https://www.brucelawson.co.uk/2009/the-accessibility-of-html-5-autofocus/">considered OK</a> to use <code>autofocus</code> on pages which consist only of form (e.g., login page). In other cases usage of <code>autofocus</code> may lead to a confusion of a screen reader user. We leave the decision to use autofocus to developers on a case-by-case basis.
 <a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L389-L391">[~]</a></p>
-<h3 id="clarifying-recommended-rules-1"><a class="header" href="#clarifying-recommended-rules-1">Clarifying recommended rules</a></h3>
+<h3 id="clarifying-recommended-rules"><a class="header" href="#clarifying-recommended-rules">Clarifying recommended rules</a></h3>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L396-L397">[~]</a></p>
 <h4 id="a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a class="header" href="#a-hrefhttpsgithubcomjsx-eslinteslint-plugin-jsx-a11yblobmasterdocsrulesanchor-is-validmdjsx-a11yanchor-is-valida"><a href="https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md">jsx-a11y/anchor-is-valid</a></a></h4>
 <pre><code class="language-jsx">// Fail
@@ -1339,6 +1053,292 @@ return &lt;a&gt;Link content&lt;/a&gt;
 return &lt;Link&gt;Link content&lt;/Link&gt;
 </code></pre>
 <p><a href="https://github.com/CSSSR/linters/blob/master/eslint/react.js#L432-L443">[~]</a></p>
+<h1 id="recommendations"><a class="header" href="#recommendations">Recommendations</a></h1>
+<p>Here we present some advices regarding further ESLint configuration in your project.</p>
+<h2 id="recommended-rules-for-manual-configuration"><a class="header" href="#recommended-rules-for-manual-configuration">Recommended rules for manual configuration</a></h2>
+<p>There are some helpful ESLint rules and plugins which are too strict to enable for all projects. We recommend to look through them and enable those that fit your project's needs.</p>
+<h3 id="javascript"><a class="header" href="#javascript">JavaScript</a></h3>
+<ul>
+<li><a href="https://github.com/sawyerh/eslint-plugin-todo-plz"><code>todo-plz/ticket-ref</code></a> — require TODOs to contain an associated issue ticket:
+<pre><code class="language-js">// Fail
+// TODO fix that later
+
+// Pass
+// TODO will be fixed in PROJ-123
+</code></pre>
+</li>
+<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/dynamic-import-chunkname.md"><code>import/dynamic-import-chunkname</code></a> — if you are using dynamic imports in webpack.</li>
+<li><a href="https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md"><code>import/no-extraneous-dependencies</code></a> — forbid importing dependencies which are not listed as dependencies in <code>package.json</code>.</li>
+<li><a href="https://github.com/mozilla/eslint-plugin-no-unsanitized"><code>eslint-plugin-no-unsanitized</code></a> — if you are inserting HTML directly in JS. You'll need to choose a sanitizer library and configure this plugin accordingly.</li>
+</ul>
+<h3 id="typescript"><a class="header" href="#typescript">TypeScript</a></h3>
+<ul>
+<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unnecessary-condition.md"><code>@typescript-eslint/no-unnecessary-condition</code></a> — requires TS 4.1 or higher with <code>noUncheckedIndexedAccess</code> option enabled. Combination of this TS option and linting rule will provide better type safety but you'll need to write more type guards.
+<pre><code class="language-ts">const items: Item[] = []
+
+// Fail
+// noUncheckedIndexedAccess: false
+const item = items[0] // type: Item
+if (item) {} // no-unnecessary-condition will report error here
+
+// Pass
+// noUncheckedIndexedAccess: true
+const item = items[0] // type: Item | undefined
+if (item) {}
+</code></pre>
+</li>
+<li><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md"><code>@typescript-eslint/switch-exhaustiveness-check</code></a> — it may be overkill to enable this rule globally so you can enable it in specific files and/or use <a href="https://github.com/krzkaczor/ts-essentials#exhaustive-switch-cases"><code>UnreachableCaseError</code> from <code>ts-essentials</code></a></li>
+</ul>
+<h3 id="react-1"><a class="header" href="#react-1">React</a></h3>
+<ul>
+<li><a href="https://github.com/facebook/react/tree/master/packages/eslint-plugin-react-hooks#advanced-configuration"><code>react-hooks/exhaustive-deps</code></a> — we recommend enable this rule only the files which are heavily rely on memoization. In some situations following this rule may lead to breaking logic (e.g. when <code>useEffect</code> is used as a watcher). To enable this rule in specific file add this comment at the file start:
+<pre><code class="language-js">/* eslint react-hooks/exhaustive-deps: &quot;error&quot; */
+</code></pre>
+</li>
+<li><a href="https://github.com/cvazac/eslint-plugin-react-perf"><code>eslint-plugin-react-perf</code></a> — this plugin has several rules requiring memoization of objects, arrays and functions and JSX passed as props. These rules may be helpful in performance-critical places, but it may be too restrictive to enable them globally. We recommend enabling these rules either via <a href="https://eslint.org/docs/user-guide/configuring/configuration-files#how-do-overrides-work"><code>overrides</code> ESLing config field</a> or by adding this comment in specific files:
+<pre><code class="language-js">/* eslint
+    react-perf/jsx-no-new-object-as-prop: &quot;error&quot;,
+    react-perf/jsx-no-new-array-as-prop: &quot;error&quot;,
+    react-perf/jsx-no-new-function-as-prop: &quot;error&quot;,
+    react-perf/jsx-no-jsx-as-prop: &quot;error&quot;
+*/
+</code></pre>
+</li>
+<li><a href="https://github.com/DianaSuvorova/eslint-plugin-react-redux"><code>eslint-plugin-react-redux</code></a> — for projects using Redux.</li>
+<li><a href="https://github.com/jonaskello/eslint-plugin-functional#no-mutations-rules"><code>plugin:functional/no-mutations</code></a> — if you want to enforce usage of readonly data structures and avoid mutations. </li>
+</ul>
+<h2 id="linting-performance"><a class="header" href="#linting-performance">Linting performance</a></h2>
+<p>If you feel that linting your project takes too long you can run ESLint with <a href="https://eslint.org/docs/developer-guide/working-with-rules-deprecated#per-rule-performance"><code>TIMING=1</code> environment variable</a> and it'll show you which rules are taking the most time.</p>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/Recommendations.fdoc.md#L1-L1">[~]</a></p>
+<h1 id="typescript-1"><a class="header" href="#typescript-1">TypeScript</a></h1>
+<p>We are using <a href="https://github.com/typescript-eslint/typescript-eslint">TypeScript ESLint</a> and its <a href="https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#recommended-configs">recommended configs</a> as a starting point.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L2-L3">[~]</a></p>
+<h2 id="rules-overview-1"><a class="header" href="#rules-overview-1">Rules overview</a></h2>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L17-L18">[~]</a></p>
+<h3 id="upgrading-warnings-from-recommended-config-to-errors"><a class="header" href="#upgrading-warnings-from-recommended-config-to-errors">Upgrading warnings from recommended config to errors</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L22-L23">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesexplicit-module-boundary-typesmdtypescript-eslintexplicit-module-boundary-typesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/explicit-module-boundary-types.md">@typescript-eslint/explicit-module-boundary-types</a></a></h4>
+<p>Exported functions should have return type declared explicitly to avoid unexpected changes in return type.
+In case you want all functions to have return type specified, use rule <code>@typescript-eslint/explicit-function-return-type</code>.</p>
+<pre><code class="language-ts">// Fail
+export const getString = () =&gt; 'string'
+
+// Pass
+export const getString = (): string =&gt; 'string'
+const getString = () =&gt; 'string'
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L27-L38">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-explicit-anymdtypescript-eslintno-explicit-anya"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-explicit-any.md">@typescript-eslint/no-explicit-any</a></a></h4>
+<pre><code class="language-ts">// Fail
+let a: any
+
+// Pass
+let a: unknown
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L42-L50">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-non-null-assertionmdtypescript-eslintno-non-null-assertiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-non-null-assertion.md">@typescript-eslint/no-non-null-assertion</a></a></h4>
+<pre><code class="language-ts">// Fail
+return foo!.bar
+
+// Pass
+return foo?.bar
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L54-L62">[~]</a></p>
+<h3 id="clarifying-recommended-rules-1"><a class="header" href="#clarifying-recommended-rules-1">Clarifying recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L67-L68">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-floating-promisesmdtypescript-eslintno-floating-promisesa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-floating-promises.md">@typescript-eslint/no-floating-promises</a></a></h4>
+<p>If function returns promise but we want to ignore this promise it should be explicitly shown that this is an async function call. Add <code>void</code> before such function calls to distinguish them from synchronous ones.</p>
+<pre><code class="language-ts">const asyncSideEffect = async () =&gt; { await doSomething() }
+
+// Fail
+asyncSideEffect()
+
+// Pass
+await asyncSideEffect() // wait for result
+void asyncSideEffect() // ignore and don't wait
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L72-L84">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrestrict-template-expressionsmdtypescript-eslintrestrict-template-expressionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/restrict-template-expressions.md">@typescript-eslint/restrict-template-expressions</a></a></h4>
+<p>Avoid <code>null</code> or <code>undefined</code> being included in a string:</p>
+<pre><code class="language-ts">// Fail
+const print = (a?: string | null) =&gt; `a: ${a}`
+
+// Pass
+const print = (a?: string | null) =&gt; `a: ${a ?? 'empty'}`
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L88-L97">[~]</a></p>
+<h3 id="disabling-recommended-rules-2"><a class="header" href="#disabling-recommended-rules-2">Disabling recommended rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L102-L103">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-assignmentmddeltypescript-eslintno-unsafe-assignmentdela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-assignment.md"><del>@typescript-eslint/no-unsafe-assignment</del></a></a></h4>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-callmddeltypescript-eslintno-unsafe-calldela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-callmddeltypescript-eslintno-unsafe-calldela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-call.md"><del>@typescript-eslint/no-unsafe-call</del></a></a></h4>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-member-accessmddeltypescript-eslintno-unsafe-member-accessdela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-member-accessmddeltypescript-eslintno-unsafe-member-accessdela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-member-access.md"><del>@typescript-eslint/no-unsafe-member-access</del></a></a></h4>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-returnmddeltypescript-eslintno-unsafe-returndela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unsafe-returnmddeltypescript-eslintno-unsafe-returndela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unsafe-return.md"><del>@typescript-eslint/no-unsafe-return</del></a></a></h4>
+<p>Disabled this group of rules as they flag usages of external libraries which typings contain <code>any.</code>
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L107-L112">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesunbound-methodmddeltypescript-eslintunbound-methoddela"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/unbound-method.md"><del>@typescript-eslint/unbound-method</del></a></a></h4>
+<p>Disabled as it flags usages of unbound methods from external libraries (e.g., <code>_.noop</code> from Lodash)
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L119-L121">[~]</a></p>
+<h3 id="enabling-new-rules"><a class="header" href="#enabling-new-rules">Enabling new rules</a></h3>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L126-L127">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesarray-typemdarray-simpletypescript-eslintarray-typemda"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/array-type.md#array-simple">@typescript-eslint/array-type.md</a></a></h4>
+<p>Use <code>T[]</code> for primitives and type references and <code>Array&lt;T&gt;</code> for other cases:</p>
+<pre><code class="language-ts">// Fail
+type A = Array&lt;string&gt;
+type B = { param: string }[]
+type C = (string | number)[]
+
+// Pass
+type A = string[]
+type B = Array&lt;{ param: string }&gt;
+type C = Array&lt;string | number&gt;
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L131-L144">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-indexed-object-stylemdtypescript-eslintconsistent-indexed-object-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-indexed-object-style.md">@typescript-eslint/consistent-indexed-object-style</a></a></h4>
+<pre><code class="language-ts">// Fail
+type A = { [key: Key]: Value }
+
+// Pass
+type A = Record&lt;Key, Value&gt;
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L148-L156">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-assertionsmdtypescript-eslintconsistent-type-assertionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-assertions.md">@typescript-eslint/consistent-type-assertions</a></a></h4>
+<p>To prevent conflicts with JSX:</p>
+<pre><code class="language-ts">// Fail
+const a = &lt;T&gt;b
+
+// Pass
+const a = b as T
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L160-L169">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-definitionsmdtypescript-eslintconsistent-type-definitionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-definitions.md">@typescript-eslint/consistent-type-definitions</a></a></h4>
+<p>Prefer <code>type</code> to <code>interface</code>:</p>
+<ul>
+<li><code>type</code> can be used for any type variations (objects, arrays, unions, primitives and so on) while <code>interface</code> is only for object shapes. So for the sake of consistency it is better to use <code>type</code> everywhere and not mix it with <code>interface</code>.</li>
+<li><code>type</code> can only be defined once, while <code>interface</code> can be defined multiple times and these definitions <a href="https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces">will merge</a>.</li>
+</ul>
+<pre><code class="language-ts">// Fail
+interface A {
+  foo: string
+}
+
+// Pass
+type A = {
+  foo: string
+}
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L173-L188">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesconsistent-type-importsmdtypescript-eslintconsistent-type-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md">@typescript-eslint/consistent-type-imports</a></a></h4>
+<p>Prefer <a href="https://devblogs.microsoft.com/typescript/announcing-typescript-3-8-beta/#type-only-imports-exports">type imports</a>: it helps to better distinguish types from similarly named variables and avoid <code>import/no-cycle</code> errors when importing types.
+<code>import type { T } from 'lib'</code></p>
+<pre><code class="language-ts">// Fail
+import { T } from 'lib'
+
+// Pass
+import type { T } from 'lib'
+</code></pre>
+<p>There are <a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-imports.md#when-not-to-use-it">some cases</a> when you might need to disable this rule (e.g. with NestJS).
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L192-L203">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesmethod-signature-stylemdtypescript-eslintmethod-signature-stylea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/method-signature-style.md">@typescript-eslint/method-signature-style</a></a></h4>
+<pre><code class="language-ts">// Fail
+type A = {
+  method(): void
+}
+
+// Pass
+type A = {
+  method: () =&gt; void
+}
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L207-L219">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesnaming-conventionmdtypescript-eslintnaming-conventiona"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md">@typescript-eslint/naming-convention</a></a></h4>
+<p>The only common naming convention we enforce is PascalCase for types.
+You may add more naming conventions based on your project needs.</p>
+<pre><code class="language-ts">// Fail
+type myType = {}
+
+// Pass
+type MyType = {}
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L223-L233">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-nullish-coalescingmdtypescript-eslintprefer-nullish-coalescinga"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-nullish-coalescing.md">@typescript-eslint/prefer-nullish-coalescing</a></a></h4>
+<p>Prefer <code>??</code> to <code>!!</code> as <code>??</code> will not fallback if value is falsy (<code>0</code>, <code>''</code>, false, etc.):</p>
+<pre><code class="language-ts">const a: number | null | undefined = 0
+
+// Fail
+const b = a || 999 // result: 999
+
+// Pass
+const b = a ?? 999 // result: 0
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L243-L254">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-optional-chainmdtypescript-eslintprefer-optional-chaina"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-optional-chain.md">@typescript-eslint/prefer-optional-chain</a></a></h4>
+<pre><code class="language-ts">const a: {
+  b? : Array&lt;{
+    c?: () =&gt; void
+  }&gt;
+} | undefined = {}
+
+// Fail
+a &amp;&amp; a.b &amp;&amp; a.b[0] &amp;&amp; a.b[0].c &amp;&amp; a.b[0].c()
+
+// Pass
+a?.b?.[0]?.c?.()
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L258-L272">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-reduce-type-parametermdtypescript-eslintprefer-reduce-type-parametera"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-reduce-type-parameter.md">@typescript-eslint/prefer-reduce-type-parameter</a></a></h4>
+<p>Provide result type for <code>Array#reduce</code> calls when it can't be properly inferred from initial value.</p>
+<pre><code class="language-ts">// Fail
+[1, 2, 3].reduce((arr, num) =&gt; arr.concat(num * 2), [] as number[])
+
+// Pass
+[1, 2, 3].reduce&lt;number[]&gt;((arr, num) =&gt; arr.concat(num * 2), [])
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L276-L285">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesprefer-ts-expect-errormdtypescript-eslintprefer-ts-expect-errora"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-ts-expect-error.md">@typescript-eslint/prefer-ts-expect-error</a></a></h4>
+<pre><code class="language-ts">// Fail
+// @ts-ignore
+const str: string = 1
+
+// Pass
+// @ts-expect-error: I know what I'm doing
+const str: string = 1
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L289-L299">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesrequire-array-sort-comparemdtypescript-eslintrequire-array-sort-comparea"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/require-array-sort-compare.md">@typescript-eslint/require-array-sort-compare</a></a></h4>
+<pre><code class="language-ts">// Fail
+[1, 5, 10].sort() // [1, 10, 5]
+
+// Pass
+[1, 5, 10].sort((a, b) =&gt; a - b) // [1, 5, 10]
+['c', 'a', 'b'].sort()
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L303-L312">[~]</a></p>
+<h3 id="ts-alternatives-to-js-rules"><a class="header" href="#ts-alternatives-to-js-rules">TS alternatives to JS rules</a></h3>
+<p>Some ESLint rules have better alternatives in <code>@typescript-eslint</code> so we enable them instead of ESLint rules.
+<a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L322-L324">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdefault-param-lastmdtypescript-eslintdefault-param-lasta"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/default-param-last.md">@typescript-eslint/default-param-last</a></a></h4>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L328-L329">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesdot-notationmdtypescript-eslintdot-notationa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/dot-notation.md">@typescript-eslint/dot-notation</a></a></h4>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L334-L335">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesinit-declarationsmdtypescript-eslintinit-declarationsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/init-declarations.md">@typescript-eslint/init-declarations</a></a></h4>
+<p>In TS instead of <code>no-undef-init</code> we enable opposite rule <code>init-declarations</code> to avoid runtime errors with <code>let</code> variables:</p>
+<pre><code class="language-ts">// Fail
+let str: string // Actually it's `undefined`, but TS sees it as a `string`
+
+// Pass
+let str: string | undefined = undefined
+</code></pre>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L340-L349">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-duplicate-importsmdtypescript-eslintno-duplicate-importsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-duplicate-imports.md">@typescript-eslint/no-duplicate-imports</a></a></h4>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L355-L356">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-shadowmdtypescript-eslintno-shadowa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-shadowmdtypescript-eslintno-shadowa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-shadow.md">@typescript-eslint/no-shadow</a></a></h4>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L362-L363">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-throw-literalmdtypescript-eslintno-throw-literala"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-throw-literalmdtypescript-eslintno-throw-literala"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-throw-literal.md">@typescript-eslint/no-throw-literal</a></a></h4>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L368-L369">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unused-expressionsmdtypescript-eslintno-unused-expressionsa"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-unused-expressionsmdtypescript-eslintno-unused-expressionsa"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-expressions.md">@typescript-eslint/no-unused-expressions</a></a></h4>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L374-L375">[~]</a></p>
+<h4 id="a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-useless-constructormdtypescript-eslintno-useless-constructora"><a class="header" href="#a-hrefhttpsgithubcomtypescript-eslinttypescript-eslintblobmasterpackageseslint-plugindocsrulesno-useless-constructormdtypescript-eslintno-useless-constructora"><a href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-useless-constructor.md">@typescript-eslint/no-useless-constructor</a></a></h4>
+<p><a href="https://github.com/CSSSR/linters/blob/master/eslint/typescript.js#L388-L389">[~]</a></p>
 
                     </main>
 
