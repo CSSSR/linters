@@ -1,6 +1,6 @@
 [CSSSR](https://csssr.com)'s linting configs for Prettier and ESLint.
 
-## [Documentation](docs_src/SUMMARY.md)
+## [Documentation](https://csssr.github.io/linters/)
 
 ## Installation
 
@@ -103,4 +103,4 @@ module.exports = {
 }
 ```
 
-You can find more recommendations for manual configuration [here](eslint/Recommendations.fdoc.md).
+You can find more recommendations for manual configuration [here](https://csssr.github.io/linters/recommendations.html).
