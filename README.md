@@ -104,3 +104,5 @@ module.exports = {
 ```
 
 You can find more recommendations for manual configuration [here](https://csssr.github.io/linters/recommendations.html).
+
+## [Contributing](CONTRIBUTING.md)

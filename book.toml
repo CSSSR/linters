@@ -3,7 +3,7 @@ authors = []
 language = "en"
 multilingual = false
 src = "./docs_src"
-title = "CSSSR Linting"
+title = "CSSSR Linters"
 
 [build]
 build-dir = "./docs"

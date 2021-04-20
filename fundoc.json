@@ -9,6 +9,6 @@
   "comment_prefix": "*",
   "comment_end_string": "*/",
   "mdbook": true,
-  "book_name": "CSSSR Linting",
+  "book_name": "CSSSR Linters",
   "book_build_dir": "./docs"
 }
