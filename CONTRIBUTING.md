@@ -6,4 +6,4 @@ To generate documentation locally for test purposes you'll need to [install `fun
 
 To automatically generate documentation on files change consider configuring file watcher in your IDE. Example configuration for WebStorm:
 
-![](https://s.csssr.ru/U07B23NE8/2021-04-20-12-39-40-9zc8j.jpg)
+![image](https://user-images.githubusercontent.com/7345182/115375904-e612d800-a1d6-11eb-95e8-15e634365916.png)
