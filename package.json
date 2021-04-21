@@ -2,6 +2,13 @@
   "name": "@csssr/linters",
   "version": "0.1.0",
   "description": "CSSSR's linting configs for Prettier and ESLint",
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "prettier",
+    "styleguide"
+  ],
+  "license": "MIT",
   "scripts": {
     "build": "fundoc"
   },
