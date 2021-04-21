@@ -1,6 +1,6 @@
 {
   "name": "@csssr/linters",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CSSSR's linting configs for Prettier and ESLint",
   "keywords": [
     "eslint",
