@@ -65,6 +65,23 @@ module.exports = {
 
 Only files specified in `include` section of `tsconfig.json` will be linted. Because of that configs located in the root folder (`.eslintrc.js`, `.prettierrc.js`, etc.) will not be linted but can still be formatted with Prettier.
 
+## Linting mixed project (JS and TS)
+
+```js
+module.exports = {
+  extends: [
+    require.resolve('@csssr/linters/eslint/base'),
+  ],
+  overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      extends: [require.resolve('@csssr/linters/eslint/typescript')],
+    },
+  ],
+}
+
+```
+
 ## Customization
 
 Feel free to add new plugins and rules and disable existing rules which are not suitable for your project's needs:
